@@ -335,26 +335,21 @@ function initIntroVideoScroll() {
       }
     });
 
-    // Throttled frame setting using requestVideoFrameCallback or requestAnimationFrame
-    let renderTaskId = null;
-    const renderFrame = () => {
-      // Seek the video frame only when it's not already performing a seek operation
-      if (Math.abs(playhead.frame - video.currentTime) > 0.015 && !video.seeking) {
-        video.currentTime = Math.max(0.01, Math.min(duration - 0.01, playhead.frame));
-      }
-      
-      if ('requestVideoFrameCallback' in video) {
-        renderTaskId = video.requestVideoFrameCallback(renderFrame);
-      } else {
-        renderTaskId = requestAnimationFrame(renderFrame);
-      }
-    };
+    // Throttled frame setting using performance-budgeted seek interval (150ms on mobile, 33ms on desktop)
+    let lastSeekTime = 0;
+    const seekThrottleMs = isMobile ? 150 : 33;
 
-    if ('requestVideoFrameCallback' in video) {
-      renderTaskId = video.requestVideoFrameCallback(renderFrame);
-    } else {
-      renderTaskId = requestAnimationFrame(renderFrame);
-    }
+    const renderFrame = () => {
+      const now = performance.now();
+      if (now - lastSeekTime > seekThrottleMs) {
+        if (Math.abs(playhead.frame - video.currentTime) > 0.02 && !video.seeking) {
+          video.currentTime = Math.max(0.01, Math.min(duration - 0.01, playhead.frame));
+          lastSeekTime = now;
+        }
+      }
+      requestAnimationFrame(renderFrame);
+    };
+    requestAnimationFrame(renderFrame);
 
     // 3. Fade in navbar when past intro scroll section
     gsap.to('#main-nav', {
