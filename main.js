@@ -295,21 +295,26 @@ function initIntroVideoScroll() {
   if (!video) return;
 
   const isMobile = window.matchMedia("(max-width: 768px)").matches || ('ontouchstart' in window);
-  if (isMobile) {
-    // Show navbar instantly on mobile
-    gsap.set('#main-nav', { opacity: 1, pointerEvents: "auto" });
-    return;
-  }
 
-  // Ensure initial video state is reset
-  video.pause();
-  video.currentTime = 0;
+  // Safari / iOS compatibility and rendering setup
+  video.muted = true;
+  video.playsInline = true;
+  
+  // Try loading and setting minor play offset to force rendering of the first frame immediately
+  try {
+    video.load();
+    video.currentTime = 0.01;
+    video.pause();
+  } catch (e) {
+    console.warn("Initial video pre-render ignored: ", e);
+  }
 
   const startScrollTrigger = () => {
     const duration = video.duration && !isNaN(video.duration) ? video.duration : 10;
     
     // Create a dummy playhead object that GSAP will tween smoothly with inertia
-    const playhead = { frame: 0 };
+    const playhead = { frame: 0.01 };
+    const scrubVal = isMobile ? 2.2 : 1.5; // Damped physics on mobile to handle touch inertia smoothly
     
     gsap.to(playhead, {
       frame: duration - 0.02,
@@ -318,7 +323,7 @@ function initIntroVideoScroll() {
         trigger: "#intro-video-sec",
         start: "top top",
         end: "bottom bottom",
-        scrub: 1.5, // 1.5 second smooth inertia scrub
+        scrub: scrubVal,
         onUpdate: (self) => {
           if (fill) {
             fill.style.width = `${self.progress * 100}%`;
@@ -330,14 +335,26 @@ function initIntroVideoScroll() {
       }
     });
 
-    // Throttled requestAnimationFrame loop to set video frame
-    function updateVideoFrame() {
-      if (Math.abs(playhead.frame - video.currentTime) > 0.01 && !video.seeking) {
-        video.currentTime = Math.max(0, Math.min(duration - 0.01, playhead.frame));
+    // Throttled frame setting using requestVideoFrameCallback or requestAnimationFrame
+    let renderTaskId = null;
+    const renderFrame = () => {
+      // Seek the video frame only when it's not already performing a seek operation
+      if (Math.abs(playhead.frame - video.currentTime) > 0.015 && !video.seeking) {
+        video.currentTime = Math.max(0.01, Math.min(duration - 0.01, playhead.frame));
       }
-      requestAnimationFrame(updateVideoFrame);
+      
+      if ('requestVideoFrameCallback' in video) {
+        renderTaskId = video.requestVideoFrameCallback(renderFrame);
+      } else {
+        renderTaskId = requestAnimationFrame(renderFrame);
+      }
+    };
+
+    if ('requestVideoFrameCallback' in video) {
+      renderTaskId = video.requestVideoFrameCallback(renderFrame);
+    } else {
+      renderTaskId = requestAnimationFrame(renderFrame);
     }
-    requestAnimationFrame(updateVideoFrame);
 
     // 3. Fade in navbar when past intro scroll section
     gsap.to('#main-nav', {
