@@ -1703,6 +1703,21 @@ a {
 
 /* Mobile View */
 @media (max-width: 768px) {
+  .intro-video-section {
+    display: none !important;
+  }
+
+  .navbar {
+    padding: 16px 0;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(7, 26, 52, 0.05);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02);
+  }
+
   h1 {
     font-size: 2.5rem;
   }
@@ -1713,10 +1728,6 @@ a {
   
   .section-title {
     font-size: 2.2rem;
-  }
-  
-  .navbar {
-    padding: 16px 0;
   }
   
   .nav-links {

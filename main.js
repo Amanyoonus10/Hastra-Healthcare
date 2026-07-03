@@ -294,6 +294,13 @@ function initIntroVideoScroll() {
   
   if (!video) return;
 
+  const isMobile = window.matchMedia("(max-width: 768px)").matches || ('ontouchstart' in window);
+  if (isMobile) {
+    // Show navbar instantly on mobile
+    gsap.set('#main-nav', { opacity: 1, pointerEvents: "auto" });
+    return;
+  }
+
   // Ensure initial video state is reset
   video.pause();
   video.currentTime = 0;
