@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Interactive UI Components
   initNavbar();
   initHeroParallax();
-  initProductTabs();
   initAboutOverlay();
   initMagneticButtons();
 });
@@ -91,45 +90,7 @@ function initHeroParallax() {
   }
 }
 
-/* Interactive Product Carousel (Button Controls & Drag-To-Scroll) */
-/* Product Portfolio Tabs Switching */
-function initProductTabs() {
-  const tabs = document.querySelectorAll('.portfolio-tab-btn');
-  const panes = document.querySelectorAll('.portfolio-pane');
 
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      const targetTab = tab.getAttribute('data-tab');
-
-      // Remove active from all tabs
-      tabs.forEach(t => t.classList.remove('active'));
-      // Add active to current tab
-      tab.classList.add('active');
-
-      // Hide all panes with transition
-      panes.forEach(pane => {
-        pane.classList.remove('active');
-        pane.style.display = 'none';
-        pane.style.opacity = '0';
-      });
-
-      // Show targeted pane
-      const activePane = document.getElementById(`pane-${targetTab}`);
-      if (activePane) {
-        activePane.style.display = 'block';
-        // Force reflow for opacity transition
-        activePane.offsetHeight;
-        activePane.classList.add('active');
-        activePane.style.opacity = '1';
-
-        // Re-trigger GSAP ScrollTrigger refresh so scrolling animations align with new height
-        if (typeof ScrollTrigger !== 'undefined') {
-          ScrollTrigger.refresh();
-        }
-      }
-    });
-  });
-}
 
 /* Magnetic Button Force Hover Effect */
 function initMagneticButtons() {
