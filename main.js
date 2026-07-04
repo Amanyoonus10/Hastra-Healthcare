@@ -1,5 +1,5 @@
 /* ==========================================
-   HASTRA HEALTH LLP - Premium Script
+   Hastra Healthcare Medical Devices - Premium Script
    ========================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -22,7 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Interactive UI Components
   initNavbar();
   initHeroParallax();
-  initProductCarousel();
+  initProductTabs();
+  initAboutOverlay();
   initMagneticButtons();
 });
 
@@ -91,56 +92,43 @@ function initHeroParallax() {
 }
 
 /* Interactive Product Carousel (Button Controls & Drag-To-Scroll) */
-function initProductCarousel() {
-  const carousel = document.querySelector('.products-carousel');
-  const prevBtn = document.querySelector('.prev-btn');
-  const nextBtn = document.querySelector('.next-btn');
+/* Product Portfolio Tabs Switching */
+function initProductTabs() {
+  const tabs = document.querySelectorAll('.portfolio-tab-btn');
+  const panes = document.querySelectorAll('.portfolio-pane');
 
-  if (carousel) {
-    const cardWidth = 380 + 30; // flex-basis (380px) + gap (30px)
-    
-    if (prevBtn) {
-      prevBtn.addEventListener('click', () => {
-        carousel.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const targetTab = tab.getAttribute('data-tab');
+
+      // Remove active from all tabs
+      tabs.forEach(t => t.classList.remove('active'));
+      // Add active to current tab
+      tab.classList.add('active');
+
+      // Hide all panes with transition
+      panes.forEach(pane => {
+        pane.classList.remove('active');
+        pane.style.display = 'none';
+        pane.style.opacity = '0';
       });
-    }
-    
-    if (nextBtn) {
-      nextBtn.addEventListener('click', () => {
-        carousel.scrollBy({ left: cardWidth, behavior: 'smooth' });
-      });
-    }
 
-    // Drag-to-Scroll implementation
-    let isDown = false;
-    let startX;
-    let scrollLeft;
+      // Show targeted pane
+      const activePane = document.getElementById(`pane-${targetTab}`);
+      if (activePane) {
+        activePane.style.display = 'block';
+        // Force reflow for opacity transition
+        activePane.offsetHeight;
+        activePane.classList.add('active');
+        activePane.style.opacity = '1';
 
-    carousel.addEventListener('mousedown', (e) => {
-      isDown = true;
-      carousel.style.cursor = 'grabbing';
-      startX = e.pageX - carousel.offsetLeft;
-      scrollLeft = carousel.scrollLeft;
+        // Re-trigger GSAP ScrollTrigger refresh so scrolling animations align with new height
+        if (typeof ScrollTrigger !== 'undefined') {
+          ScrollTrigger.refresh();
+        }
+      }
     });
-
-    carousel.addEventListener('mouseleave', () => {
-      isDown = false;
-      carousel.style.cursor = 'grab';
-    });
-
-    carousel.addEventListener('mouseup', () => {
-      isDown = false;
-      carousel.style.cursor = 'grab';
-    });
-
-    carousel.addEventListener('mousemove', (e) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - carousel.offsetLeft;
-      const walk = (x - startX) * 1.5; // Drag sensitivity
-      carousel.scrollLeft = scrollLeft - walk;
-    });
-  }
+  });
 }
 
 /* Magnetic Button Force Hover Effect */
@@ -254,7 +242,7 @@ function initSurgeonTimeline() {
 /* Staggered GSAP scroll fades for elements */
 function initScrollAnimations() {
   // Simple fade up for sections
-  const fadeUpElements = gsap.utils.toArray('.section-header, .specialty-card, .news-card, .ethics-left, .ethics-right, .divider-section');
+  const fadeUpElements = gsap.utils.toArray('.section-header, .specialty-card, .news-card, .ethics-left, .ethics-right, .divider-section, .info-card, .directory-card');
   fadeUpElements.forEach(el => {
     gsap.from(el, {
       y: 40,
@@ -370,4 +358,45 @@ function initIntroVideoScroll() {
   } else {
     video.addEventListener('loadedmetadata', startScrollTrigger);
   }
+}
+
+/* Interactive About Fullscreen Overlay */
+function initAboutOverlay() {
+  const overlay = document.getElementById('about-overlay');
+  const closeBtn = document.getElementById('about-close');
+  const aboutLinks = document.querySelectorAll('a[href="#about"]');
+
+  if (!overlay || !closeBtn) return;
+
+  const openOverlay = (e) => {
+    e.preventDefault();
+    overlay.classList.add('active');
+    document.body.classList.add('about-open');
+
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+  };
+
+  const closeOverlay = () => {
+    overlay.classList.remove('active');
+    document.body.classList.remove('about-open');
+  };
+
+  aboutLinks.forEach(link => {
+    link.addEventListener('click', openOverlay);
+  });
+
+  closeBtn.addEventListener('click', closeOverlay);
+
+  const bg = overlay.querySelector('.about-overlay-bg');
+  if (bg) {
+    bg.addEventListener('click', closeOverlay);
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay.classList.contains('active')) {
+      closeOverlay();
+    }
+  });
 }

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="HASTRA HEALTH LLP - A premium women's healthcare and medical device company delivering innovation, integrity, and clinical excellence.">
-  <title>HASTRA HEALTH LLP | Building the Future of Healthcare</title>
+  <meta name="description" content="Hastra Healthcare Medical Devices - A premium women's healthcare and medical device company delivering innovation, integrity, and clinical excellence.">
+  <title>Hastra Healthcare Medical Devices | Building the Future of Healthcare</title>
   <!-- Google Fonts - Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,7 +27,7 @@
       <!-- Scrolling Overlay Prompt -->
       <div class="scroll-indicator-overlay">
         <div class="indicator-inner">
-          <p class="indicator-title">HASTRA HEALTH LLP</p>
+          <p class="indicator-title">Hastra Healthcare</p>
           <h2 class="indicator-subtitle">Precision Medical Engineering</h2>
           <div class="scroll-mouse">
             <span class="mouse-wheel"></span>
@@ -86,7 +86,7 @@
             Through Innovation
           </h1>
           <p class="hero-desc">
-            HASTRA HEALTH LLP integrates clinical safety, high-precision engineering, and integrity to supply world-class medical devices and gynaecology solutions worldwide.
+            Hastra Healthcare Medical Devices integrates clinical safety, high-precision engineering, and integrity to supply world-class medical devices and gynaecology solutions worldwide.
           </p>
           <div class="hero-ctas">
             <a href="#products" class="btn btn-primary magnetic">Explore Solutions</a>
@@ -285,75 +285,313 @@
     <!-- Premium Products Section -->
     <section class="products-section" id="products">
       <div class="container">
-        <div class="products-header">
-          <div>
-            <span class="section-subtitle">Medical Devices & Systems</span>
-            <h2 class="section-title">Innovating for Patient Care</h2>
-          </div>
-          <div class="carousel-nav">
-            <button class="carousel-btn prev-btn" aria-label="Previous Product"><i data-lucide="chevron-left"></i></button>
-            <button class="carousel-btn next-btn" aria-label="Next Product"><i data-lucide="chevron-right"></i></button>
+        <div class="section-header text-center">
+          <span class="section-subtitle">PRODUCT PORTFOLIO</span>
+          <h2 class="section-title">Women’s Health &amp; Surgical Systems</h2>
+          <p class="section-desc">Instruments built around the moments that matter most in care. Sourced from certified partners, fully CDSCO compliant.</p>
+        </div>
+
+        <!-- Portfolio Category Tabs -->
+        <div class="portfolio-tabs-container">
+          <div class="portfolio-tabs">
+            <button class="portfolio-tab-btn active" data-tab="womens-health">
+              <i data-lucide="activity"></i>
+              <span>Women's Health</span>
+            </button>
+            <button class="portfolio-tab-btn" data-tab="general-medical">
+              <i data-lucide="plus-square"></i>
+              <span>General Medical</span>
+              <span class="tab-badge">Soon</span>
+            </button>
+            <button class="portfolio-tab-btn" data-tab="dental-systems">
+              <i data-lucide="smile"></i>
+              <span>Dental Instruments</span>
+              <span class="tab-badge">Soon</span>
+            </button>
           </div>
         </div>
 
-        <div class="products-carousel-container">
-          <div class="products-carousel">
-            <div class="product-card glass-card">
-              <div class="product-img-holder">
-                <img src="/images/product_insufflator.png" alt="Laparoscopic Insufflator" class="product-img">
-              </div>
-              <div class="product-info">
-                <span class="product-category">Laparoscopy</span>
-                <h3 class="product-name">HASTRA CO₂ Insufflator</h3>
-                <p class="product-desc">Advanced high-flow gas heating insufflation system designed for safe cavity maintenance with real-time pressure diagnostics.</p>
-                <button class="btn btn-text-icon">Request Datasheet <i data-lucide="file-text"></i></button>
-              </div>
+        <!-- Portfolio Panes -->
+        <div class="portfolio-panes">
+          
+          <!-- Pane 1: Women's Health (Active Portfolio) -->
+          <div class="portfolio-pane active" id="pane-womens-health">
+            <div class="pane-intro">
+              <h3>Six instruments, one line of thinking</h3>
+              <p>Each device below addresses a distinct point in the reproductive health pathway &mdash; from labor and delivery, through diagnosis and minimally invasive surgery, to post-surgical recovery.</p>
             </div>
-            <div class="product-card glass-card">
-              <div class="product-img-holder">
-                <img src="/images/product_incubator.png" alt="IVF Incubator" class="product-img">
+            
+            <div class="portfolio-grid active-grid">
+              <!-- Product 1 -->
+              <div class="product-card glass-card">
+                <div class="product-num">01</div>
+                <div class="product-img-holder">
+                  <img src="/images/product_vacuum_delivery.png" alt="Vacuum-Assisted Delivery Device" class="product-img">
+                </div>
+                <div class="product-info">
+                  <span class="product-category">Obstetric Delivery</span>
+                  <h3 class="product-name">Vacuum-Assisted Delivery Device</h3>
+                  <p class="product-desc">A soft-cup, vacuum-assisted delivery system that provides controlled traction support during the second stage of labor, offering a gentler alternative when assistance is clinically indicated.</p>
+                  <div class="product-specs">
+                    <span>Soft cup</span>
+                    <span>Single-use</span>
+                    <span>Controlled traction</span>
+                  </div>
+                  <button class="btn btn-text-icon">Request Datasheet <i data-lucide="file-text"></i></button>
+                </div>
               </div>
-              <div class="product-info">
-                <span class="product-category">IVF & Embryology</span>
-                <h3 class="product-name">HASTRA IVF IncuMax</h3>
-                <p class="product-desc">High-precision embryological cell incubator with heated chambers, rapid recovery sensor arrays, and custom gas blending.</p>
-                <button class="btn btn-text-icon">Request Datasheet <i data-lucide="file-text"></i></button>
+
+              <!-- Product 2 -->
+              <div class="product-card glass-card">
+                <div class="product-num">02</div>
+                <div class="product-img-holder">
+                  <img src="/images/product_surgical_sealant.png" alt="Surgical Sealant" class="product-img">
+                </div>
+                <div class="product-info">
+                  <span class="product-category">Hemostasis &amp; Closure</span>
+                  <h3 class="product-name">Surgical Sealant</h3>
+                  <p class="product-desc">A topical sealant applied at incision and suture sites during gynecologic procedures to support hemostasis and reinforce tissue closure.</p>
+                  <div class="product-specs">
+                    <span>Topical apply</span>
+                    <span>Fast-setting</span>
+                    <span>Resorbable</span>
+                  </div>
+                  <button class="btn btn-text-icon">Request Datasheet <i data-lucide="file-text"></i></button>
+                </div>
               </div>
-            </div>
-            <div class="product-card glass-card">
-              <div class="product-img-holder">
-                <img src="/images/product_sheath.png" alt="Hysteroscopic Sheath" class="product-img">
+
+              <!-- Product 3 -->
+              <div class="product-card glass-card">
+                <div class="product-num">03</div>
+                <div class="product-img-holder">
+                  <img src="/images/product_cervical_balloon.png" alt="Cervical Ripening Balloon" class="product-img">
+                </div>
+                <div class="product-info">
+                  <span class="product-category">Labor Induction</span>
+                  <h3 class="product-name">Cervical Ripening Balloon</h3>
+                  <p class="product-desc">A dual-balloon catheter that mechanically ripens and dilates the cervix ahead of induction, providing a non-pharmacologic option for pre-labor preparation.</p>
+                  <div class="product-specs">
+                    <span>Dual balloon</span>
+                    <span>Mechanical dilation</span>
+                    <span>Non-drug</span>
+                  </div>
+                  <button class="btn btn-text-icon">Request Datasheet <i data-lucide="file-text"></i></button>
+                </div>
               </div>
-              <div class="product-info">
-                <span class="product-category">Hysteroscopy</span>
-                <h3 class="product-name">HASTRA Hystero-Flow Sheath</h3>
-                <p class="product-desc">Ultra-thin titanium continuous flow sheath for diagnostic and therapeutic office procedures. Engineered for patient safety.</p>
-                <button class="btn btn-text-icon">Request Datasheet <i data-lucide="file-text"></i></button>
+
+              <!-- Product 4 -->
+              <div class="product-card glass-card">
+                <div class="product-num">04</div>
+                <div class="product-img-holder">
+                  <img src="/images/product_endometrial_pipette.png" alt="Endometrial Sampling Pipette" class="product-img">
+                </div>
+                <div class="product-info">
+                  <span class="product-category">Diagnostic Sampling</span>
+                  <h3 class="product-name">Endometrial Sampling Pipette</h3>
+                  <p class="product-desc">A slim, flexible aspiration pipette for outpatient endometrial tissue sampling, designed for a comfortable patient experience and consistent specimen yield.</p>
+                  <div class="product-specs">
+                    <span>Flexible shaft</span>
+                    <span>Outpatient use</span>
+                    <span>Low profile</span>
+                  </div>
+                  <button class="btn btn-text-icon">Request Datasheet <i data-lucide="file-text"></i></button>
+                </div>
               </div>
-            </div>
-            <div class="product-card glass-card">
-              <div class="product-img-holder">
-                <img src="/images/product_consumables.png" alt="Gynaecological Consumables" class="product-img">
+
+              <!-- Product 5 -->
+              <div class="product-card glass-card">
+                <div class="product-num">05</div>
+                <div class="product-img-holder">
+                  <img src="/images/product_uterine_manipulator.png" alt="Uterine Manipulator" class="product-img">
+                </div>
+                <div class="product-info">
+                  <span class="product-category">Minimally Invasive Surgery</span>
+                  <h3 class="product-name">Uterine Manipulator</h3>
+                  <p class="product-desc">An articulating intrauterine instrument that positions and mobilizes the uterus during laparoscopic and robotic-assisted procedures, improving visualization and surgical access.</p>
+                  <div class="product-specs">
+                    <span>Articulating tip</span>
+                    <span>Laparoscopic</span>
+                    <span>Reusable handle</span>
+                  </div>
+                  <button class="btn btn-text-icon">Request Datasheet <i data-lucide="file-text"></i></button>
+                </div>
               </div>
-              <div class="product-info">
-                <span class="product-category">Consumables</span>
-                <h3 class="product-name">HASTRA Premium Surgical Kits</h3>
-                <p class="product-desc">Pre-packaged sterile consumables containing surgery kits, sutures, and protective disposables tailored for clinical excellence.</p>
-                <button class="btn btn-text-icon">Request Datasheet <i data-lucide="file-text"></i></button>
-              </div>
-            </div>
-            <div class="product-card glass-card">
-              <div class="product-img-holder">
-                <img src="/images/product_carm.png" alt="OEC C-Arm System" class="product-img">
-              </div>
-              <div class="product-info">
-                <span class="product-category">Surgical Imaging</span>
-                <h3 class="product-name">HASTRA OEC C-Arm System</h3>
-                <p class="product-desc">High-definition mobile fluoroscopic imaging system delivering real-time surgical imaging, minimal radiation exposure, and crystal-clear intraoperative visualization.</p>
-                <button class="btn btn-text-icon">Request Datasheet <i data-lucide="file-text"></i></button>
+
+              <!-- Product 6 -->
+              <div class="product-card glass-card">
+                <div class="product-num">06</div>
+                <div class="product-img-holder">
+                  <img src="/images/product_adhesion_gel.png" alt="Adhesion Prevention Barrier Gel" class="product-img">
+                </div>
+                <div class="product-info">
+                  <span class="product-category">Post-Surgical Care</span>
+                  <h3 class="product-name">Adhesion Prevention Barrier Gel</h3>
+                  <p class="product-desc">A resorbable gel barrier applied at the close of pelvic and abdominal surgery to reduce the formation of post-operative adhesions between tissue surfaces.</p>
+                  <div class="product-specs">
+                    <span>Resorbable</span>
+                    <span>Gel format</span>
+                    <span>Applied at closure</span>
+                  </div>
+                  <button class="btn btn-text-icon">Request Datasheet <i data-lucide="file-text"></i></button>
+                </div>
               </div>
             </div>
           </div>
+
+          <!-- Pane 2: General Medical Consumables (Loading Soon) -->
+          <div class="portfolio-pane" id="pane-general-medical">
+            <div class="coming-soon-header glass-card">
+              <div class="coming-soon-details">
+                <span class="coming-soon-tag"><i data-lucide="clock"></i> Planned Year 2 &bull; Loading Soon</span>
+                <h3>General Medical Consumables &amp; Devices</h3>
+                <p>Extending the Hastra supply chain into the broader hospital environment. The same OEM sourcing rigour, the same CDSCO compliance, the same sub-dealer infrastructure &mdash; applied to the everyday consumables every ward, clinic, and OPD depends on.</p>
+              </div>
+              <div class="coming-soon-meta">
+                <span>OEM + Distribution</span>
+                <span>Same Sub-dealer Channel</span>
+              </div>
+            </div>
+            
+            <div class="portfolio-grid loading-grid">
+              <!-- Item 1 -->
+              <div class="loading-card glass-card">
+                <div class="lock-indicator"><i data-lucide="lock"></i></div>
+                <div class="loading-card-content">
+                  <span class="loading-category">Loading Soon</span>
+                  <h4>Surgical Consumables</h4>
+                  <p>Single-use sterile surgical accessories for general OT and procedure rooms. Sourced from ISO 13485-certified manufacturers under CDSCO Class A/B registration.</p>
+                  <div class="product-specs">
+                    <span>Sterile single-use</span>
+                    <span>CDSCO Class A/B</span>
+                    <span>ISO 13485</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 2 -->
+              <div class="loading-card glass-card">
+                <div class="lock-indicator"><i data-lucide="lock"></i></div>
+                <div class="loading-card-content">
+                  <span class="loading-category">Loading Soon</span>
+                  <h4>IV &amp; Infusion Accessories</h4>
+                  <p>IV sets, cannulas, and infusion accessories for general ward use. High-volume, repeat-purchase consumables distributed through the existing Hastra sub-dealer channel.</p>
+                  <div class="product-specs">
+                    <span>IV sets</span>
+                    <span>Cannulas</span>
+                    <span>High volume repeat</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 3 -->
+              <div class="loading-card glass-card">
+                <div class="lock-indicator"><i data-lucide="lock"></i></div>
+                <div class="loading-card-content">
+                  <span class="loading-category">Loading Soon</span>
+                  <h4>Wound Care &amp; Dressings</h4>
+                  <p>Sterile wound dressings, surgical drapes, and infection control consumables for general wards, ICU, and post-operative care settings.</p>
+                  <div class="product-specs">
+                    <span>Sterile dressings</span>
+                    <span>Post-op care</span>
+                    <span>Infection control</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 4 -->
+              <div class="loading-card glass-card">
+                <div class="lock-indicator"><i data-lucide="lock"></i></div>
+                <div class="loading-card-content">
+                  <span class="loading-category">Loading Soon</span>
+                  <h4>Examination &amp; Diagnostic Gloves</h4>
+                  <p>Nitrile examination gloves and procedure gloves for OPD, diagnostic, and examination use. One of the highest-frequency repeat consumables in any hospital or clinic.</p>
+                  <div class="product-specs">
+                    <span>Nitrile</span>
+                    <span>Powder-free</span>
+                    <span>OPD volume</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pane 3: Dental Systems (Loading Soon) -->
+          <div class="portfolio-pane" id="pane-dental-systems">
+            <div class="coming-soon-header glass-card">
+              <div class="coming-soon-details">
+                <span class="coming-soon-tag"><i data-lucide="clock"></i> Planned Year 2 &bull; Loading Soon</span>
+                <h3>Dental Instruments, Consumables &amp; Devices</h3>
+                <p>India has over 300,000 registered dentists and 130,000 dental clinics &mdash; a fragmented supply landscape with the same structural gap Hastra is solving in gynaecology. Quality Indian OEM dental consumables at accessible pricing, through a dedicated dental sub-dealer channel.</p>
+              </div>
+              <div class="coming-soon-meta">
+                <span>Quality Indian OEM</span>
+                <span>Dedicated Sub-dealer Channel</span>
+              </div>
+            </div>
+            
+            <div class="portfolio-grid loading-grid">
+              <!-- Item 1 -->
+              <div class="loading-card glass-card">
+                <div class="lock-indicator"><i data-lucide="lock"></i></div>
+                <div class="loading-card-content">
+                  <span class="loading-category">Loading Soon</span>
+                  <h4>Dental Examination Consumables</h4>
+                  <p>Disposable examination kits, mirrors, probes, and saliva ejectors for general dental OPD. Single-use, sterile, CDSCO Class A/B. High daily repeat volumes in any active dental practice.</p>
+                  <div class="product-specs">
+                    <span>Examination kits</span>
+                    <span>Single-use</span>
+                    <span>Daily repeat</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 2 -->
+              <div class="loading-card glass-card">
+                <div class="lock-indicator"><i data-lucide="lock"></i></div>
+                <div class="loading-card-content">
+                  <span class="loading-category">Loading Soon</span>
+                  <h4>Restorative &amp; Endodontic Supplies</h4>
+                  <p>High-speed handpiece burs, endodontic files, and restorative consumables for general and specialist dental practice. Sourced from certified OEM manufacturers.</p>
+                  <div class="product-specs">
+                    <span>Handpiece burs</span>
+                    <span>Endodontic files</span>
+                    <span>OEM sourced</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 3 -->
+              <div class="loading-card glass-card">
+                <div class="lock-indicator"><i data-lucide="lock"></i></div>
+                <div class="loading-card-content">
+                  <span class="loading-category">Loading Soon</span>
+                  <h4>Impression &amp; Laboratory Materials</h4>
+                  <p>Dental impression materials, mixing tips, and laboratory-grade consumables for prosthodontic and orthodontic dental practice. Distributed to dental colleges and specialist clinics.</p>
+                  <div class="product-specs">
+                    <span>Impression materials</span>
+                    <span>Lab grade</span>
+                    <span>Specialist clinics</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 4 -->
+              <div class="loading-card glass-card">
+                <div class="lock-indicator"><i data-lucide="lock"></i></div>
+                <div class="loading-card-content">
+                  <span class="loading-category">Loading Soon</span>
+                  <h4>Surgical &amp; Periodontal Instruments</h4>
+                  <p>Sterile single-use periodontal probes, scalers, and minor oral surgery consumables for periodontics, implantology, and maxillofacial surgical units.</p>
+                  <div class="product-specs">
+                    <span>Periodontal</span>
+                    <span>Oral surgery</span>
+                    <span>Implantology</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
@@ -519,7 +757,7 @@
           <span class="section-subtitle">Our Moral Compass</span>
           <h2 class="section-title">The Patient is Always the Final Stakeholder</h2>
           <p class="ethics-desc">
-            At HASTRA HEALTH LLP, ethical clinical integration stands before profit. Every surgical device we build, package, and distribute undergoes rigorous validation, ensuring the surgeon operates with complete safety, leading to the ultimate well-being of the patient.
+            At Hastra Healthcare Medical Devices, ethical clinical integration stands before profit. Every surgical device we build, package, and distribute undergoes rigorous validation, ensuring the surgeon operates with complete safety, leading to the ultimate well-being of the patient.
           </p>
           <div class="ethics-features-list">
             <div class="ethics-item">
@@ -564,10 +802,197 @@
           </div>
         </div>
       </div>
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-subtitle">Get In Touch</span>
+          <h2 class="section-title">Contact Directory</h2>
+          <p class="section-desc">We respond to every genuine enquiry within 24 hours. Select a department to contact us directly.</p>
+        </div>
+
+        <div class="contact-grid">
+          <!-- Left Column: Core Contact Info -->
+          <div class="contact-info-column">
+            <div class="info-card glass-card">
+              <div class="info-card-header">
+                <span class="logo-text">HASTRA<span>HEALTH</span></span>
+                <span class="confidential-badge">CONFIDENTIAL &middot; 2026</span>
+              </div>
+              <p class="company-tagline">Medical Devices &mdash; Gynaecology &bull; Obstetrics &bull; Reproductive Medicine</p>
+              
+              <div class="info-block">
+                <div class="info-icon"><i data-lucide="map-pin"></i></div>
+                <div class="info-text">
+                  <h4>Registered Office</h4>
+                  <p>Hastra Healthcare Medical Devices<br>37/584, Minnaram Layout<br>Pourasimidhi Road, Kollamkudmughal<br>Ernakulam &mdash; Kerala, India 682030</p>
+                </div>
+              </div>
+
+              <div class="info-block">
+                <div class="info-icon"><i data-lucide="phone"></i></div>
+                <div class="info-text">
+                  <h4>Phone / WhatsApp</h4>
+                  <p><a href="tel:+919745621855" class="contact-link">+91 97456 21855</a></p>
+                  <a href="https://wa.me/919745621855" target="_blank" rel="noopener noreferrer" class="whatsapp-btn">
+                    <i data-lucide="message-square"></i> Chat on WhatsApp
+                  </a>
+                </div>
+              </div>
+
+              <div class="info-block">
+                <div class="info-icon"><i data-lucide="mail"></i></div>
+                <div class="info-text">
+                  <h4>General Enquiries</h4>
+                  <p><a href="mailto:info@hastrahealth.com" class="contact-link">info@hastrahealth.com</a></p>
+                </div>
+              </div>
+
+              <div class="contact-guarantees">
+                <div class="guarantee-item">
+                  <i data-lucide="shield-check"></i>
+                  <span>Dedicated procurement support</span>
+                </div>
+                <div class="guarantee-item">
+                  <i data-lucide="file-text"></i>
+                  <span>Full application review</span>
+                </div>
+                <div class="guarantee-item">
+                  <i data-lucide="clock"></i>
+                  <span>Direct response guaranteed</span>
+                </div>
+              </div>
+
+              <div class="info-card-footer">
+                <span>CDSCO Registered</span>
+                <span>ISO 13485 OEM Partners</span>
+                <span class="auth-only">For Authorised Use Only</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Department Selector/Directory -->
+          <div class="contact-directory-column">
+            <div class="directory-container">
+              <h3 class="directory-title">How Can We Help You?</h3>
+              <p class="directory-subtitle">Select a category below to initiate a direct channel response</p>
+              
+              <div class="directory-grid">
+                
+                <!-- Card 1 -->
+                <div class="directory-card glass-card">
+                  <div class="card-badge sla-fast">SLA: Same day</div>
+                  <div class="directory-card-icon"><i data-lucide="hospital"></i></div>
+                  <div class="directory-card-body">
+                    <h4>Hospital &amp; Clinic Procurement</h4>
+                    <p>Formulary listing, product information, pricing enquiries, and trial requests for hospitals, nursing homes, and IVF clinics.</p>
+                  </div>
+                  <div class="directory-card-action">
+                    <a href="mailto:info@hastrahealth.com?subject=Hospital%20%26%20Clinic%20Procurement%20Enquiry" class="btn btn-secondary btn-sm">
+                      <i data-lucide="send"></i> Email Dept
+                    </a>
+                  </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="directory-card glass-card">
+                  <div class="card-badge sla-normal">SLA: 48 hours</div>
+                  <div class="directory-card-icon"><i data-lucide="users"></i></div>
+                  <div class="directory-card-body">
+                    <h4>Sub-dealer &amp; Distributor</h4>
+                    <p>Become an authorised Hastra sub-dealer. Territory enquiries, product listing, margin structure, and agreement details.</p>
+                  </div>
+                  <div class="directory-card-action">
+                    <a href="mailto:info@hastrahealth.com?subject=Sub-dealer%20%26%20Distributor%20Enquiry" class="btn btn-secondary btn-sm">
+                      <i data-lucide="send"></i> Email Dept
+                    </a>
+                  </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="directory-card glass-card">
+                  <div class="card-badge sla-normal">SLA: 48 hours</div>
+                  <div class="directory-card-icon"><i data-lucide="globe"></i></div>
+                  <div class="directory-card-body">
+                    <h4>Export &mdash; Middle East &amp; Africa</h4>
+                    <p>International distribution partnerships, regulatory dossier requests, and export pricing for UAE, KSA, Nigeria, Kenya, and other markets.</p>
+                  </div>
+                  <div class="directory-card-action">
+                    <a href="mailto:info@hastrahealth.com?subject=Export%20-%20Middle%20East%20%26%20Africa%20Enquiry" class="btn btn-secondary btn-sm">
+                      <i data-lucide="send"></i> Email Dept
+                    </a>
+                  </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="directory-card glass-card">
+                  <div class="card-badge sla-normal">SLA: 48 hours</div>
+                  <div class="directory-card-icon"><i data-lucide="trending-up"></i></div>
+                  <div class="directory-card-body">
+                    <h4>Investor &amp; Funding</h4>
+                    <p>Seed / Series A investment discussions, DPR requests, and financial model access for qualified investors.</p>
+                  </div>
+                  <div class="directory-card-action">
+                    <a href="mailto:info@hastrahealth.com?subject=Investor%20%26%20Funding%20Enquiry" class="btn btn-secondary btn-sm">
+                      <i data-lucide="send"></i> Email Dept
+                    </a>
+                  </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="directory-card glass-card">
+                  <div class="card-badge sla-fast">SLA: 24 hours</div>
+                  <div class="directory-card-icon"><i data-lucide="newspaper"></i></div>
+                  <div class="directory-card-body">
+                    <h4>Media &amp; Press</h4>
+                    <p>Interview requests, press kit, company fact sheet, and high-resolution branding materials.</p>
+                  </div>
+                  <div class="directory-card-action">
+                    <a href="mailto:info@hastrahealth.com?subject=Media%20%26%20Press%20Enquiry" class="btn btn-secondary btn-sm">
+                      <i data-lucide="send"></i> Email Dept
+                    </a>
+                  </div>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="directory-card glass-card">
+                  <div class="card-badge sla-fast">SLA: 24 hours</div>
+                  <div class="directory-card-icon"><i data-lucide="briefcase"></i></div>
+                  <div class="directory-card-body">
+                    <h4>Career Opportunities</h4>
+                    <p>FSR positions, regulatory affairs, finance, and operations roles as Hastra scales.</p>
+                  </div>
+                  <div class="directory-card-action">
+                    <a href="mailto:info@hastrahealth.com?subject=Career%20Opportunities%20Enquiry" class="btn btn-secondary btn-sm">
+                      <i data-lucide="send"></i> Email Dept
+                    </a>
+                  </div>
+                </div>
+
+                <!-- Card 7 -->
+                <div class="directory-card glass-card card-complaints">
+                  <div class="card-badge sla-slow">SLA: 30 days</div>
+                  <div class="directory-card-icon"><i data-lucide="alert-circle"></i></div>
+                  <div class="directory-card-body">
+                    <h4>Product Feedback &amp; Complaints</h4>
+                    <p>All product complaints are investigated within 30 days. Please include batch number if available.</p>
+                  </div>
+                  <div class="directory-card-action">
+                    <a href="mailto:info@hastrahealth.com?subject=Product%20Feedback%20%26%20Complaints" class="btn btn-secondary btn-sm">
+                      <i data-lucide="send"></i> Email Dept
+                    </a>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Footer Section -->
-    <footer class="footer-section" id="contact">
+    <footer class="footer-section" id="main-footer">
       <div class="container footer-container">
         <div class="footer-upper">
           <div class="footer-brand">
@@ -610,7 +1035,7 @@
 
         <div class="footer-lower">
           <p class="copyright-text">
-            &copy; 2026 HASTRA HEALTH LLP. All rights reserved. Registered medical distributor under medical devices authority.
+            &copy; 2026 Hastra Healthcare Medical Devices. All rights reserved. CDSCO Registered &middot; ISO 13485 OEM Partners &middot; For Authorised Use Only
           </p>
           <div class="footer-legal-links">
             <a href="#">Privacy Policy</a>
@@ -622,6 +1047,68 @@
     </footer>
     
   </div> <!-- End Main Site Wrapper -->
+
+  <!-- Fullscreen Glass About Overlay Page -->
+  <div class="about-overlay" id="about-overlay">
+    <div class="about-overlay-bg"></div>
+    <div class="about-container glass-card">
+      <button class="about-close-btn" id="about-close" aria-label="Close About Page">
+        <i data-lucide="x"></i>
+      </button>
+      
+      <div class="about-content-grid">
+        <div class="about-left-col">
+          <span class="section-subtitle">OUR STORY</span>
+          <h2 class="about-title">Pioneering High-Precision Gynaecology &amp; Obstetric Care</h2>
+          <p class="about-text">
+            Hastra Healthcare Medical Devices is dedicated to building the future of women's reproductive health. We integrate absolute clinical safety, premium R&D alignment, and local manufacturing compliance (CDSCO &amp; ISO 13485) to deliver world-class medical equipment and surgical devices.
+          </p>
+          <p class="about-text">
+            Our pathway spans from labor &amp; delivery, through diagnostic testing and minimally invasive laparoscopy, to post-operative recovery. We believe that clinical integrity stands before profit, and every single device we supply is validated to safeguard the final stakeholder: the patient.
+          </p>
+          
+          <div class="about-stats-mini">
+            <div class="about-stat-mini-item">
+              <span class="stat-num">100%</span>
+              <span class="stat-lbl">CDSCO Registered</span>
+            </div>
+            <div class="about-stat-mini-item">
+              <span class="stat-num">ISO 13485</span>
+              <span class="stat-lbl">OEM Standards</span>
+            </div>
+            <div class="about-stat-mini-item">
+              <span class="stat-num">24h</span>
+              <span class="stat-lbl">Response SLA</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="about-right-col">
+          <div class="about-image-wrapper">
+            <img src="/images/about_precision_facility.png" alt="Hastra Precision Facility Equipment" class="about-img">
+            <div class="about-img-caption">Hastra Precision Inspection &amp; Monitoring Systems</div>
+          </div>
+          
+          <div class="about-values-grid">
+            <div class="value-item">
+              <div class="value-icon"><i data-lucide="shield-check"></i></div>
+              <div class="value-info">
+                <h4>Uncompromising Quality</h4>
+                <p>Aligning with leading global manufacturers to ensure pristine calibration and clinical reliability.</p>
+              </div>
+            </div>
+            <div class="value-item">
+              <div class="value-icon"><i data-lucide="globe"></i></div>
+              <div class="value-info">
+                <h4>Pan-India &amp; Export Reach</h4>
+                <p>Serving thousands of clinics and hospitals across India, Middle East, and Africa through our dedicated sub-dealer networks.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- JavaScript CDN dependencies -->
   <!-- GSAP Core & ScrollTrigger -->
