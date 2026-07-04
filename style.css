@@ -1170,7 +1170,7 @@ a {
 
 .featured-card-content {
   display: grid;
-  grid-template-columns: 1fr 1.15fr;
+  grid-template-columns: 1.1fr 1fr;
   gap: 30px;
   align-items: center;
   z-index: 2;
@@ -1275,11 +1275,11 @@ a {
   object-fit: contain;
   filter: drop-shadow(0 15px 30px rgba(15, 23, 42, 0.06));
   transition: transform 400ms cubic-bezier(.2,.8,.2,1);
-  transform: scale(1.2);
+  transform: scale(1.05);
 }
 
 .featured-product-card:hover .featured-product-img {
-  transform: scale(1.26) rotate(2deg);
+  transform: scale(1.1) rotate(2deg);
 }
 
 .featured-arrow-btn {
@@ -1442,10 +1442,10 @@ a {
 .card-split {
   padding: 30px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1.3fr 1fr;
   gap: 16px;
   align-items: center;
-  min-height: 300px;
+  min-height: 280px;
   position: relative;
 }
 
@@ -1526,11 +1526,11 @@ a {
   object-fit: contain;
   filter: drop-shadow(0 8px 20px rgba(15, 23, 42, 0.05));
   transition: transform 400ms cubic-bezier(.2,.8,.2,1);
-  transform: scale(1.35);
+  transform: scale(1.12);
 }
 
 .card-split:hover .split-img {
-  transform: scale(1.42) rotate(2deg);
+  transform: scale(1.18) rotate(2deg);
 }
 
 /* Card Specific grid mappings */
@@ -1559,11 +1559,11 @@ a {
 
 .card-adhesion-gel .split-img {
   height: 240px;
-  transform: scale(1.3);
+  transform: scale(1.12);
 }
 
 .card-adhesion-gel:hover .split-img {
-  transform: scale(1.36) rotate(1deg);
+  transform: scale(1.18) rotate(1deg);
 }
 
 /* Trust Anchors Bar */
