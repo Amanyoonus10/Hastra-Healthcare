@@ -242,7 +242,7 @@ function initSurgeonTimeline() {
 /* Staggered GSAP scroll fades for elements */
 function initScrollAnimations() {
   // Simple fade up for sections
-  const fadeUpElements = gsap.utils.toArray('.section-header, .specialty-card, .news-card, .ethics-left, .ethics-right, .divider-section, .info-card, .directory-card');
+  const fadeUpElements = gsap.utils.toArray('.section-header, .specialty-card, .ethics-left, .ethics-right, .divider-section, .info-card, .directory-card');
   fadeUpElements.forEach(el => {
     gsap.from(el, {
       y: 40,
