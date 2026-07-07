@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Core Layout Animations
     initIntroVideoScroll();
     initScrollAnimations();
-    initStatsCounter();
     initSurgeonTimeline();
   }
 
@@ -117,34 +116,6 @@ function initMagneticButtons() {
         duration: 0.5,
         ease: "elastic.out(1, 0.3)"
       });
-    });
-  });
-}
-
-/* Stats Counter Animation */
-function initStatsCounter() {
-  gsap.utils.toArray('.stat-card').forEach(card => {
-    const numEl = card.querySelector('.stat-number');
-    const target = parseFloat(numEl.getAttribute('data-target'));
-    const isFloat = numEl.getAttribute('data-target').includes('.');
-    const obj = { value: 0 };
-    
-    gsap.to(obj, {
-      value: target,
-      duration: 2.2,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: card,
-        start: "top 85%",
-        toggleActions: "play none none none"
-      },
-      onUpdate: () => {
-        if (isFloat) {
-          numEl.textContent = obj.value.toFixed(2);
-        } else {
-          numEl.textContent = Math.floor(obj.value).toLocaleString();
-        }
-      }
     });
   });
 }
