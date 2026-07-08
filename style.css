@@ -407,6 +407,48 @@ a {
   align-items: center;
   gap: 60px;
   z-index: 2;
+  background-color: #000000;
+  background-image: repeating-radial-gradient(
+    circle at 82% 50%,
+    transparent 0,
+    transparent 60px,
+    rgba(255, 255, 255, 0.04) 61px,
+    rgba(255, 255, 255, 0.04) 62px,
+    transparent 63px,
+    transparent 120px
+  );
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 32px;
+  padding: 60px;
+  color: #ffffff;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+}
+
+.hero-container .btn-primary {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border-color: #ffffff !important;
+  box-shadow: none !important;
+  font-weight: 600;
+}
+
+.hero-container .btn-primary:hover {
+  background-color: #e0e0e0 !important;
+  border-color: #e0e0e0 !important;
+  color: #000000 !important;
+}
+
+.hero-container .btn-secondary {
+  background-color: transparent !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  box-shadow: none !important;
+}
+
+.hero-container .btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.5) !important;
+  color: #ffffff !important;
 }
 
 .hero-left {
@@ -419,11 +461,18 @@ a {
   line-height: 1.1;
   margin-bottom: 24px;
   letter-spacing: -0.04em;
+  color: #ffffff;
+}
+
+.hero-title .gradient-text {
+  background: none !important;
+  -webkit-text-fill-color: #ffffff !important;
+  color: #ffffff !important;
 }
 
 .hero-desc {
   font-size: 1.25rem;
-  color: var(--text-muted);
+  color: #cccccc !important;
   margin-bottom: 40px;
   font-weight: 350;
   max-width: 580px;
@@ -441,8 +490,8 @@ a {
   display: inline-block;
   font-size: 0.85rem;
   font-weight: 700;
-  color: var(--medical-blue);
-  background: var(--soft-blue);
+  color: #000000 !important;
+  background: #ffffff !important;
   padding: 6px 14px;
   border-radius: 50px;
   letter-spacing: 0.05em;
@@ -456,7 +505,7 @@ a {
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
   margin-top: 40px;
-  border-top: 1px solid rgba(15, 23, 42, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
   padding-top: 30px;
 }
 
@@ -522,15 +571,13 @@ a {
   position: relative;
   width: 500px;
   height: 500px;
-  background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--glass-border);
+  background: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
   border-radius: var(--border-radius-lg);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 30px 60px rgba(7, 26, 52, 0.06);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15) !important;
   transform-style: preserve-3d;
   perspective: 1000px;
 }
@@ -2870,6 +2917,8 @@ body.about-open {
     grid-template-columns: 1fr;
     gap: 40px;
     text-align: center;
+    padding: 40px 24px;
+    border-radius: 24px;
   }
   
   .hero-left {
@@ -3262,7 +3311,7 @@ body.about-open {
   justify-content: center;
 }
 
-#scroll-video {
+#scroll-video, #scroll-canvas {
   width: 100vw;
   height: 100vh;
   object-fit: cover;
@@ -3367,4 +3416,61 @@ body.about-open {
   background-color: var(--medical-blue);
   box-shadow: 0 0 10px var(--medical-blue);
   transition: width 0.1s ease;
+}
+
+/* Video Preloader Styling */
+.video-preloader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 15, 30, 0.85); /* Deep dark theme to blend with medical suite video */
+  backdrop-filter: blur(15px);
+  z-index: 10;
+  transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.8s;
+  color: #ffffff;
+}
+
+.video-preloader.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.preloader-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.preloader-spinner {
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba(0, 102, 204, 0.2);
+  border-top: 3px solid #00d2ff;
+  border-radius: 50%;
+  animation: preloader-spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+
+.preloader-text {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+#preloader-pct {
+  font-weight: 700;
+  color: #00d2ff;
+}
+
+@keyframes preloader-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

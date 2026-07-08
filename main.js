@@ -208,36 +208,148 @@ function initScrollAnimations() {
 
 /* Scroll-Bound Intro Video Scrubbing */
 function initIntroVideoScroll() {
+  const canvas = document.getElementById('scroll-canvas');
   const video = document.getElementById('scroll-video');
   const fill = document.querySelector('.video-progress-fill');
   const overlay = document.querySelector('.scroll-indicator-overlay');
+  const preloader = document.getElementById('video-preloader');
+  const preloaderPct = document.getElementById('preloader-pct');
   
-  if (!video) return;
+  if (!video || !canvas) return;
 
+  const ctx = canvas.getContext('2d');
   const isMobile = window.matchMedia("(max-width: 768px)").matches || ('ontouchstart' in window);
 
   // Safari / iOS compatibility and rendering setup
   video.muted = true;
   video.playsInline = true;
-  
-  // Try loading and setting minor play offset to force rendering of the first frame immediately
-  try {
-    video.load();
-    video.currentTime = 0.01;
-    video.pause();
-  } catch (e) {
-    console.warn("Initial video pre-render ignored: ", e);
+
+  // Upscale canvas resolution to 4K (3840px width) on desktop and 1080px on mobile for razor-sharp rendering
+  const resizeCanvas = () => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width === 0 || rect.height === 0) return;
+    
+    const aspectRatio = rect.width / rect.height;
+    const targetWidth = isMobile ? 1080 : 3840;
+    
+    canvas.width = targetWidth;
+    canvas.height = Math.round(targetWidth / aspectRatio);
+    drawCurrentFrame();
+  };
+
+  const drawCurrentFrame = () => {
+    if (!video || video.readyState < 1) return;
+    
+    const canvasWidth = canvas.width;
+    const canvasHeight = canvas.height;
+    const videoWidth = video.videoWidth;
+    const videoHeight = video.videoHeight;
+    
+    // Calculate aspect ratio crop to emulate object-fit: cover
+    const videoRatio = videoWidth / videoHeight;
+    const canvasRatio = canvasWidth / canvasHeight;
+    
+    let sx, sy, sWidth, sHeight;
+    
+    if (canvasRatio > videoRatio) {
+      sWidth = videoWidth;
+      sHeight = videoWidth / canvasRatio;
+      sx = 0;
+      sy = (videoHeight - sHeight) / 2;
+    } else {
+      sHeight = videoHeight;
+      sWidth = videoHeight * canvasRatio;
+      sx = (videoWidth - sWidth) / 2;
+      sy = 0;
+    }
+    
+    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+    ctx.drawImage(video, sx, sy, sWidth, sHeight, 0, 0, canvasWidth, canvasHeight);
+  };
+
+  window.addEventListener('resize', resizeCanvas);
+  video.addEventListener('seeked', drawCurrentFrame);
+
+  // Fetch video as a blob to cache it locally and prevent Range Request network latency during scrub
+  async function preloadVideo(url) {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      
+      const contentLength = response.headers.get('content-length');
+      if (!contentLength) {
+        const blob = await response.blob();
+        return blob;
+      }
+      
+      const total = parseInt(contentLength, 10);
+      let loaded = 0;
+      
+      const reader = response.body.getReader();
+      const chunks = [];
+      
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        
+        chunks.push(value);
+        loaded += value.length;
+        if (preloaderPct) {
+          preloaderPct.textContent = `${Math.round((loaded / total) * 100)}%`;
+        }
+      }
+      
+      return new Blob(chunks, { type: 'video/mp4' });
+    } catch (err) {
+      console.warn("Blob preloader failed, falling back to direct stream: ", err);
+      return null;
+    }
   }
+
+  const videoUrl = '/images/1783516391768943.mp4';
+  
+  preloadVideo(videoUrl).then(blob => {
+    if (blob) {
+      const blobUrl = URL.createObjectURL(blob);
+      video.src = blobUrl;
+    } else {
+      video.src = videoUrl;
+    }
+    
+    // Hide the loader once cached
+    if (preloader) {
+      preloader.classList.add('fade-out');
+    }
+    
+    // Pre-render setup
+    try {
+      video.load();
+      video.currentTime = 0.01;
+      video.pause();
+    } catch (e) {
+      console.warn("Initial video pre-render ignored: ", e);
+    }
+    
+    if (video.readyState >= 1) {
+      resizeCanvas();
+      startScrollTrigger();
+    } else {
+      video.addEventListener('loadedmetadata', () => {
+        resizeCanvas();
+        startScrollTrigger();
+      });
+    }
+  });
 
   const startScrollTrigger = () => {
     const duration = video.duration && !isNaN(video.duration) ? video.duration : 10;
     
-    // Create a dummy playhead object that GSAP will tween smoothly with inertia
-    const playhead = { frame: 0.01 };
-    const scrubVal = isMobile ? 2.2 : 1.5; // Damped physics on mobile to handle touch inertia smoothly
-    
-    gsap.to(playhead, {
-      frame: duration - 0.02,
+    // Use an interpolated dummy target via GSAP to handle scroll inertia cleanly
+    const scrollObj = { progress: 0 };
+    const scrubVal = isMobile ? 1.8 : 1.0; 
+
+    gsap.to(scrollObj, {
+      progress: 1,
       ease: "none",
       scrollTrigger: {
         trigger: "#intro-video-sec",
@@ -255,23 +367,21 @@ function initIntroVideoScroll() {
       }
     });
 
-    // Throttled frame setting using performance-budgeted seek interval (150ms on mobile, 33ms on desktop)
-    let lastSeekTime = 0;
-    const seekThrottleMs = isMobile ? 150 : 33;
-
-    const renderFrame = () => {
-      const now = performance.now();
-      if (now - lastSeekTime > seekThrottleMs) {
-        if (Math.abs(playhead.frame - video.currentTime) > 0.02 && !video.seeking) {
-          video.currentTime = Math.max(0.01, Math.min(duration - 0.01, playhead.frame));
-          lastSeekTime = now;
-        }
+    // Auto-throttled frame scrubbing:
+    // Only update currentTime if the browser's decoder has completed the previous seek (not video.seeking).
+    // This avoids piling up seek requests and eliminates stuttering on high-resolution video.
+    const updateFrame = () => {
+      const targetTime = scrollObj.progress * (duration - 0.05);
+      
+      if (!video.seeking && Math.abs(targetTime - video.currentTime) > 0.02) {
+        video.currentTime = Math.max(0.01, Math.min(duration - 0.01, targetTime));
       }
-      requestAnimationFrame(renderFrame);
+      
+      requestAnimationFrame(updateFrame);
     };
-    requestAnimationFrame(renderFrame);
+    requestAnimationFrame(updateFrame);
 
-    // 3. Fade in navbar when past intro scroll section
+    // Fade in navbar when past intro scroll section
     gsap.to('#main-nav', {
       opacity: 1,
       pointerEvents: "auto",
@@ -284,12 +394,6 @@ function initIntroVideoScroll() {
       }
     });
   };
-
-  if (video.readyState >= 1) {
-    startScrollTrigger();
-  } else {
-    video.addEventListener('loadedmetadata', startScrollTrigger);
-  }
 }
 
 /* Interactive About Fullscreen Overlay */
