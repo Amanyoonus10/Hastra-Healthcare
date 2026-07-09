@@ -4,3 +4,10 @@ dist
 .env
 .env.*
 .vercel
+
+# Large source media files and unreferenced videos
+3D_scroll_animation_Hastra_Health_202607032332.mov
+download/
+public/3D_scroll_animation_India_map_202607032334*.mov
+public/images/1783590797496830.mp4
+public/images/1783591836637753.mp4
