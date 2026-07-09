@@ -292,6 +292,10 @@ a {
   color: #000000 !important;
 }
 
+.nav-mobile-cta {
+  display: none !important;
+}
+
 .navbar .mobile-menu-toggle span {
   background-color: #ffffff !important;
 }
@@ -3068,22 +3072,64 @@ body.about-open {
 
 /* Mobile View */
 @media (max-width: 768px) {
+  .specialties-section,
+  .products-section,
+  .surgeon-journey-section,
+  .news-section,
+  .ethics-section,
+  .contact-section {
+    padding: 60px 0 !important;
+  }
+
+  .divider-section {
+    padding: 50px 20px !important;
+    margin: 0 16px !important;
+  }
+
+  .divider-quote {
+    font-size: 1.4rem !important;
+    margin-bottom: 16px !important;
+  }
+
   .navbar {
     padding: 16px 0;
   }
 
+  .logo-text {
+    font-size: 1.15rem;
+  }
+
+  .navbar .nav-cta {
+    display: none !important;
+  }
+
+  .nav-mobile-cta {
+    display: inline-flex !important;
+    width: 100%;
+    justify-content: center;
+    margin-top: 10px;
+    padding: 12px 24px;
+    font-size: 0.95rem;
+  }
+
   h1 {
-    font-size: 2.5rem;
+    font-size: 1.8rem;
   }
   
   .hero-title {
-    font-size: 2.8rem;
+    font-size: 2.0rem;
   }
   
   .section-title {
-    font-size: 2.2rem;
+    font-size: 1.8rem;
   }
-  
+
+  .hero-scene-container {
+    width: 280px !important;
+    height: 280px !important;
+    margin: 0 auto;
+  }
+
   .nav-links {
     display: none;
     flex-direction: column;
@@ -3135,7 +3181,13 @@ body.about-open {
   .specialty-card {
     grid-column: span 1 !important;
     flex-direction: column !important;
-    padding: 30px !important;
+    padding: 20px !important;
+    border-radius: 20px !important;
+  }
+  
+  .directory-card {
+    padding: 20px !important;
+    border-radius: 20px !important;
   }
   .card-wide-maternity, .card-wide-ivf, .card-wide-diag {
     gap: 20px;
@@ -3157,7 +3209,22 @@ body.about-open {
   }
   
   .timeline-line {
-    display: none; /* Convert timeline to vertical layout */
+    display: block !important;
+    top: 30px;
+    bottom: 30px;
+    left: 50% !important;
+    right: auto !important;
+    width: 2px !important;
+    height: auto !important;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.15) !important;
+  }
+  
+  .timeline-progress {
+    width: 100% !important;
+    height: 0%;
+    background: #ffffff !important;
+    box-shadow: 0 0 10px #ffffff !important;
   }
   
   .step-marker {
@@ -3319,6 +3386,33 @@ body.about-open {
   .about-stats-mini {
     grid-template-columns: 1fr;
     gap: 16px;
+  }
+
+  .indicator-subtitle {
+    font-size: 1.8rem !important;
+    margin-bottom: 24px !important;
+  }
+  .scroll-mouse {
+    width: 24px !important;
+    height: 40px !important;
+  }
+  .indicator-hint {
+    font-size: 0.8rem !important;
+  }
+  
+  @media (max-width: 480px) {
+    .hero-ctas {
+      flex-direction: column !important;
+      align-items: stretch !important;
+      width: 100% !important;
+      gap: 12px !important;
+    }
+    .hero-ctas .btn {
+      width: 100% !important;
+    }
+    .products-bottom-grid .product-card-premium {
+      flex: 0 0 280px !important;
+    }
   }
 }
 

@@ -130,7 +130,6 @@ function initSurgeonTimeline() {
   if (journeySection && progressLine && steps.length > 0) {
     // 1. Progress line and active step highlighting
     gsap.to(progressLine, {
-      width: "100%",
       ease: "none",
       scrollTrigger: {
         trigger: journeySection,
@@ -139,6 +138,15 @@ function initSurgeonTimeline() {
         scrub: true,
         onUpdate: (self) => {
           const progress = self.progress;
+          const isMobileLayout = window.innerWidth <= 768;
+          if (isMobileLayout) {
+            progressLine.style.height = `${progress * 100}%`;
+            progressLine.style.width = '100%';
+          } else {
+            progressLine.style.width = `${progress * 100}%`;
+            progressLine.style.height = '100%';
+          }
+          
           const totalSteps = steps.length;
           const activeIndex = Math.min(Math.floor(progress * totalSteps), totalSteps - 1);
           
