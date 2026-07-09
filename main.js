@@ -306,7 +306,7 @@ function initIntroVideoScroll() {
     }
   }
 
-  const videoUrl = '/images/1783516391768943.mp4';
+  const videoUrl = '/images/1783591836637753_smooth.mp4';
   
   preloadVideo(videoUrl).then(blob => {
     if (blob) {
