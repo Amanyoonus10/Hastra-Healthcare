@@ -3601,3 +3601,624 @@ body.about-open {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+/* ==========================================================================
+   R&D & Blueprints Page Styles
+   ========================================================================== */
+
+.blueprints-page {
+  background-color: var(--primary-white);
+  padding-top: 100px;
+}
+
+.blueprints-hero {
+  padding: 80px 0 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+.blueprints-hero .hero-bg-glow {
+  position: absolute;
+  top: -10%;
+  right: -10%;
+  width: 50%;
+  height: 60%;
+  background: radial-gradient(circle, rgba(0, 102, 204, 0.05), transparent 70%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.blueprints-hero-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+  z-index: 2;
+}
+
+.blueprints-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.04);
+  color: var(--text-primary);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  padding: 8px 16px;
+  border-radius: 50px;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+}
+
+.blueprints-hero-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin-bottom: 24px;
+}
+
+.blueprints-hero-desc {
+  font-size: 1.25rem;
+  color: var(--text-muted);
+  max-width: 750px;
+  margin-bottom: 40px;
+}
+
+.blueprints-video-section {
+  padding: 80px 0 100px;
+  background: var(--light-gray);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Custom Interactive Video Player */
+.video-player-container {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--border-color);
+  background: #000;
+  aspect-ratio: 16/9;
+}
+
+.video-player-container video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.video-custom-controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.4) 60%, transparent);
+  padding: 20px 24px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 5;
+}
+
+.video-player-container:hover .video-custom-controls,
+.video-player-container.show-controls .video-custom-controls {
+  opacity: 1;
+  visibility: visible;
+}
+
+.video-progress-container {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  cursor: pointer;
+  position: relative;
+  transition: height 0.2s ease;
+}
+
+.video-progress-container:hover {
+  height: 8px;
+}
+
+.video-progress-bar-fill {
+  height: 100%;
+  background: #fff;
+  width: 0;
+  border-radius: 10px;
+  position: relative;
+  transition: width 0.1s linear;
+}
+
+.video-progress-handle {
+  position: absolute;
+  right: -6px;
+  top: 50%;
+  transform: translateY(-50%) scale(0);
+  width: 12px;
+  height: 12px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+}
+
+.video-progress-container:hover .video-progress-handle {
+  transform: translateY(-50%) scale(1);
+}
+
+.video-control-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #fff;
+}
+
+.video-control-buttons .controls-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.control-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.control-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.05);
+}
+
+.control-btn i {
+  width: 20px;
+  height: 20px;
+  color: #fff !important;
+}
+
+.video-time-display {
+  font-family: var(--font-family);
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.8);
+  margin-left: 8px;
+}
+
+.volume-slider-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.volume-slider {
+  width: 70px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  cursor: pointer;
+  position: relative;
+}
+
+.volume-slider-fill {
+  height: 100%;
+  background: #fff;
+  width: 0%;
+  border-radius: 10px;
+}
+
+.video-big-play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s ease, border-color 0.3s ease;
+  z-index: 4;
+}
+
+.video-big-play-btn:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.video-big-play-btn i {
+  width: 32px;
+  height: 32px;
+  color: #fff !important;
+  margin-left: 4px;
+  transition: transform 0.2s ease;
+}
+
+.video-player-container.is-playing .video-big-play-btn {
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, -50%) scale(0.8);
+}
+
+/* R&D Pillars Section */
+.blueprints-pillars-section {
+  padding: 100px 0;
+}
+
+.blueprints-pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  margin-top: 60px;
+}
+
+.pillar-card {
+  padding: 40px;
+  border-radius: var(--border-radius-lg);
+  border: 1px solid var(--border-color);
+  background: var(--light-gray);
+  transition: var(--transition-smooth);
+}
+
+.pillar-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+}
+
+.pillar-icon-wrapper {
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 28px;
+}
+
+.pillar-icon-wrapper i {
+  width: 24px;
+  height: 24px;
+  color: #fff !important;
+}
+
+.pillar-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 14px;
+  font-weight: 700;
+}
+
+.pillar-card p {
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+/* Technical Design Blueprints Grid */
+.blueprints-tech-section {
+  padding: 100px 0;
+  background: var(--light-gray);
+  border-top: 1px solid var(--border-color);
+}
+
+.blueprints-tech-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  margin-top: 60px;
+}
+
+.tech-blueprint-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--border-radius-lg);
+  border: 1px solid var(--border-color);
+  background: var(--primary-white);
+  transition: var(--transition-smooth);
+}
+
+.tech-blueprint-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.08);
+}
+
+.tech-blueprint-header {
+  padding: 30px 30px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.tech-tag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #00d2ff;
+  letter-spacing: 0.05em;
+}
+
+.blueprint-doc-id {
+  font-family: monospace;
+  font-size: 0.8rem;
+  color: var(--text-light-muted);
+  background: var(--light-gray);
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+}
+
+.tech-blueprint-header h3 {
+  font-size: 1.6rem;
+  margin-top: 6px;
+}
+
+.tech-blueprint-preview {
+  height: 280px;
+  background-color: #0b0f19;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.tech-blueprint-preview::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: center;
+  pointer-events: none;
+}
+
+.blueprint-vector-svg {
+  width: 70%;
+  height: 70%;
+  stroke: rgba(0, 210, 255, 0.4);
+  stroke-width: 1.5;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke 0.3s ease;
+}
+
+.tech-blueprint-card:hover .blueprint-vector-svg {
+  stroke: rgba(0, 210, 255, 0.8);
+}
+
+.tech-blueprint-details {
+  padding: 30px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.tech-specs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.spec-row {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed var(--border-color);
+}
+
+.spec-row:last-child {
+  border-bottom: none;
+}
+
+.spec-lbl {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.spec-val {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* Manufacturing Cleanroom Section */
+.cleanroom-section {
+  padding: 100px 0;
+}
+
+.cleanroom-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.cleanroom-left h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.cleanroom-desc {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  margin-bottom: 30px;
+}
+
+.cleanroom-features {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cleanroom-feat-item {
+  display: flex;
+  gap: 16px;
+}
+
+.cleanroom-feat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cleanroom-feat-icon i {
+  width: 20px;
+  height: 20px;
+  color: #000 !important;
+}
+
+.cleanroom-feat-text h4 {
+  font-size: 1.1rem;
+  margin-bottom: 4px;
+}
+
+.cleanroom-feat-text p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.cleanroom-right {
+  position: relative;
+}
+
+.cleanroom-badge-overlay {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 16px 24px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.cleanroom-badge-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cleanroom-badge-icon i {
+  color: #fff !important;
+  width: 18px;
+  height: 18px;
+}
+
+.cleanroom-badge-text span {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--text-light-muted);
+}
+
+.cleanroom-badge-text strong {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #000;
+}
+
+.cleanroom-image-wrapper {
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
+}
+
+.cleanroom-img {
+  width: 100%;
+  height: 450px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.cleanroom-image-wrapper:hover .cleanroom-img {
+  transform: scale(1.03);
+}
+
+/* ==========================================================================
+   R&D & Blueprints Page Responsive Styling
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+  .blueprints-pillars-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .blueprints-tech-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .blueprints-hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .blueprints-pillars-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .cleanroom-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .video-control-buttons {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  
+  .cleanroom-img {
+    height: 300px;
+  }
+}
+

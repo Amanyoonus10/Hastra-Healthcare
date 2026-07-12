@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Hastra Healthcare R&D - Exploring our precision blueprints, engineering frameworks, and ISO 13485 cleanroom assembly structures.">
+  <title>R&D &amp; Precision Engineering | Hastra Healthcare</title>
+  
+  <!-- Google Fonts - Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body class="blueprints-page">
+
+  <!-- Sticky Glass Navbar -->
+  <nav class="navbar scrolled" id="main-nav" style="opacity: 1; pointer-events: auto;">
+    <div class="nav-container">
+      <div class="logo-wrapper">
+        <a href="/index.html" class="logo-text">HASTRA<span>HEALTHCARE</span></a>
+      </div>
+      <div class="nav-links">
+        <a href="/index.html#about" class="nav-link">About Us</a>
+        <a href="/index.html#specialties" class="nav-link">Specialities</a>
+        <a href="/index.html#products" class="nav-link">Products</a>
+        <a href="/blueprints.html" class="nav-link active">R&D / Blueprints</a>
+        <a href="/index.html#surgeon-journey" class="nav-link">Surgeon Journey</a>
+        <a href="/index.html#ethics" class="nav-link">Ethics</a>
+        <a href="/index.html#contact" class="nav-link">Contact</a>
+        <a href="/index.html#contact" class="btn btn-primary nav-mobile-cta">Partner With Us</a>
+      </div>
+      <div class="nav-actions">
+        <button class="icon-btn search-trigger" aria-label="Search">
+          <i data-lucide="search"></i>
+        </button>
+        <a href="/index.html#contact" class="btn btn-primary nav-cta">Partner With Us</a>
+      </div>
+      <button class="mobile-menu-toggle" aria-label="Toggle Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="blueprints-hero">
+    <div class="hero-bg-glow"></div>
+    <div class="container blueprints-hero-container">
+      <span class="blueprints-hero-badge">
+        <i data-lucide="binary"></i> Technical Excellence
+      </span>
+      <h1 class="blueprints-hero-title">
+        Precision Engineering <br>
+        <span class="gradient-text">&amp; R&amp;D Blueprints</span>
+      </h1>
+      <p class="blueprints-hero-desc">
+        Every device in the Hastra portfolio undergoes comprehensive clinical research, CAD prototyping, and strict materials testing in our research divisions before sterile cleanroom assembly.
+      </p>
+    </div>
+  </header>
+
+  <!-- Video Showcase Player Section -->
+  <section class="blueprints-video-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="section-subtitle">R&amp;D Laboratory</span>
+        <h2 class="section-title">Design Pipeline Montage</h2>
+        <p class="section-desc">Explore the live montage from our design and prototyping systems, showing our drafting, assembly simulations, and mechanical checks.</p>
+      </div>
+
+      <!-- Custom Interactive Video Player -->
+      <div class="video-player-container" id="blueprints-player">
+        <video id="blueprints-video" preload="metadata" playsinline loop muted>
+          <source src="/images/Medical_video_montage_blueprints.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        
+        <!-- Big Center Play Button Overlay -->
+        <div class="video-big-play-btn" id="big-play-btn">
+          <i data-lucide="play"></i>
+        </div>
+
+        <!-- Custom Glassmorphic Controls -->
+        <div class="video-custom-controls">
+          <!-- Timeline progress bar scrubber -->
+          <div class="video-progress-container" id="video-progress-container">
+            <div class="video-progress-bar-fill" id="video-progress-fill">
+              <div class="video-progress-handle"></div>
+            </div>
+          </div>
+          
+          <!-- Control Buttons Row -->
+          <div class="video-control-buttons">
+            <div class="controls-left">
+              <button class="control-btn" id="play-pause-btn" aria-label="Play">
+                <i data-lucide="play"></i>
+              </button>
+              <button class="control-btn" id="rewind-btn" aria-label="Rewind 10 seconds">
+                <i data-lucide="rotate-ccw"></i>
+              </button>
+              <button class="control-btn" id="forward-btn" aria-label="Forward 10 seconds">
+                <i data-lucide="rotate-cw"></i>
+              </button>
+              <div class="volume-control-wrapper volume-slider-container">
+                <button class="control-btn" id="mute-btn" aria-label="Mute">
+                  <i data-lucide="volume-2"></i>
+                </button>
+                <div class="volume-slider" id="volume-slider">
+                  <div class="volume-slider-fill" id="volume-slider-fill" style="width: 100%;"></div>
+                </div>
+              </div>
+              <div class="video-time-display">
+                <span id="current-time">0:00</span> / <span id="duration-time">0:00</span>
+              </div>
+            </div>
+            
+            <div class="controls-right">
+              <button class="control-btn" id="fullscreen-btn" aria-label="Fullscreen">
+                <i data-lucide="maximize"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- R&D Pillars -->
+  <section class="blueprints-pillars-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="section-subtitle">Our Foundation</span>
+        <h2 class="section-title">The Three Pillars of Hastra Engineering</h2>
+        <p class="section-desc">Building surgical safety and reliability through structural testing protocols.</p>
+      </div>
+
+      <div class="blueprints-pillars-grid">
+        <!-- Card 1 -->
+        <div class="pillar-card">
+          <div class="pillar-icon-wrapper">
+            <i data-lucide="cpu"></i>
+          </div>
+          <h3>Clinical Prototyping</h3>
+          <p>Utilizing high-precision CNC machining and 3D printing parameters to quickly iterate and test device designs before tooling creation.</p>
+        </div>
+        <!-- Card 2 -->
+        <div class="pillar-card">
+          <div class="pillar-icon-wrapper">
+            <i data-lucide="activity-square"></i>
+          </div>
+          <h3>Simulated Stress Analysis</h3>
+          <p>Running detailed finite element analysis (FEA) simulations to test mechanical stress tolerance, torque, and material resilience parameters.</p>
+        </div>
+        <!-- Card 3 -->
+        <div class="pillar-card">
+          <div class="pillar-icon-wrapper">
+            <i data-lucide="package-check"></i>
+          </div>
+          <h3>Integrity Validations</h3>
+          <p>A rigorous 12-step validation cycle testing biocompatibility, sterilization stability, shelf-life simulation, and clinical reliability.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technical Specs & Blueprints Grid -->
+  <section class="blueprints-tech-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Technical Portfolio</span>
+        <h2 class="section-title">Product Design Blueprints</h2>
+        <p class="section-desc">CAD schematics, dimensions, and materials details for our core gynecological systems.</p>
+      </div>
+
+      <div class="blueprints-tech-grid">
+        <!-- Blueprint Card 1: Vacuum Delivery -->
+        <div class="tech-blueprint-card">
+          <div class="tech-blueprint-header">
+            <div>
+              <span class="tech-tag">Obstetrics</span>
+              <h3>Vacuum-Assisted Delivery Device</h3>
+            </div>
+            <span class="blueprint-doc-id">VAD-BP-01A</span>
+          </div>
+          <div class="tech-blueprint-preview">
+            <svg class="blueprint-vector-svg" viewBox="0 0 100 100">
+              <!-- Concentric circles representing cup and vacuum handle -->
+              <circle cx="50" cy="45" r="16" stroke-dasharray="2,2" />
+              <circle cx="50" cy="45" r="28" />
+              <path d="M 50 17 L 50 73" />
+              <path d="M 30 73 L 70 73" stroke-width="2.5" />
+              <!-- Technical measurements -->
+              <line x1="18" y1="45" x2="82" y2="45" stroke="rgba(0, 210, 255, 0.2)" stroke-dasharray="1,1" />
+              <text x="84" y="47" fill="rgba(0, 210, 255, 0.6)" font-size="3" font-family="monospace">D=56mm</text>
+              <text x="52" y="24" fill="rgba(0, 210, 255, 0.6)" font-size="3" font-family="monospace">R=28mm</text>
+            </svg>
+          </div>
+          <div class="tech-blueprint-details">
+            <div class="tech-specs-list">
+              <div class="spec-row">
+                <span class="spec-lbl">Primary Material</span>
+                <span class="spec-val">Medical Grade Polycarbonate &amp; Silicone</span>
+              </div>
+              <div class="spec-row">
+                <span class="spec-lbl">Tensile Strength</span>
+                <span class="spec-val">&gt; 120 N (Controlled Traction Limit)</span>
+              </div>
+              <div class="spec-row">
+                <span class="spec-lbl">Cup Outer Diameter</span>
+                <span class="spec-val">56 mm (Optimal Pelvic Contour Fit)</span>
+              </div>
+              <div class="spec-row">
+                <span class="spec-lbl">Sterilization Standard</span>
+                <span class="spec-val">Ethylene Oxide (EtO) Single Use</span>
+              </div>
+            </div>
+            <a href="/index.html#contact" class="btn btn-secondary btn-sm" style="width: 100%;">Request CAD Files</a>
+          </div>
+        </div>
+
+        <!-- Blueprint Card 2: Cervical Balloon -->
+        <div class="tech-blueprint-card">
+          <div class="tech-blueprint-header">
+            <div>
+              <span class="tech-tag">Labour Ward</span>
+              <h3>Cervical Ripening Balloon</h3>
+            </div>
+            <span class="blueprint-doc-id">CRB-BP-03F</span>
+          </div>
+          <div class="tech-blueprint-preview">
+            <svg class="blueprint-vector-svg" viewBox="0 0 100 100">
+              <!-- Double balloon representation -->
+              <line x1="15" y1="50" x2="85" y2="50" stroke-width="2" />
+              <!-- Uterine Balloon -->
+              <ellipse cx="40" cy="50" rx="14" ry="18" fill="rgba(0, 210, 255, 0.05)" />
+              <!-- Vaginal Balloon -->
+              <ellipse cx="60" cy="50" rx="14" ry="18" fill="rgba(0, 210, 255, 0.05)" />
+              <!-- Fluid inlets -->
+              <path d="M 12 47 L 15 50 L 12 53" />
+              <text x="35" y="28" fill="rgba(0, 210, 255, 0.6)" font-size="3" font-family="monospace">Uterine (80mL)</text>
+              <text x="55" y="76" fill="rgba(0, 210, 255, 0.6)" font-size="3" font-family="monospace">Vaginal (80mL)</text>
+            </svg>
+          </div>
+          <div class="tech-blueprint-details">
+            <div class="tech-specs-list">
+              <div class="spec-row">
+                <span class="spec-lbl">Material Composition</span>
+                <span class="spec-val">100% Medical-grade Silicone (Latex-Free)</span>
+              </div>
+              <div class="spec-row">
+                <span class="spec-lbl">Max Inflation Volume</span>
+                <span class="spec-val">80 mL per Balloon (Dual Chamber)</span>
+              </div>
+              <div class="spec-row">
+                <span class="spec-lbl">Catheter Shaft Diameter</span>
+                <span class="spec-val">18 Fr (Flexible &amp; Soft)</span>
+              </div>
+              <div class="spec-row">
+                <span class="spec-lbl">Biocompatibility Standard</span>
+                <span class="spec-val">ISO 10993 Certified</span>
+              </div>
+            </div>
+            <a href="/index.html#contact" class="btn btn-secondary btn-sm" style="width: 100%;">Request CAD Files</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Manufacturing Cleanroom Section -->
+  <section class="cleanroom-section">
+    <div class="container">
+      <div class="cleanroom-grid">
+        <div class="cleanroom-left">
+          <span class="section-subtitle">Assembly Standards</span>
+          <h2>Class 10,000 ISO 7 Cleanroom Manufacturing</h2>
+          <p class="cleanroom-desc">
+            Physical safety is paramount in medical devices. Hastra surgical systems and gynecological instruments are assembled, inspected, and packaged in state-of-the-art Class 10,000 (ISO 7) cleanroom facilities.
+          </p>
+
+          <div class="cleanroom-features">
+            <div class="cleanroom-feat-item">
+              <div class="cleanroom-feat-icon">
+                <i data-lucide="wind"></i>
+              </div>
+              <div class="cleanroom-feat-text">
+                <h4>HEPA Air Filtration</h4>
+                <p>Equipped with absolute high-efficiency particulate air filtration systems providing 60 air changes per hour.</p>
+              </div>
+            </div>
+            <div class="cleanroom-feat-item">
+              <div class="cleanroom-feat-icon">
+                <i data-lucide="gauge"></i>
+              </div>
+              <div class="cleanroom-feat-text">
+                <h4>Continuous Pressure Control</h4>
+                <p>Strict differential positive pressure sensors prevent external particulate migration into sensitive zones.</p>
+              </div>
+            </div>
+            <div class="cleanroom-feat-item">
+              <div class="cleanroom-feat-icon">
+                <i data-lucide="dna"></i>
+              </div>
+              <div class="cleanroom-feat-text">
+                <h4>Bioburden Monitoring</h4>
+                <p>Routine microbiological assays, particle counts, and bioburden controls are run weekly.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cleanroom-right">
+          <div class="cleanroom-image-wrapper">
+            <img src="/images/cleanroom_facility_premium.png" alt="Hastra Class 10,000 Cleanroom Assembly Line" class="cleanroom-img">
+          </div>
+          <div class="cleanroom-badge-overlay">
+            <div class="cleanroom-badge-icon">
+              <i data-lucide="shield-check"></i>
+            </div>
+            <div class="cleanroom-badge-text">
+              <span>CERTIFICATION STANDARDS</span>
+              <strong>ISO 13485 &amp; CDSCO Registered</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Section -->
+  <footer class="footer-section" id="main-footer">
+    <div class="container footer-container">
+      <div class="footer-upper">
+        <div class="footer-brand">
+          <a href="/index.html" class="logo-text footer-logo">HASTRA<span>HEALTHCARE</span></a>
+          <p class="brand-desc">
+            An award-winning clinical partner, innovating premium women's healthcare and surgical systems. Dedicated to quality, transparency, and surgical precision.
+          </p>
+          <div class="footer-cert-badges">
+            <span class="cert-badge">CDSCO Registered</span>
+            <span class="cert-badge">ISO 13485 OEM</span>
+          </div>
+          <div class="social-links">
+            <a href="https://wa.me/919745621855" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" class="social-icon magnetic"><i data-lucide="message-circle"></i></a>
+            <a href="tel:+919745621855" aria-label="Phone" class="social-icon magnetic"><i data-lucide="phone"></i></a>
+            <a href="mailto:info@hastrahealth.com" aria-label="Email" class="social-icon magnetic"><i data-lucide="mail"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-links-column">
+          <h4>Solutions</h4>
+          <a href="/index.html#products">Obstetric Delivery</a>
+          <a href="/index.html#products">Hemostasis &amp; Closure</a>
+          <a href="/index.html#products">Minimally Invasive Surgery</a>
+          <a href="/index.html#specialties">Consumables</a>
+        </div>
+        
+        <div class="footer-links-column">
+          <h4>Company</h4>
+          <a href="/index.html#about">About Us</a>
+          <a href="/blueprints.html">R&D / Blueprints</a>
+          <a href="/index.html#ethics">Ethics &amp; Safety</a>
+          <a href="/index.html#contact">Contact</a>
+        </div>
+
+        <div class="footer-contact-column">
+          <h4>Registered Office</h4>
+          <p class="footer-office-text">
+            Hastra Healthcare Medical Devices<br>
+            37/584, Minnaram Layout<br>
+            Pourasimidhi Road, Kollamkudmughal<br>
+            Ernakulam &mdash; Kerala, India 682030
+          </p>
+          <div class="footer-contact-links">
+            <a href="tel:+919745621855"><i data-lucide="phone"></i> +91 97456 21855</a>
+            <a href="mailto:info@hastrahealth.com"><i data-lucide="mail"></i> info@hastrahealth.com</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-lower">
+        <p class="copyright-text">
+          &copy; 2026 Hastra Healthcare. All rights reserved. CDSCO Registered &middot; ISO 13485 OEM Partners &middot; For Authorised Use Only.
+        </p>
+        <div class="footer-legal-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Whistleblower Portal</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript CDN dependencies -->
+  <!-- GSAP Core & ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Custom blueprints script -->
+  <script type="module" src="/blueprints.js"></script>
+</body>
+</html>
