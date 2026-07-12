@@ -407,7 +407,7 @@ a {
 
 .hero-container {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
   gap: 60px;
   z-index: 2;
@@ -460,12 +460,13 @@ a {
 }
 
 .hero-title {
-  font-size: 3.8rem;
+  font-size: 3.2rem;
   font-weight: 800;
   line-height: 1.1;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   letter-spacing: -0.04em;
   color: #ffffff;
+  font-style: italic;
 }
 
 .hero-title .gradient-text {
@@ -475,9 +476,9 @@ a {
 }
 
 .hero-desc {
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   color: #cccccc !important;
-  margin-bottom: 40px;
+  margin-bottom: 28px;
   font-weight: 350;
   max-width: 580px;
 }
@@ -486,7 +487,7 @@ a {
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-bottom: 60px;
+  margin-bottom: 40px;
 }
 
 /* Hero badge styling */
@@ -573,9 +574,11 @@ a {
 
 .hero-scene-container {
   position: relative;
-  width: 500px;
-  height: 500px;
-  background: #ffffff !important;
+  width: 100%;
+  max-width: 600px;
+  height: auto !important;
+  aspect-ratio: 16 / 9;
+  background: #0b0f19 !important;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
   border-radius: var(--border-radius-lg);
   display: flex;
@@ -584,6 +587,8 @@ a {
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15) !important;
   transform-style: preserve-3d;
   perspective: 1000px;
+  overflow: hidden;
+  animation: floatScenePremium 6s ease-in-out infinite !important;
 }
 
 .scene-glow {
@@ -619,9 +624,12 @@ a {
 }
 
 .premium-scene {
-  width: 90% !important;
-  max-width: 440px;
-  animation: floatScenePremium 6s ease-in-out infinite !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  object-fit: cover;
+  border-radius: inherit;
+  animation: none !important;
 }
 
 @keyframes floatScenePremium {
@@ -2975,8 +2983,9 @@ body.about-open {
   }
   
   .hero-scene-container {
-    width: 400px;
-    height: 400px;
+    width: 100%;
+    max-width: 440px;
+    height: auto !important;
   }
   
   
@@ -3125,8 +3134,9 @@ body.about-open {
   }
 
   .hero-scene-container {
-    width: 280px !important;
-    height: 280px !important;
+    width: 100% !important;
+    max-width: 320px !important;
+    height: auto !important;
     margin: 0 auto;
   }
 
@@ -4221,4 +4231,61 @@ body.about-open {
     height: 300px;
   }
 }
+
+/* ==========================================================================
+   Brand Video Ad Showcase (2.35:1 aspect ratio, silent loop)
+   ========================================================================== */
+
+.brand-ad-section {
+  padding: 80px 0;
+  background-color: #000;
+  border-radius: var(--border-radius-lg);
+  margin: 40px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.brand-ad-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.brand-ad-video-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2.35 / 1;
+  background-color: #000;
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  box-shadow: 0 25px 55px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.brand-ad-video-wrapper video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.brand-ad-vignette {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at center, transparent 40%, rgba(0, 0, 0, 0.3) 100%);
+  z-index: 2;
+}
+
+@media (max-width: 768px) {
+  .brand-ad-section {
+    padding: 40px 0;
+    margin: 20px 16px;
+  }
+}
+
+
 
