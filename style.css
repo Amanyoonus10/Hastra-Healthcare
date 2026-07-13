@@ -4615,12 +4615,17 @@ body.about-open {
   justify-content: center;
 }
 .compass-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 80%;
   height: 80%;
   border-radius: 50%;
   object-fit: cover;
   border: 1px solid rgba(0, 0, 0, 0.15);
   box-shadow: inset 0 5px 15px rgba(0,0,0,0.1), 0 10px 25px rgba(0, 0, 0, 0.1);
+  display: block;
 }
 .ethics-compass-container::before {
   content: '';
@@ -4638,7 +4643,7 @@ body.about-open {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
-.floating-badge {
+.compass-badge {
   position: absolute;
   width: 44px;
   height: 44px;
@@ -4652,13 +4657,19 @@ body.about-open {
   color: var(--dark-navy) !important; /* Black icon */
   z-index: 5;
 }
-.badge-1 {
-  top: 15px;
-  right: -10px;
+.compass-badge.badge-1 {
+  top: 12%;
+  left: -10%;
+  right: auto;
+  bottom: auto;
+  transform: none;
 }
-.badge-2 {
-  bottom: 25px;
-  right: 15px;
+.compass-badge.badge-2 {
+  bottom: 12%;
+  right: -10%;
+  left: auto;
+  top: auto;
+  transform: none;
 }
 
 /* Part 3: 4 Pillars Grid */
