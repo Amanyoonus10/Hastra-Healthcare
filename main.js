@@ -620,7 +620,7 @@ function loadDynamicNewsAndGallery() {
       category: '🏆 Milestone · 2026',
       date: 'Active',
       desc: 'First 15 sub-dealers signed in Kerala, Tamil Nadu, and Telangana. Network anchor: IVF clinic clusters in Bangalore, Chennai, and Hyderabad. Target: 70 active sub-dealers by Month 10.',
-      image: '/images/news_maternity_camp.png'
+      image: '/images/milestone_2026.jpg'
     }
   ];
 
