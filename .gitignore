@@ -6,4 +6,5 @@ dist
 .vercel
 
 download/
-
+public/backup_originals/
+*.log

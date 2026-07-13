@@ -10,7 +10,9 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
-        blueprints: resolve(__dirname, 'blueprints.html')
+        blueprints: resolve(__dirname, 'blueprints.html'),
+        product_portfolio: resolve(__dirname, 'product-portfolio.html'),
+        contact: resolve(__dirname, 'contact.html')
       }
     }
   }

@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Hastra Healthcare Product Portfolio - Discover our premium women's surgical health systems, gynaecology instruments, and emergency obstetric systems.">
+  <title>Product Portfolio &amp; Solutions | Hastra Healthcare</title>
+  <!-- Google Fonts - Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="/style.css">
+  
+  <style>
+    /* Portfolio specific overrides */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      margin-top: 40px;
+      margin-bottom: 60px;
+    }
+    .portfolio-card-detailed {
+      display: flex;
+      flex-direction: column;
+      border-radius: var(--border-radius-lg);
+      overflow: hidden;
+      height: 100%;
+      transition: var(--transition-smooth);
+      cursor: pointer;
+    }
+    .portfolio-card-detailed:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+      border-color: var(--dark-navy);
+    }
+    .portfolio-card-img {
+      height: 250px;
+      position: relative;
+      overflow: hidden;
+      background: #fafafa;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .portfolio-card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 20px;
+      transition: var(--transition-smooth);
+    }
+    .portfolio-card-detailed:hover .portfolio-card-img img {
+      transform: scale(1.02);
+    }
+    .portfolio-card-body {
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    .portfolio-card-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 15px;
+    }
+    .product-id-tag {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--text-light-muted);
+      text-transform: uppercase;
+    }
+    .product-category-pill {
+      font-size: 0.7rem;
+      font-weight: 700;
+      background: var(--dark-navy);
+      color: var(--primary-white);
+      padding: 4px 10px;
+      border-radius: 50px;
+      text-transform: uppercase;
+    }
+    .portfolio-card-body h3 {
+      font-size: 1.4rem;
+      margin-bottom: 12px;
+      color: var(--dark-navy);
+    }
+    .product-short-desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+    .product-specs-list {
+      list-style: none;
+      margin-bottom: 24px;
+      margin-top: auto;
+      border-top: 1px solid var(--border-color);
+      padding-top: 20px;
+    }
+    .product-specs-list li {
+      position: relative;
+      padding-left: 20px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+    .product-specs-list li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--dark-navy);
+      font-weight: 700;
+    }
+    .portfolio-card-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    
+    .verticals-divider-title {
+      font-size: 1.8rem;
+      margin: 80px 0 20px;
+      text-align: center;
+      position: relative;
+    }
+    .verticals-divider-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: var(--dark-navy);
+    }
+    
+    @media (max-width: 991px) {
+      .portfolio-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body class="portfolio-page">
+
+  <!-- Sticky Glass Navbar -->
+  <nav class="navbar scrolled" id="main-nav" style="opacity: 1; pointer-events: auto;">
+    <div class="nav-container">
+      <div class="logo-wrapper">
+        <a href="/index.html" class="logo-text">HASTRA<span>HEALTHCARE</span></a>
+      </div>
+      <div class="nav-links">
+        <a href="/index.html#about" class="nav-link">About Us</a>
+        <a href="/index.html#specialties" class="nav-link">Specialities</a>
+        <a href="/product-portfolio.html" class="nav-link active">Products</a>
+        <a href="/index.html#surgeon-journey" class="nav-link">Surgeon Journey</a>
+        <a href="/index.html#ethics" class="nav-link">Ethics</a>
+        <a href="/index.html#news" class="nav-link">News Room</a>
+        <a href="/contact.html" class="nav-link">Contact</a>
+        <a href="/contact.html" class="btn btn-primary nav-mobile-cta">Partner With Us</a>
+      </div>
+      <div class="nav-actions">
+        <button class="icon-btn search-trigger" aria-label="Search">
+          <i data-lucide="search"></i>
+        </button>
+        <a href="/contact.html" class="btn btn-primary nav-cta">Partner With Us</a>
+      </div>
+      <button class="mobile-menu-toggle" aria-label="Toggle Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="standalone-nav-space"></div>
+
+  <!-- Hero Section -->
+  <header class="standalone-hero">
+    <div class="hero-bg-glow"></div>
+    <div class="container">
+      <span class="coming-soon-badge" style="background: rgba(0,0,0,0.03); color: var(--text-primary); border: 1px solid rgba(0,0,0,0.15); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; padding: 4px 10px; border-radius: 50px;">
+        <i data-lucide="layers" style="display:inline-block; vertical-align:middle; width: 14px; height: 14px; margin-right: 4px;"></i> COMPLETE CATALOGUE
+      </span>
+      <h1>Products &amp; Solutions</h1>
+      <p>Delivering high-precision surgical instruments, biocompatible sealants, and sterile gynaecological devices manufactured under strict ISO 13485 regulations.</p>
+    </div>
+  </header>
+
+  <!-- Products Catalog Section -->
+  <section class="products-catalog-section" style="padding-bottom: 100px;">
+    <div class="container">
+      
+      <div class="portfolio-grid">
+        
+        <!-- Product 1: Vacuum-Assisted Delivery Device -->
+        <div class="portfolio-card-detailed glass-card" id="h-vadd-01">
+          <div class="portfolio-card-img">
+            <img src="/images/product_vacuum_delivery.jpeg" alt="Vacuum-Assisted Delivery Device">
+          </div>
+          <div class="portfolio-card-body">
+            <div class="portfolio-card-header-row">
+              <span class="product-id-tag">REF: H-VADD-01</span>
+              <span class="product-category-pill">Obstetrics</span>
+            </div>
+            <h3>Vacuum-Assisted Delivery Device</h3>
+            <p class="product-short-desc">Provides controlled traction support during the second stage of labor, offering a gentler alternative when assistance is clinically indicated.</p>
+            <ul class="product-specs-list">
+              <li>Soft cup design minimizing cranial pressure and maternal laceration risks.</li>
+              <li>Fully single-use sterile set preventing cross-contamination pathways.</li>
+              <li>Integrated precise vacuum indicator with manual traction relief valve.</li>
+              <li>CDSCO Class B registered and manufactured under ISO 13485 standards.</li>
+            </ul>
+            <div class="portfolio-card-actions">
+              <a href="https://wa.me/919745621855?text=Hello%20Hastra%20Healthcare%2C%20I%20would%20like%20to%20enquire%20about%20the%20Vacuum-Assisted%20Delivery%20Device%20(REF%3A%20H-VADD-01)." target="_blank" class="btn btn-primary btn-sm">Enquire <i data-lucide="arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 2: Surgical Sealant -->
+        <div class="portfolio-card-detailed glass-card" id="h-ssel-02">
+          <div class="portfolio-card-img">
+            <img src="/images/product_surgical_sealant.jpeg" alt="Surgical Sealant">
+          </div>
+          <div class="portfolio-card-body">
+            <div class="portfolio-card-header-row">
+              <span class="product-id-tag">REF: H-SSEL-02</span>
+              <span class="product-category-pill">Hemostasis</span>
+            </div>
+            <h3>Surgical Sealant</h3>
+            <p class="product-short-desc">Supports rapid clinical hemostasis and reinforces tissue closure during surgical procedures.</p>
+            <ul class="product-specs-list">
+              <li>Biocompatible, synthetic polymer composition absorbing fully within 14 days.</li>
+              <li>Dual-chamber delivery syringe ensuring immediate formulation on application.</li>
+              <li>Excellent adhesive strength on moist tissue surfaces and suture lines.</li>
+              <li>Indicated for gynaecological laparoscopic and open operations.</li>
+            </ul>
+            <div class="portfolio-card-actions">
+              <a href="https://wa.me/919745621855?text=Hello%20Hastra%20Healthcare%2C%20I%20would%20like%20to%20enquire%20about%20the%20Surgical%20Sealant%20(REF%3A%20H-SSEL-02)." target="_blank" class="btn btn-primary btn-sm">Enquire <i data-lucide="arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 3: Cervical Ripening Balloon -->
+        <div class="portfolio-card-detailed glass-card" id="h-crb-03">
+          <div class="portfolio-card-img">
+            <img src="/images/product_cervical_balloon.jpeg" alt="Cervical Ripening Balloon">
+          </div>
+          <div class="portfolio-card-body">
+            <div class="portfolio-card-header-row">
+              <span class="product-id-tag">REF: H-CRBL-03</span>
+              <span class="product-category-pill">Obstetrics</span>
+            </div>
+            <h3>Cervical Ripening Balloon</h3>
+            <p class="product-short-desc">Specifically designed for safe and controlled mechanical dilation of the cervix to facilitate labor induction.</p>
+            <ul class="product-specs-list">
+              <li>Double-balloon design (uterine and vaginal) ensuring balanced pressure distribution.</li>
+              <li>100% medical-grade biocompatible silicone preventing latex allergy events.</li>
+              <li>Safely eliminates pharmacological hyperstimulation risks of prostaglandin induction.</li>
+              <li>Supplied with dedicated syringe and placement accessories.</li>
+            </ul>
+            <div class="portfolio-card-actions">
+              <a href="https://wa.me/919745621855?text=Hello%20Hastra%20Healthcare%2C%20I%20would%20like%20to%20enquire%20about%20the%20Cervical%20Ripening%20Balloon%20(REF%3A%20H-CRB-03)." target="_blank" class="btn btn-primary btn-sm">Enquire <i data-lucide="arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 4: Endometrial Sampling Pipette -->
+        <div class="portfolio-card-detailed glass-card" id="h-esp-04">
+          <div class="portfolio-card-img">
+            <img src="/images/product_endometrial_pipette.jpeg" alt="Endometrial Sampling Pipette">
+          </div>
+          <div class="portfolio-card-body">
+            <div class="portfolio-card-header-row">
+              <span class="product-id-tag">REF: H-ESPP-04</span>
+              <span class="product-category-pill">Gynaecology OPD</span>
+            </div>
+            <h3>Endometrial Sampling Pipette</h3>
+            <p class="product-short-desc">Flexible aspiration pipette for quick, comfortable, and consistent uterine endometrial cell sampling.</p>
+            <ul class="product-specs-list">
+              <li>Ultra-flexible medical PP sheath adjusting to uterine contours smoothly.</li>
+              <li>Clear centimetre depth markings for precise depth verification during insertion.</li>
+              <li>High-suction internal plunger collecting excellent tissue yield with minimal discomfort.</li>
+              <li>Ideal for outpatient AUB evaluation and cancer screening.</li>
+            </ul>
+            <div class="portfolio-card-actions">
+              <a href="https://wa.me/919745621855?text=Hello%20Hastra%20Healthcare%2C%20I%20would%20like%20to%20enquire%20about%20the%20Endometrial%20Sampling%20Pipette%20(REF%3A%20H-ESP-04)." target="_blank" class="btn btn-primary btn-sm">Enquire <i data-lucide="arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 5: Uterine Manipulator -->
+        <div class="portfolio-card-detailed glass-card" id="h-uma-05">
+          <div class="portfolio-card-img">
+            <img src="/images/product_uterine_manipulator.jpeg" alt="Uterine Manipulator">
+          </div>
+          <div class="portfolio-card-body">
+            <div class="portfolio-card-header-row">
+              <span class="product-id-tag">REF: H-UMNP-05</span>
+              <span class="product-category-pill">Laparoscopy</span>
+            </div>
+            <h3>Uterine Manipulator</h3>
+            <p class="product-short-desc">Positions and mobilizes the uterus during minimally invasive gynaecological laparoscopic surgeries.</p>
+            <ul class="product-specs-list">
+              <li>Ergonomic locking handle allowing precise multi-directional uterine positioning.</li>
+              <li>Integrated sealing cup preventing pneumoperitoneum loss during colpotomy.</li>
+              <li>Flexible uterine tip conforming to anatomical variances.</li>
+              <li>Disposable, sterile packaging eliminating reprocessing validation cycles.</li>
+            </ul>
+            <div class="portfolio-card-actions">
+              <a href="https://wa.me/919745621855?text=Hello%20Hastra%20Healthcare%2C%20I%20would%20like%20to%20enquire%20about%20the%20Uterine%20Manipulator%20(REF%3A%20H-UMA-05)." target="_blank" class="btn btn-primary btn-sm">Enquire <i data-lucide="arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 6: Adhesion Prevention Barrier Gel -->
+        <div class="portfolio-card-detailed glass-card" id="h-apb-06">
+          <div class="portfolio-card-img">
+            <img src="/images/product_adhesion_gel.jpeg" alt="Adhesion Prevention Barrier Gel">
+          </div>
+          <div class="portfolio-card-body">
+            <div class="portfolio-card-header-row">
+              <span class="product-id-tag">REF: H-APBG-06</span>
+              <span class="product-category-pill">Reproductive Medicine</span>
+            </div>
+            <h3>Adhesion Prevention Barrier Gel</h3>
+            <p class="product-short-desc">Viscoelastic hyaluronic acid gel indicated for reducing post-surgical tissue adhesion formations.</p>
+            <ul class="product-specs-list">
+              <li>High-viscosity bioresorbable formulation staying at the surgical site during critical healing.</li>
+              <li>Completely absorbed by tissues within 7-14 days without foreign body reactions.</li>
+              <li>Pre-filled sterile syringe system with dedicated instillation cannula.</li>
+              <li>Proven efficacy in laparoscopic myomectomy and adhesiolysis.</li>
+            </ul>
+            <div class="portfolio-card-actions">
+              <a href="https://wa.me/919745621855?text=Hello%20Hastra%20Healthcare%2C%20I%20would%20like%20to%20enquire%20about%20the%20Adhesion%20Prevention%20Barrier%20Gel%20(REF%3A%20H-APB-06)." target="_blank" class="btn btn-primary btn-sm">Enquire <i data-lucide="arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Additional Categories Title -->
+      <h3 class="verticals-divider-title">Planned Focus Verticals</h3>
+
+      <!-- Additional Categories Grid -->
+      <div class="additional-categories" style="margin-top: 40px;">
+        
+        <!-- Feature 1: General Medical Consumables -->
+        <div class="category-feature-card glass-card" id="general-medical-card">
+          <div class="category-card-header">
+            <div class="header-text">
+              <span class="coming-soon-badge"><i data-lucide="clock"></i> OTHER VERTICALS &middot; CDSCO CLASS A/B</span>
+              <h3>General Medical Consumables</h3>
+              <p class="category-card-desc">We are extending the Hastra supply chain to deliver high-volume, premium quality consumables for hospital wards, outpatient clinics, and laboratory spaces.</p>
+            </div>
+          </div>
+          
+          <div class="category-columns">
+            <div class="column-item">
+              <div class="column-img-wrapper">
+                <img src="/images/product_surgical_consumables.jpeg" alt="Surgical Consumables" class="column-img">
+                <div class="column-icon"><i data-lucide="scissors"></i></div>
+              </div>
+              <div class="column-info">
+                <h4>Surgical Consumables</h4>
+                <p>Sterile procedure drapes, wound closure strips, and sterile surgical accessories.</p>
+              </div>
+              <button class="btn btn-secondary btn-sm explore-cta" onclick="location.href='/contact.html?inquiry=consumables'">Request Info</button>
+            </div>
+            <div class="column-item">
+              <div class="column-img-wrapper">
+                <img src="/images/product_iv_infusion.jpeg" alt="IV &amp; Infusion Accessories" class="column-img">
+                <div class="column-icon"><i data-lucide="activity"></i></div>
+              </div>
+              <div class="column-info">
+                <h4>IV &amp; Infusion Wards</h4>
+                <p>NABL-certified IV catheters, infusion lines, and multi-port stopcock valves.</p>
+              </div>
+              <button class="btn btn-secondary btn-sm explore-cta" onclick="location.href='/contact.html?inquiry=consumables'">Request Info</button>
+            </div>
+            <div class="column-item">
+              <div class="column-img-wrapper">
+                <img src="/images/product_wound_care.jpeg" alt="Wound Care &amp; Dressings" class="column-img">
+                <div class="column-icon"><i data-lucide="heart"></i></div>
+              </div>
+              <div class="column-info">
+                <h4>Wound Care &amp; Dressings</h4>
+                <p>Anti-microbial dressings, surgical cotton, tapes, and compression bandages.</p>
+              </div>
+              <button class="btn btn-secondary btn-sm explore-cta" onclick="location.href='/contact.html?inquiry=consumables'">Request Info</button>
+            </div>
+            <div class="column-item">
+              <div class="column-img-wrapper">
+                <img src="/images/product_diagnostic_gloves.jpeg" alt="Diagnostic Gloves" class="column-img">
+                <div class="column-icon"><i data-lucide="shield"></i></div>
+              </div>
+              <div class="column-info">
+                <h4>Examination Gloves</h4>
+                <p>Powder-free surgical nitrile gloves with superior tactile feel parameters.</p>
+              </div>
+              <button class="btn btn-secondary btn-sm explore-cta" onclick="location.href='/contact.html?inquiry=consumables'">Request Info</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Feature 2: Dental Instruments -->
+        <div class="category-feature-card glass-card" id="dental-products-card">
+          <div class="category-card-header">
+            <div class="header-text">
+              <span class="coming-soon-badge"><i data-lucide="clock"></i> OTHER VERTICALS &middot; OEM CHANNELS</span>
+              <h3>Dental Instruments &amp; Supplies</h3>
+              <p class="category-card-desc">Addressing supply chain fragmentation in dental clinics by distributing premium grade single-use dental kits and laboratory instruments.</p>
+            </div>
+          </div>
+          
+          <div class="category-columns">
+            <div class="column-item">
+              <div class="column-img-wrapper">
+                <img src="/images/product_dental_examination.jpeg" alt="Dental Examination Consumables" class="column-img">
+                <div class="column-icon"><i data-lucide="smile"></i></div>
+              </div>
+              <div class="column-info">
+                <h4>Examination Supplies</h4>
+                <p>Sterile single-use diagnostic mirrors, tweezers, bibs, and saliva ejectors.</p>
+              </div>
+              <button class="btn btn-secondary btn-sm explore-cta" onclick="location.href='/contact.html?inquiry=dental'">Request Info</button>
+            </div>
+            <div class="column-item">
+              <div class="column-img-wrapper">
+                <img src="/images/product_restorative_supplies.jpeg" alt="Restorative &amp; Endodontic Supplies" class="column-img">
+                <div class="column-icon"><i data-lucide="cog"></i></div>
+              </div>
+              <div class="column-info">
+                <h4>Restorative &amp; Endo</h4>
+                <p>Nickel-titanium endodontic files, handpiece burs, and composite accessories.</p>
+              </div>
+              <button class="btn btn-secondary btn-sm explore-cta" onclick="location.href='/contact.html?inquiry=dental'">Request Info</button>
+            </div>
+            <div class="column-item">
+              <div class="column-img-wrapper">
+                <img src="/images/product_dental_impression.jpeg" alt="Impression &amp; Laboratory Materials" class="column-img">
+                <div class="column-icon"><i data-lucide="database"></i></div>
+              </div>
+              <div class="column-info">
+                <h4>Impression &amp; Lab</h4>
+                <p>High-accuracy mixing tips, alginates, and clinical prosthodontic supplies.</p>
+              </div>
+              <button class="btn btn-secondary btn-sm explore-cta" onclick="location.href='/contact.html?inquiry=dental'">Request Info</button>
+            </div>
+            <div class="column-item">
+              <div class="column-img-wrapper">
+                <img src="/images/product_dental_surgical.jpeg" alt="Surgical &amp; Periodontal Instruments" class="column-img">
+                <div class="column-icon"><i data-lucide="activity"></i></div>
+              </div>
+              <div class="column-info">
+                <h4>Surgical Instruments</h4>
+                <p>Double-ended scalers, curettes, dental forceps, and minor surgical toolsets.</p>
+              </div>
+              <button class="btn btn-secondary btn-sm explore-cta" onclick="location.href='/contact.html?inquiry=dental'">Request Info</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer Section -->
+  <footer class="footer-section" id="main-footer">
+    <div class="container footer-container">
+      <div class="footer-upper">
+        <div class="footer-brand">
+          <a href="#" class="logo-text footer-logo">HASTRA<span>HEALTHCARE</span></a>
+          <p class="brand-desc">
+            An award-winning clinical partner, innovating premium women's healthcare and surgical systems. Dedicated to quality, transparency, and surgical precision.
+          </p>
+          <div class="footer-cert-badges">
+            <span class="cert-badge">CDSCO Registered</span>
+            <span class="cert-badge">ISO 13485 OEM</span>
+          </div>
+          <div class="social-links">
+            <a href="https://wa.me/919745621855" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" class="social-icon magnetic"><i data-lucide="message-circle"></i></a>
+            <a href="tel:+919745621855" aria-label="Phone" class="social-icon magnetic"><i data-lucide="phone"></i></a>
+            <a href="mailto:info@hastrahealth.com" aria-label="Email" class="social-icon magnetic"><i data-lucide="mail"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-links-column">
+          <h4>Solutions</h4>
+          <a href="/product-portfolio.html">Obstetric Delivery</a>
+          <a href="/product-portfolio.html">Hemostasis &amp; Closure</a>
+          <a href="/product-portfolio.html">Minimally Invasive Surgery</a>
+          <a href="/product-portfolio.html#general-medical-card">Consumables</a>
+        </div>
+        
+        <div class="footer-links-column">
+          <h4>Company</h4>
+          <a href="/index.html#about">About Us</a>
+          <a href="/blueprints.html">R&D / Blueprints</a>
+          <a href="/index.html#ethics">Ethics &amp; Safety</a>
+          <a href="/contact.html">Contact</a>
+        </div>
+
+        <div class="footer-contact-column">
+          <h4>Registered Office</h4>
+          <p class="footer-office-text">
+            Hastra Healthcare Medical Devices<br>
+            37/584, Minnaram Layout<br>
+            Pourasimidhi Road, Kollamkudmughal<br>
+            Ernakulam &mdash; Kerala, India 682030
+          </p>
+          <div class="footer-contact-links">
+            <a href="tel:+919745621855"><i data-lucide="phone"></i> +91 97456 21855</a>
+            <a href="mailto:info@hastrahealth.com"><i data-lucide="mail"></i> info@hastrahealth.com</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-lower">
+        <p class="copyright-text">
+          &copy; 2026 Hastra Healthcare. All rights reserved. CDSCO Registered &middot; ISO 13485 OEM Partners &middot; For Authorised Use Only.
+        </p>
+        <div class="footer-legal-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Whistleblower Portal</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+
+      // Mobile Menu Toggle logic
+      const toggleBtn = document.querySelector('.mobile-menu-toggle');
+      const navLinks = document.querySelector('.nav-links');
+      if (toggleBtn && navLinks) {
+        toggleBtn.addEventListener('click', () => {
+          navLinks.classList.toggle('active');
+          toggleBtn.classList.toggle('open');
+        });
+      }
+
+      // Make portfolio cards fully clickable and enrich WhatsApp URLs on load
+      const cards = document.querySelectorAll('.portfolio-card-detailed');
+      cards.forEach(card => {
+        const linkElement = card.querySelector('a[href^="https://wa.me"]');
+        if (linkElement) {
+          try {
+            const originalUrl = new URL(linkElement.href);
+            const params = new URLSearchParams(originalUrl.search);
+            const text = params.get('text') || "Hello Hastra Healthcare";
+            
+            const refId = card.id || '';
+            const productPageUrl = refId ? `${window.location.origin}/product-portfolio.html#${refId}` : `${window.location.origin}/product-portfolio.html`;
+            
+            const imgElement = card.querySelector('img');
+            const imgUrl = imgElement ? new URL(imgElement.getAttribute('src'), window.location.origin).href : '';
+            
+            const newText = `${text}\n\nProduct Link: ${productPageUrl}\nProduct Image: ${imgUrl}`;
+            linkElement.href = `https://wa.me/919745621855?text=${encodeURIComponent(newText)}`;
+          } catch (err) {
+            console.error("Error enriching WhatsApp link:", err);
+          }
+        }
+
+        card.addEventListener('click', (e) => {
+          if (e.target.closest('a') || e.target.closest('button')) {
+            return;
+          }
+          const link = card.querySelector('a[href^="https://wa.me"]');
+          if (link) {
+            window.open(link.href, '_blank');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

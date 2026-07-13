@@ -23,6 +23,12 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeroParallax();
   initAboutOverlay();
   initMagneticButtons();
+  initAboutTabs();
+  initAdminUploadPanel();
+  loadDynamicNewsAndGallery();
+  initConductAccordion();
+  initProductCardClicks();
+  initLazyVideos();
 });
 
 /* Navbar Scroll & Mobile Menu Interaction */
@@ -444,3 +450,462 @@ function initAboutOverlay() {
     }
   });
 }
+
+/* Interactive About Tabs Logic */
+function initAboutTabs() {
+  const tabsContainer = document.querySelector('.about-tabs');
+  if (!tabsContainer) return;
+
+  const buttons = tabsContainer.querySelectorAll('.about-tab-btn');
+  const contents = document.querySelectorAll('.about-tab-content');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetTab = btn.getAttribute('data-tab');
+
+      buttons.forEach(b => b.classList.remove('active'));
+      contents.forEach(c => c.classList.remove('active'));
+
+      btn.classList.add('active');
+      const activeContent = document.getElementById(`tab-${targetTab}`);
+      if (activeContent) {
+        activeContent.classList.add('active');
+      }
+
+      // Re-create icons in active tab in case any SVG icon wasn't rendered
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+    });
+  });
+}
+
+/* Admin Media Upload Panel & Form Handler */
+function initAdminUploadPanel() {
+  const trigger = document.getElementById('admin-upload-trigger');
+  const overlay = document.getElementById('admin-upload-overlay');
+  const closeBtn = document.getElementById('admin-upload-close');
+  const form = document.getElementById('admin-upload-form');
+  const itemType = document.getElementById('item-type');
+  const groupCategory = document.getElementById('group-category');
+
+  if (!trigger || !overlay || !closeBtn || !form) return;
+
+  // Toggle item-category visibility depending on select type
+  if (itemType && groupCategory) {
+    itemType.addEventListener('change', () => {
+      if (itemType.value === 'gallery') {
+        groupCategory.style.display = 'none';
+      } else {
+        groupCategory.style.display = 'block';
+      }
+    });
+  }
+
+  trigger.addEventListener('click', () => {
+    overlay.classList.add('active');
+  });
+
+  closeBtn.addEventListener('click', () => {
+    overlay.classList.remove('active');
+  });
+
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) {
+      overlay.classList.remove('active');
+    }
+  });
+
+  // Handle Form Submission
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const type = itemType.value;
+    const title = document.getElementById('item-title').value;
+    const category = type === 'news' ? document.getElementById('item-category').value : '';
+    const date = document.getElementById('item-date').value;
+    const desc = document.getElementById('item-desc').value;
+    const fileInput = document.getElementById('item-image');
+
+    const saveItem = (imageSrc) => {
+      const items = JSON.parse(localStorage.getItem('hastra_uploaded_items') || '[]');
+      const newItem = {
+        id: Date.now(),
+        type,
+        title,
+        category,
+        date,
+        desc,
+        image: imageSrc || '/images/cleanroom_facility_premium.png'
+      };
+
+      items.push(newItem);
+      localStorage.setItem('hastra_uploaded_items', JSON.stringify(items));
+      
+      // Close overlay and reset form
+      overlay.classList.remove('active');
+      form.reset();
+      
+      // Reload lists
+      loadDynamicNewsAndGallery();
+
+      // Show temporary alert
+      alert('Successfully published announcement to the website! (Stored locally in browser)');
+    };
+
+    if (fileInput.files && fileInput.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        saveItem(event.target.result);
+      };
+      reader.readAsDataURL(fileInput.files[0]);
+    } else {
+      saveItem(null);
+    }
+  });
+}
+
+/* Load & Render News / Gallery Dynamically */
+function loadDynamicNewsAndGallery() {
+  const newsGrid = document.getElementById('news-grid-container');
+  const galleryGrid = document.getElementById('gallery-grid-container');
+
+  if (!newsGrid || !galleryGrid) return;
+
+  // Initial News Data
+  const defaultNews = [
+    {
+      type: 'news',
+      title: 'Hastra Healthcare Incorporated — Commercial Launch Commenced',
+      category: 'Launch · 2026',
+      date: 'Recent',
+      desc: 'CDSCO licence applications filed for all products. GEM portal registered. Sub-dealer network activation underway across South and West India.',
+      image: '/images/news_insufflator.png'
+    },
+    {
+      type: 'news',
+      title: 'Middle East & Africa Distributor Programme Launched',
+      category: '🌍 Export · 2026',
+      date: 'Scheduled',
+      desc: 'Distributor agreements signed with UAE (MOHAP channel) and Nigeria (NAFDAC-registered distributor). First export shipment planned Month 5–6 of Year 1.',
+      image: '/images/news_iso.png'
+    },
+    {
+      type: 'news',
+      title: 'Year 1 CME Programme — 8 Regional Events Planned',
+      category: '🎓 Education · 2026',
+      date: 'Year 1',
+      desc: 'Clinical education programme for obstetricians and laparoscopic gynaecologists. South India focus: Kerala, Tamil Nadu, Telangana. AICOG and ISAR conference presence confirmed.',
+      image: '/images/news_training.jpg'
+    },
+    {
+      type: 'news',
+      title: 'Government Tender Programme — GEM & CMSS Registration',
+      category: '📋 Regulatory · 2026',
+      date: 'Tenders',
+      desc: "Hastra's OEM obstetric products registered on GEM portal and CMSS. State Rate Contract tender filing initiated in UP, Bihar, and Odisha. First tender award expected Month 9–12.",
+      image: '/images/cleanroom_facility_premium.png'
+    },
+    {
+      type: 'news',
+      title: 'New OEM Gynaecology Products — Coming Soon',
+      category: '🔬 Product · Pipeline',
+      date: 'Coming Soon',
+      desc: "Hastra Healthcare's OEM gynaecology product portfolio is in pre-launch preparation. Products and full details will be announced on launch. Register your interest via the Contact page.",
+      image: '/images/about_precision_facility.png'
+    },
+    {
+      type: 'news',
+      title: 'Sub-dealer Network — South India Activation',
+      category: '🏆 Milestone · 2026',
+      date: 'Active',
+      desc: 'First 15 sub-dealers signed in Kerala, Tamil Nadu, and Telangana. Network anchor: IVF clinic clusters in Bangalore, Chennai, and Hyderabad. Target: 70 active sub-dealers by Month 10.',
+      image: '/images/news_maternity_camp.png'
+    }
+  ];
+
+  // Initial Gallery Data
+  const defaultGallery = [
+    {
+      type: 'gallery',
+      title: 'Advanced Cleanroom Production',
+      date: 'ISO 13485 sterile assembly lines',
+      image: '/images/cleanroom_facility_premium.png'
+    },
+    {
+      type: 'gallery',
+      title: 'Inspection & Monitoring',
+      date: 'Testing laboratory calibrations',
+      image: '/images/about_precision_facility.png'
+    },
+    {
+      type: 'gallery',
+      title: 'CME Event & Lectures',
+      date: 'Clinical education seminars, South India',
+      image: '/images/news_training.jpg'
+    },
+    {
+      type: 'gallery',
+      title: 'Commercial Network Rollout',
+      date: 'Launch of distributor activations',
+      image: '/images/news_insufflator.png'
+    }
+  ];
+
+  // Retrieve user uploaded items from localStorage
+  const customItems = JSON.parse(localStorage.getItem('hastra_uploaded_items') || '[]');
+
+  // Separate custom news and gallery
+  const customNews = customItems.filter(item => item.type === 'news');
+  const customGallery = customItems.filter(item => item.type === 'gallery');
+
+  // Merge default list with custom list (newly added first)
+  const allNews = [...customNews, ...defaultNews];
+  const allGallery = [...customGallery, ...defaultGallery];
+
+  // Render News
+  newsGrid.innerHTML = allNews.map(item => `
+    <div class="news-card glass-card">
+      <div class="news-card-image-wrapper">
+        <img src="${item.image}" alt="${item.title}">
+      </div>
+      <div class="news-card-content">
+        <div class="news-card-badge-row">
+          <span class="news-category-badge">${item.category || 'News'}</span>
+          <span class="news-date">${item.date}</span>
+        </div>
+        <h3>${item.title}</h3>
+        <p>${item.desc}</p>
+      </div>
+    </div>
+  `).join('');
+
+  // Render Gallery
+  galleryGrid.innerHTML = allGallery.map(item => `
+    <div class="gallery-card glass-card">
+      <div class="gallery-img-box">
+        <img src="${item.image}" alt="${item.title}">
+      </div>
+      <div class="gallery-desc">
+        <h4>${item.title}</h4>
+        <p>${item.date || item.desc}</p>
+      </div>
+    </div>
+  `).join('');
+
+  // Refresh Lucide icons in case any are inside dynamic components
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+}
+
+/* Init Conduct Accordion Click Handler */
+function initConductAccordion() {
+  const items = document.querySelectorAll('.conduct-row-item');
+  items.forEach(item => {
+    item.addEventListener('click', () => {
+      // Close other active accordions when opening one (exclusive search)
+      items.forEach(otherItem => {
+        if (otherItem !== item) {
+          otherItem.classList.remove('active');
+        }
+      });
+      item.classList.toggle('active');
+    });
+  });
+}
+
+// Client-side PDF generator for Hastra Ethics & Business Conduct Pledge
+window.downloadEthicsPledge = function() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({
+    orientation: 'portrait',
+    unit: 'mm',
+    format: 'a4'
+  });
+  
+  // Background light tint
+  doc.setFillColor(250, 250, 250);
+  doc.rect(0, 0, 210, 297, "F");
+  
+  // Outer Borders
+  doc.setDrawColor(0, 0, 0);
+  doc.setLineWidth(1);
+  doc.rect(10, 10, 190, 277);
+  doc.setDrawColor(200, 200, 200);
+  doc.setLineWidth(0.3);
+  doc.rect(12, 12, 186, 273);
+  
+  // Title / Brand Headers
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(24);
+  doc.setTextColor(0, 0, 0);
+  doc.text("HASTRA HEALTHCARE", 105, 35, { align: "center" });
+  
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(10);
+  doc.setTextColor(100, 100, 100);
+  doc.text("INTEGRITY · QUALITY · TRANSPARENCY", 105, 42, { align: "center" });
+  
+  // Separator rule
+  doc.setDrawColor(0, 0, 0);
+  doc.setLineWidth(0.5);
+  doc.line(40, 48, 170, 48);
+  
+  // Title of the Document
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(16);
+  doc.setTextColor(0, 0, 0);
+  doc.text("CODE OF ETHICS & BUSINESS CONDUCT", 105, 60, { align: "center" });
+  
+  // The Hastra Pledge Banner (Black Box)
+  doc.setFillColor(0, 0, 0);
+  doc.rect(20, 70, 170, 45, "F");
+  
+  doc.setFont("times", "italic");
+  doc.setFontSize(11);
+  doc.setTextColor(255, 255, 255);
+  const pledgeText = "We exist to give every obstetrician a fair, transparent hospital the same quality clinical tools that are available in a private hospital in Mumbai. If Hastra ever has to choose between margin and patient safety, patient safety wins. Every time. Without exception. This is not a policy—it is who we are.";
+  const splitPledge = doc.splitTextToSize(pledgeText, 150);
+  doc.text(splitPledge, 30, 82, { align: "left" });
+  
+  // Pillars Header
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(14);
+  doc.setTextColor(0, 0, 0);
+  doc.text("Core Business Conduct Guidelines", 25, 132);
+  
+  doc.setDrawColor(220, 220, 220);
+  doc.setLineWidth(0.2);
+  doc.line(25, 136, 185, 136);
+  
+  // Conduct Items
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(11);
+  doc.text("1. Regulatory Compliance (Zero Shortcuts)", 25, 146);
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(10);
+  doc.setTextColor(80, 80, 80);
+  doc.text("All medical products are fully registered under CDSCO before any commercial activities.", 25, 152);
+  
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(11);
+  doc.setTextColor(0, 0, 0);
+  doc.text("2. Sub-dealer & Partner Commitments", 25, 164);
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(10);
+  doc.setTextColor(80, 80, 80);
+  doc.text("All dealer agreements are structured transparently with clear timelines and commissions.", 25, 170);
+  
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(11);
+  doc.setTextColor(0, 0, 0);
+  doc.text("3. Anti-Bribery & Anti-Corruption Policy", 25, 182);
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(10);
+  doc.setTextColor(80, 80, 80);
+  doc.text("Zero facilitation payments. We enforce strict adherence to clean commercial practices.", 25, 188);
+  
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(11);
+  doc.setTextColor(0, 0, 0);
+  doc.text("4. Supply Chain Ethics", 25, 200);
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(10);
+  doc.setTextColor(80, 80, 80);
+  doc.text("Transparent sourcing, labour compliance, and environment-friendly manufacturing.", 25, 206);
+  
+  // Footer board block
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(11);
+  doc.setTextColor(0, 0, 0);
+  doc.text("HASTRA HEALTH Board of Directors", 105, 245, { align: "center" });
+  
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(9);
+  doc.setTextColor(120, 120, 120);
+  doc.text("Issued under corporate compliance policies · 2026", 105, 252, { align: "center" });
+  
+  doc.save("Hastra_Healthcare_Ethics_Pledge.pdf");
+};
+
+// Make product cards fully clickable and enrich WhatsApp URLs on load
+function initProductCardClicks() {
+  const cards = document.querySelectorAll('.featured-product-card, .product-card-premium');
+  cards.forEach(card => {
+    const linkElement = card.querySelector('a[href^="https://wa.me"]');
+    if (linkElement) {
+      try {
+        const originalUrl = new URL(linkElement.href);
+        const params = new URLSearchParams(originalUrl.search);
+        const text = params.get('text') || "Hello Hastra Healthcare";
+        
+        // Parse REF to construct deep link
+        let refId = '';
+        const refMatch = text.match(/REF:\s*([A-Z0-9-]+)/i);
+        if (refMatch) {
+          refId = refMatch[1].toLowerCase();
+        }
+        const productPageUrl = refId ? `${window.location.origin}/product-portfolio.html#${refId}` : `${window.location.origin}/product-portfolio.html`;
+        
+        // Get image URL
+        const imgElement = card.querySelector('img');
+        const imgUrl = imgElement ? new URL(imgElement.getAttribute('src'), window.location.origin).href : '';
+        
+        // Enrich message text
+        const newText = `${text}\n\nProduct Link: ${productPageUrl}\nProduct Image: ${imgUrl}`;
+        linkElement.href = `https://wa.me/919745621855?text=${encodeURIComponent(newText)}`;
+      } catch (err) {
+        console.error("Error enriching WhatsApp link:", err);
+      }
+    }
+
+    card.addEventListener('click', (e) => {
+      // If the clicked element is already a link or inside a link/button, let it handle naturally
+      if (e.target.closest('a') || e.target.closest('button')) {
+        return;
+      }
+      const link = card.querySelector('a[href^="https://wa.me"]');
+      if (link) {
+        window.open(link.href, '_blank');
+      }
+    });
+  });
+}
+
+// Lazy load below-the-fold videos using IntersectionObserver
+function initLazyVideos() {
+  const lazyVideos = document.querySelectorAll('video.lazy-video');
+  if ('IntersectionObserver' in window) {
+    const videoObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const video = entry.target;
+          const sources = video.querySelectorAll('source');
+          sources.forEach(source => {
+            source.src = source.dataset.src;
+          });
+          video.load();
+          video.classList.remove('lazy-video');
+          videoObserver.unobserve(video);
+        }
+      });
+    }, {
+      rootMargin: "300px" // Start loading 300px before they come into view
+    });
+
+    lazyVideos.forEach(video => {
+      videoObserver.observe(video);
+    });
+  } else {
+    // Fallback if IntersectionObserver is not supported
+    lazyVideos.forEach(video => {
+      const sources = video.querySelectorAll('source');
+      sources.forEach(source => {
+        source.src = source.dataset.src;
+      });
+      video.load();
+    });
+  }
+}
+

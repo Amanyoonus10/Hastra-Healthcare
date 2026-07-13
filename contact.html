@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Contact Hastra Healthcare - Reach our corporate offices, hospital procurement desk, and global distributor networks directly.">
+  <title>Contact Directory &amp; Support | Hastra Healthcare</title>
+  <!-- Google Fonts - Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="/style.css">
+  
+  <style>
+    /* Contact page overrides */
+    .contact-form-card {
+      padding: 40px;
+      border-radius: var(--border-radius-lg);
+      background: #000000 !important;
+      border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    }
+    .contact-form-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+      color: #ffffff;
+    }
+    .contact-form-card p {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 30px;
+    }
+    .contact-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .contact-form .form-group-full {
+      grid-column: span 2;
+    }
+    .contact-form .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #ffffff;
+    }
+    .contact-form input,
+    .contact-form select,
+    .contact-form textarea {
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: var(--border-radius-sm);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      font-family: var(--font-family);
+      font-size: 0.95rem;
+      background: rgba(255, 255, 255, 0.05);
+      color: #ffffff;
+      outline: none;
+      transition: var(--transition-fast);
+    }
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+    .contact-form select option {
+      background: #000000;
+      color: #ffffff;
+    }
+    .contact-form input:focus,
+    .contact-form select:focus,
+    .contact-form textarea:focus {
+      border-color: #ffffff;
+    }
+    .contact-form textarea {
+      resize: vertical;
+      height: 120px;
+    }
+    .contact-form-btn {
+      grid-column: span 2;
+      margin-top: 10px;
+      padding: 16px;
+      background-color: #ffffff !important;
+      color: #000000 !important;
+      border-color: #ffffff !important;
+    }
+    
+    @media (max-width: 991px) {
+      .contact-form {
+        grid-template-columns: 1fr;
+      }
+      .contact-form .form-group-full {
+        grid-column: span 1;
+      }
+      .contact-form-btn {
+        grid-column: span 1;
+      }
+    }
+  </style>
+</head>
+<body class="contact-page">
+
+  <!-- Sticky Glass Navbar -->
+  <nav class="navbar scrolled" id="main-nav" style="opacity: 1; pointer-events: auto;">
+    <div class="nav-container">
+      <div class="logo-wrapper">
+        <a href="/index.html" class="logo-text">HASTRA<span>HEALTHCARE</span></a>
+      </div>
+      <div class="nav-links">
+        <a href="/index.html#about" class="nav-link">About Us</a>
+        <a href="/index.html#specialties" class="nav-link">Specialities</a>
+        <a href="/product-portfolio.html" class="nav-link">Products</a>
+        <a href="/index.html#surgeon-journey" class="nav-link">Surgeon Journey</a>
+        <a href="/index.html#ethics" class="nav-link">Ethics</a>
+        <a href="/index.html#news" class="nav-link">News Room</a>
+        <a href="/contact.html" class="nav-link active">Contact</a>
+        <a href="/contact.html" class="btn btn-primary nav-mobile-cta">Partner With Us</a>
+      </div>
+      <div class="nav-actions">
+        <button class="icon-btn search-trigger" aria-label="Search">
+          <i data-lucide="search"></i>
+        </button>
+        <a href="/contact.html" class="btn btn-primary nav-cta">Partner With Us</a>
+      </div>
+      <button class="mobile-menu-toggle" aria-label="Toggle Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="standalone-nav-space"></div>
+
+  <!-- Hero Section -->
+  <header class="standalone-hero">
+    <div class="hero-bg-glow"></div>
+    <div class="container">
+      <span class="coming-soon-badge" style="background: rgba(0,0,0,0.03); color: var(--text-primary); border: 1px solid rgba(0,0,0,0.15); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; padding: 4px 10px; border-radius: 50px;">
+        <i data-lucide="help-circle" style="display:inline-block; vertical-align:middle; width: 14px; height: 14px; margin-right: 4px;"></i> DIRECT DIRECTORY
+      </span>
+      <h1>Contact HASTRA HEALTH</h1>
+      <p>Select a specific department or submit an inquiry form. We respond to all genuine inquiries within the specified SLA timelines.</p>
+    </div>
+  </header>
+
+  <!-- Contact Grid Section -->
+  <section class="contact-grid-section" style="padding-bottom: 100px;">
+    <div class="container">
+      
+      <div class="contact-grid" style="display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 40px; margin-bottom: 80px;">
+        
+        <!-- Left Column: Core Contact Coordinates -->
+        <div class="contact-info-column">
+          <div class="info-card glass-card" style="padding: 35px; border-radius: var(--border-radius-lg); height: 100%;">
+            <div class="info-card-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
+              <span class="logo-text">HASTRA<span>HEALTHCARE</span></span>
+              <span class="confidential-badge" style="font-size:0.75rem; font-weight:700; background:rgba(0,0,0,0.05); padding:4px 8px; border-radius:4px;">CDSCO REGISTERED</span>
+            </div>
+            <p class="company-tagline" style="font-size:0.95rem; color:var(--text-muted); margin-bottom:30px;">Hastra Healthcare Medical Devices &mdash; Gynaecology &bull; Obstetrics &bull; Reproductive Medicine</p>
+            
+            <div class="info-block" style="display:flex; gap:16px; margin-bottom:25px;">
+              <div class="info-icon" style="font-size:1.3rem; color:var(--dark-navy);"><i data-lucide="map-pin"></i></div>
+              <div class="info-text">
+                <h4 style="font-size:1.05rem; margin-bottom:6px;">Registered Office</h4>
+                <p style="font-size:0.95rem; color:var(--text-muted); line-height:1.5;">Hastra Healthcare Medical Devices<br>37/584, Minnaram Layout<br>Pourasimidhi Road, Kollamkudmughal<br>Ernakulam &mdash; Kerala, India 682030</p>
+              </div>
+            </div>
+
+            <div class="info-block" style="display:flex; gap:16px; margin-bottom:25px;">
+              <div class="info-icon" style="font-size:1.3rem; color:var(--dark-navy);"><i data-lucide="phone"></i></div>
+              <div class="info-text">
+                <h4 style="font-size:1.05rem; margin-bottom:6px;">Phone / WhatsApp</h4>
+                <p style="font-size:0.95rem; color:var(--text-muted);"><a href="tel:+919745621855" class="contact-link" style="color:var(--dark-navy); font-weight:600;">+91 97456 21855</a></p>
+                <a href="https://wa.me/919745621855" target="_blank" rel="noopener noreferrer" class="whatsapp-btn" style="display:inline-flex; align-items:center; gap:8px; margin-top:10px; background:#000000; color:#ffffff; padding:10px 20px; border-radius:50px; font-size:0.85rem; font-weight:600;">
+                  <i data-lucide="message-square" style="width:16px; height:16px;"></i> Chat on WhatsApp
+                </a>
+              </div>
+            </div>
+
+            <div class="info-block" style="display:flex; gap:16px; margin-bottom:30px;">
+              <div class="info-icon" style="font-size:1.3rem; color:var(--dark-navy);"><i data-lucide="mail"></i></div>
+              <div class="info-text">
+                <h4 style="font-size:1.05rem; margin-bottom:6px;">General Enquiries</h4>
+                <p style="font-size:0.95rem; color:var(--text-muted);"><a href="mailto:info@hastrahealth.com" class="contact-link" style="color:var(--dark-navy); font-weight:600;">info@hastrahealth.com</a></p>
+              </div>
+            </div>
+
+            <div class="contact-guarantees" style="border-top:1px solid var(--border-color); padding-top:25px;">
+              <div class="guarantee-item" style="display:flex; align-items:center; gap:10px; font-size:0.9rem; color:var(--text-muted); margin-bottom:12px;">
+                <i data-lucide="shield-check" style="width:18px; height:18px; color:var(--dark-navy);"></i>
+                <span>ISO 13485 audited manufacturers</span>
+              </div>
+              <div class="guarantee-item" style="display:flex; align-items:center; gap:10px; font-size:0.9rem; color:var(--text-muted); margin-bottom:12px;">
+                <i data-lucide="file-text" style="width:18px; height:18px; color:var(--dark-navy);"></i>
+                <span>Direct application dossier reviews</span>
+              </div>
+              <div class="guarantee-item" style="display:flex; align-items:center; gap:10px; font-size:0.9rem; color:var(--text-muted);">
+                <i data-lucide="clock" style="width:18px; height:18px; color:var(--dark-navy);"></i>
+                <span>SLA timelines strictly monitored</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Interactive Enquiry Form -->
+        <div class="contact-form-column">
+          <div class="contact-form-card glass-card">
+            <h3>Send an Enquiry</h3>
+            <p>Fill out the parameters below and our department channels will route your request accordingly.</p>
+            
+            <form class="contact-form" id="standalone-enquiry-form">
+              <div class="form-group">
+                <label for="usr-name">Your Full Name</label>
+                <input type="text" id="usr-name" placeholder="Dr. / Mr. / Ms." required>
+              </div>
+              <div class="form-group">
+                <label for="usr-email">Email Address</label>
+                <input type="email" id="usr-email" placeholder="example@clinic.com" required>
+              </div>
+              <div class="form-group">
+                <label for="usr-phone">Phone / Mobile Number</label>
+                <input type="text" id="usr-phone" placeholder="e.g. +91 XXXXX XXXXX" required>
+              </div>
+              <div class="form-group">
+                <label for="enquiry-dept">Target Department</label>
+                <select id="enquiry-dept" required>
+                  <option value="procurement">Hospital &amp; Clinic Procurement</option>
+                  <option value="dealer">Sub-dealer &amp; Distributor Network</option>
+                  <option value="export">Export (Middle East &amp; Africa)</option>
+                  <option value="investor">Investor Relations</option>
+                  <option value="media">Media &amp; Press Enquiry</option>
+                  <option value="career">Careers &amp; Recruitment</option>
+                  <option value="complaints">Product Feedback &amp; Complaints</option>
+                </select>
+              </div>
+              <div class="form-group form-group-full">
+                <label for="enquiry-msg">Inquiry Details</label>
+                <textarea id="enquiry-msg" placeholder="Describe clinical requirements, required quantities, or dossier requests..." required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary contact-form-btn">Submit Form <i data-lucide="send"></i></button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Department Directory Grid Section -->
+      <h3 style="font-size: 1.6rem; margin-bottom: 24px; text-align: center;">Department Selector Directory</h3>
+      
+      <div class="contact-directory-column">
+        <div class="directory-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
+          
+          <!-- Card 1: Procurement -->
+          <div class="directory-card glass-card" style="padding: 24px; border-radius: var(--border-radius-md); display: flex; flex-direction: column; height: 100%;">
+            <div class="card-badge sla-fast" style="align-self: flex-start; font-size: 0.75rem; font-weight: 700; background: rgba(0,0,0,0.8); color: #fff; padding: 4px 10px; border-radius: 50px; margin-bottom: 15px;">SLA: Same day</div>
+            <div class="directory-card-icon" style="font-size: 1.5rem; margin-bottom: 12px; color: var(--dark-navy);"><i data-lucide="hospital"></i></div>
+            <div class="directory-card-body" style="flex-grow: 1;">
+              <h4 style="font-size: 1.1rem; margin-bottom: 8px;">Hospital &amp; Clinic Procurement</h4>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.4;">Formulary listing, product information, pricing enquiries, and trial requests for hospitals, nursing homes, and IVF clinics.</p>
+            </div>
+            <div class="directory-card-action" style="margin-top: 20px;">
+              <a href="mailto:info@hastrahealth.com?subject=Hospital%20%26%20Clinic%20Procurement%20Enquiry" class="btn btn-secondary btn-sm" style="width: 100%;">
+                <i data-lucide="send"></i> Email Dept
+              </a>
+            </div>
+          </div>
+
+          <!-- Card 2: Dealer -->
+          <div class="directory-card glass-card" style="padding: 24px; border-radius: var(--border-radius-md); display: flex; flex-direction: column; height: 100%;">
+            <div class="card-badge sla-normal" style="align-self: flex-start; font-size: 0.75rem; font-weight: 700; background: rgba(0,0,0,0.05); color: var(--text-primary); padding: 4px 10px; border-radius: 50px; margin-bottom: 15px;">SLA: 48 hours</div>
+            <div class="directory-card-icon" style="font-size: 1.5rem; margin-bottom: 12px; color: var(--dark-navy);"><i data-lucide="users"></i></div>
+            <div class="directory-card-body" style="flex-grow: 1;">
+              <h4 style="font-size: 1.1rem; margin-bottom: 8px;">Sub-dealer &amp; Distributor</h4>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.4;">Become an authorised Hastra sub-dealer. Territory enquiries, product listing, margin structure, and agreement details.</p>
+            </div>
+            <div class="directory-card-action" style="margin-top: 20px;">
+              <a href="mailto:info@hastrahealth.com?subject=Sub-dealer%20%26%20Distributor%20Enquiry" class="btn btn-secondary btn-sm" style="width: 100%;">
+                <i data-lucide="send"></i> Email Dept
+              </a>
+            </div>
+          </div>
+
+          <!-- Card 3: Export -->
+          <div class="directory-card glass-card" style="padding: 24px; border-radius: var(--border-radius-md); display: flex; flex-direction: column; height: 100%;">
+            <div class="card-badge sla-normal" style="align-self: flex-start; font-size: 0.75rem; font-weight: 700; background: rgba(0,0,0,0.05); color: var(--text-primary); padding: 4px 10px; border-radius: 50px; margin-bottom: 15px;">SLA: 48 hours</div>
+            <div class="directory-card-icon" style="font-size: 1.5rem; margin-bottom: 12px; color: var(--dark-navy);"><i data-lucide="globe"></i></div>
+            <div class="directory-card-body" style="flex-grow: 1;">
+              <h4 style="font-size: 1.1rem; margin-bottom: 8px;">Export &mdash; Middle East &amp; Africa</h4>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.4;">International distribution partnerships, regulatory dossier requests, and export pricing for UAE, KSA, Nigeria, Kenya, and other markets.</p>
+            </div>
+            <div class="directory-card-action" style="margin-top: 20px;">
+              <a href="mailto:info@hastrahealth.com?subject=Export%20-%20Middle%20East%20%26%20Africa%20Enquiry" class="btn btn-secondary btn-sm" style="width: 100%;">
+                <i data-lucide="send"></i> Email Dept
+              </a>
+            </div>
+          </div>
+
+          <!-- Card 4: Investor -->
+          <div class="directory-card glass-card" style="padding: 24px; border-radius: var(--border-radius-md); display: flex; flex-direction: column; height: 100%;">
+            <div class="card-badge sla-normal" style="align-self: flex-start; font-size: 0.75rem; font-weight: 700; background: rgba(0,0,0,0.05); color: var(--text-primary); padding: 4px 10px; border-radius: 50px; margin-bottom: 15px;">SLA: 48 hours</div>
+            <div class="directory-card-icon" style="font-size: 1.5rem; margin-bottom: 12px; color: var(--dark-navy);"><i data-lucide="trending-up"></i></div>
+            <div class="directory-card-body" style="flex-grow: 1;">
+              <h4 style="font-size: 1.1rem; margin-bottom: 8px;">Investor &amp; Funding</h4>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.4;">Seed / Series A investment discussions, DPR requests, and financial model access for qualified investors.</p>
+            </div>
+            <div class="directory-card-action" style="margin-top: 20px;">
+              <a href="mailto:info@hastrahealth.com?subject=Investor%20%26%20Funding%20Enquiry" class="btn btn-secondary btn-sm" style="width: 100%;">
+                <i data-lucide="send"></i> Email Dept
+              </a>
+            </div>
+          </div>
+
+          <!-- Card 5: Media -->
+          <div class="directory-card glass-card" style="padding: 24px; border-radius: var(--border-radius-md); display: flex; flex-direction: column; height: 100%;">
+            <div class="card-badge sla-fast" style="align-self: flex-start; font-size: 0.75rem; font-weight: 700; background: rgba(0,0,0,0.8); color: #fff; padding: 4px 10px; border-radius: 50px; margin-bottom: 15px;">SLA: 24 hours</div>
+            <div class="directory-card-icon" style="font-size: 1.5rem; margin-bottom: 12px; color: var(--dark-navy);"><i data-lucide="newspaper"></i></div>
+            <div class="directory-card-body" style="flex-grow: 1;">
+              <h4 style="font-size: 1.1rem; margin-bottom: 8px;">Media &amp; Press</h4>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.4;">Interview requests, press kit, company fact sheet, and high-resolution branding materials.</p>
+            </div>
+            <div class="directory-card-action" style="margin-top: 20px;">
+              <a href="mailto:info@hastrahealth.com?subject=Media%20%26%20Press%20Enquiry" class="btn btn-secondary btn-sm" style="width: 100%;">
+                <i data-lucide="send"></i> Email Dept
+              </a>
+            </div>
+          </div>
+
+          <!-- Card 6: Careers -->
+          <div class="directory-card glass-card" style="padding: 24px; border-radius: var(--border-radius-md); display: flex; flex-direction: column; height: 100%;">
+            <div class="card-badge sla-fast" style="align-self: flex-start; font-size: 0.75rem; font-weight: 700; background: rgba(0,0,0,0.8); color: #fff; padding: 4px 10px; border-radius: 50px; margin-bottom: 15px;">SLA: 24 hours</div>
+            <div class="directory-card-icon" style="font-size: 1.5rem; margin-bottom: 12px; color: var(--dark-navy);"><i data-lucide="briefcase"></i></div>
+            <div class="directory-card-body" style="flex-grow: 1;">
+              <h4 style="font-size: 1.1rem; margin-bottom: 8px;">Career Opportunities</h4>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.4;">FSR positions, regulatory affairs, finance, and operations roles as Hastra scales.</p>
+            </div>
+            <div class="directory-card-action" style="margin-top: 20px;">
+              <a href="mailto:info@hastrahealth.com?subject=Career%20Opportunities%20Enquiry" class="btn btn-secondary btn-sm" style="width: 100%;">
+                <i data-lucide="send"></i> Email Dept
+              </a>
+            </div>
+          </div>
+
+          <!-- Card 7: Complaints -->
+          <div class="directory-card glass-card card-complaints" style="grid-column: span 3; padding: 24px; border-radius: var(--border-radius-md); display: flex; flex-direction: column; height: 100%;">
+            <div class="card-badge sla-slow" style="align-self: flex-start; font-size: 0.75rem; font-weight: 700; background: rgba(0,0,0,0.05); color: var(--text-primary); padding: 4px 10px; border-radius: 50px; margin-bottom: 15px;">SLA: 30 days</div>
+            <div class="directory-card-icon" style="font-size: 1.5rem; margin-bottom: 12px; color: var(--dark-navy);"><i data-lucide="alert-circle"></i></div>
+            <div class="directory-card-body" style="flex-grow: 1;">
+              <h4 style="font-size: 1.1rem; margin-bottom: 8px;">Product Feedback &amp; Complaints</h4>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.4;">All product complaints are investigated within 30 days. Please include batch number if available. Patient safety is our primary focus.</p>
+            </div>
+            <div class="directory-card-action" style="margin-top: 20px;">
+              <a href="mailto:info@hastrahealth.com?subject=Product%20Feedback%20%26%20Complaints" class="btn btn-secondary btn-sm" style="width: 100%;">
+                <i data-lucide="send"></i> Email Dept
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer Section -->
+  <footer class="footer-section" id="main-footer">
+    <div class="container footer-container">
+      <div class="footer-upper">
+        <div class="footer-brand">
+          <a href="#" class="logo-text footer-logo">HASTRA<span>HEALTHCARE</span></a>
+          <p class="brand-desc">
+            An award-winning clinical partner, innovating premium women's healthcare and surgical systems. Dedicated to quality, transparency, and surgical precision.
+          </p>
+          <div class="footer-cert-badges">
+            <span class="cert-badge">CDSCO Registered</span>
+            <span class="cert-badge">ISO 13485 OEM</span>
+          </div>
+          <div class="social-links">
+            <a href="https://wa.me/919745621855" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" class="social-icon magnetic"><i data-lucide="message-circle"></i></a>
+            <a href="tel:+919745621855" aria-label="Phone" class="social-icon magnetic"><i data-lucide="phone"></i></a>
+            <a href="mailto:info@hastrahealth.com" aria-label="Email" class="social-icon magnetic"><i data-lucide="mail"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-links-column">
+          <h4>Solutions</h4>
+          <a href="/product-portfolio.html">Obstetric Delivery</a>
+          <a href="/product-portfolio.html">Hemostasis &amp; Closure</a>
+          <a href="/product-portfolio.html">Minimally Invasive Surgery</a>
+          <a href="/product-portfolio.html#general-medical-card">Consumables</a>
+        </div>
+        
+        <div class="footer-links-column">
+          <h4>Company</h4>
+          <a href="/index.html#about">About Us</a>
+          <a href="/blueprints.html">R&D / Blueprints</a>
+          <a href="/index.html#ethics">Ethics &amp; Safety</a>
+          <a href="/contact.html">Contact</a>
+        </div>
+
+        <div class="footer-contact-column">
+          <h4>Registered Office</h4>
+          <p class="footer-office-text">
+            Hastra Healthcare Medical Devices<br>
+            37/584, Minnaram Layout<br>
+            Pourasimidhi Road, Kollamkudmughal<br>
+            Ernakulam &mdash; Kerala, India 682030
+          </p>
+          <div class="footer-contact-links">
+            <a href="tel:+919745621855"><i data-lucide="phone"></i> +91 97456 21855</a>
+            <a href="mailto:info@hastrahealth.com"><i data-lucide="mail"></i> info@hastrahealth.com</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-lower">
+        <p class="copyright-text">
+          &copy; 2026 Hastra Healthcare. All rights reserved. CDSCO Registered &middot; ISO 13485 OEM Partners &middot; For Authorised Use Only.
+        </p>
+        <div class="footer-legal-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Whistleblower Portal</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+
+      // Mobile Menu Toggle logic
+      const toggleBtn = document.querySelector('.mobile-menu-toggle');
+      const navLinks = document.querySelector('.nav-links');
+      if (toggleBtn && navLinks) {
+        toggleBtn.addEventListener('click', () => {
+          navLinks.classList.toggle('active');
+          toggleBtn.classList.toggle('open');
+        });
+      }
+
+      // Autofill department option based on URL parameters
+      const urlParams = new URLSearchParams(window.location.search);
+      const productParam = urlParams.get('product');
+      const inquiryParam = urlParams.get('inquiry');
+      
+      const deptSelect = document.getElementById('enquiry-dept');
+      if (deptSelect) {
+        if (productParam) {
+          deptSelect.value = 'procurement';
+        } else if (inquiryParam === 'consumables' || inquiryParam === 'dental') {
+          deptSelect.value = 'procurement';
+        }
+      }
+
+      // Form submission mailto handling
+      const enquiryForm = document.getElementById('standalone-enquiry-form');
+      if (enquiryForm) {
+        enquiryForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const name = document.getElementById('usr-name').value;
+          const email = document.getElementById('usr-email').value;
+          const phone = document.getElementById('usr-phone').value;
+          const dept = deptSelect.options[deptSelect.selectedIndex].text;
+          const details = document.getElementById('enquiry-msg').value;
+          
+          const to = 'info@hastrahealth.com';
+          const subject = encodeURIComponent(`Hastra Healthcare Enquiry: ${dept}`);
+          const body = encodeURIComponent(
+            `Name: ${name}\n` +
+            `Email: ${email}\n` +
+            `Phone: ${phone}\n` +
+            `Department: ${dept}\n\n` +
+            `Inquiry Details:\n${details}`
+          );
+          
+          window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+          
+          alert(`Thank you, ${name}! Your email app has been opened to send this enquiry to ${dept}.`);
+          enquiryForm.reset();
+        });
+      }
+    });
+  </script>
+</body>
+</html>
