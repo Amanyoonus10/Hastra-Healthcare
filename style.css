@@ -5179,13 +5179,14 @@ body.about-open {
 .gallery-desc h4 {
   font-size: 0.95rem;
   margin-bottom: 4px;
+  color: #0b132b;
 }
 .gallery-desc p {
   font-size: 0.8rem;
-  color: var(--text-light-muted);
+  color: #3b4b5e;
   margin-bottom: 0;
 }
-
+ 
 .media-enquiries-box {
   padding: 24px 30px;
   border-radius: var(--border-radius-md);
@@ -5197,10 +5198,11 @@ body.about-open {
 .enquiries-text h4 {
   font-size: 1.1rem;
   margin-bottom: 6px;
+  color: #0b132b;
 }
 .enquiries-text p {
   font-size: 0.9rem;
-  color: var(--text-muted);
+  color: #3b4b5e;
   margin: 0;
 }
 
