@@ -5086,6 +5086,13 @@ body.about-open {
   display: flex;
   flex-direction: column;
   height: 100%;
+  background: #000000 !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4) !important;
+  transition: border-color var(--transition-smooth), transform var(--transition-smooth);
+}
+.news-card:hover {
+  border-color: rgba(255, 255, 255, 0.25) !important;
 }
 .news-card-badge-row {
   display: flex;
@@ -5097,15 +5104,15 @@ body.about-open {
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
-  color: var(--text-primary);
-  border: 1px solid rgba(0,0,0,0.15);
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
   padding: 4px 10px;
   border-radius: 50px;
-  background: rgba(0,0,0,0.02);
+  background: rgba(255, 255, 255, 0.05) !important;
 }
 .news-date {
   font-size: 0.85rem;
-  color: var(--text-light-muted);
+  color: rgba(255, 255, 255, 0.5) !important;
 }
 .news-card-content {
   padding: 24px;
@@ -5117,10 +5124,11 @@ body.about-open {
   font-size: 1.15rem;
   line-height: 1.4;
   margin-bottom: 12px;
+  color: #ffffff !important;
 }
 .news-card p {
   font-size: 0.95rem;
-  color: var(--text-muted);
+  color: rgba(255, 255, 255, 0.7) !important;
   line-height: 1.5;
   margin-bottom: 0;
 }
