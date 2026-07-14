@@ -295,7 +295,10 @@ function initIntroVideoScroll() {
   const preloader = document.getElementById('video-preloader');
   const preloaderPct = document.getElementById('preloader-pct');
   
-  if (!video || !canvas) return;
+  if (!video || !canvas) {
+    console.warn("initIntroVideoScroll: Video or canvas element missing");
+    return;
+  }
 
   const ctx = canvas.getContext('2d');
   
@@ -303,9 +306,13 @@ function initIntroVideoScroll() {
   const isMobile = window.matchMedia("(max-width: 768px)").matches || ('ontouchstart' in window);
   const isDesktop = !isMobile;
 
+  // Smooth scrubbing state flags
+  let isBlobLoaded = false;
+  let firstFrameDrawn = false;
+
   // Video assets optimized with GOP=1 (all keyframes) for instant seeking
-  const previewUrl = '/images/1784051634176318_gop1.mp4';
-  const highResUrl = '/images/1784051634176318_gop1.mp4';
+  const previewUrl = 'https://77jnf2unkx8jqb5s.public.blob.vercel-storage.com/1784055699006231.mp4';
+  const highResUrl = 'https://77jnf2unkx8jqb5s.public.blob.vercel-storage.com/1784055699006231.mp4';
 
   // Load the first frame as a placeholder image immediately to show a visual right away
   const firstFrameImg = new Image();
@@ -321,7 +328,7 @@ function initIntroVideoScroll() {
   video.playsInline = true;
 
   // Track rendering resolutions dynamically based on currently loaded asset
-  const resizeCanvas = () => {
+  function resizeCanvas() {
     const rect = canvas.getBoundingClientRect();
     if (rect.width === 0 || rect.height === 0) return;
     
@@ -333,9 +340,9 @@ function initIntroVideoScroll() {
     canvas.width = targetWidth;
     canvas.height = Math.round(targetWidth / (rect.width / rect.height));
     drawCurrentFrame();
-  };
+  }
 
-  const drawMediaToCanvas = (source, sourceWidth, sourceHeight) => {
+  function drawMediaToCanvas(source, sourceWidth, sourceHeight) {
     const canvasWidth = canvas.width;
     const canvasHeight = canvas.height;
     if (canvasWidth === 0 || canvasHeight === 0) return;
@@ -360,15 +367,16 @@ function initIntroVideoScroll() {
     
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     ctx.drawImage(source, sx, sy, sWidth, sHeight, 0, 0, canvasWidth, canvasHeight);
-  };
+  }
 
-  const drawCurrentFrame = () => {
+  function drawCurrentFrame() {
     if (video && video.readyState >= 1) {
       drawMediaToCanvas(video, video.videoWidth, video.videoHeight);
-    } else if (firstFrameImg.complete && firstFrameImg.naturalWidth > 0) {
+      firstFrameDrawn = true;
+    } else if (!firstFrameDrawn && firstFrameImg.complete && firstFrameImg.naturalWidth > 0) {
       drawMediaToCanvas(firstFrameImg, firstFrameImg.naturalWidth, firstFrameImg.naturalHeight);
     }
-  };
+  }
 
   window.addEventListener('resize', resizeCanvas);
 
@@ -387,7 +395,7 @@ function initIntroVideoScroll() {
 
   let isReady = false;
 
-  const hidePreloader = () => {
+  function hidePreloader() {
     if (isReady) return;
     isReady = true;
     
@@ -416,18 +424,19 @@ function initIntroVideoScroll() {
         } catch (e) {}
       }, 400);
     }
-  };
+  }
 
   // Immediate streaming initialization (no loading screen block)
   video.src = previewUrl;
   
-  const handleInitialized = () => {
+  function handleInitialized() {
     try {
       video.currentTime = 0.01;
       video.pause();
+      isBlobLoaded = true; // Enable fast-seek optimizations once video is initialized
     } catch (err) {}
     drawCurrentFrame();
-  };
+  }
 
   video.addEventListener('loadedmetadata', handleInitialized, { once: true });
   video.addEventListener('canplay', handleInitialized, { once: true });
@@ -436,8 +445,11 @@ function initIntroVideoScroll() {
   // Hide the preloader immediately so that the page loads instantly without screen freeze
   hidePreloader();
 
-  // Progressive background loading for 4K/8K upscaled video
-  const loadHighResBackground = () => {
+  // Progressive background loading for 4K/8K upscaled video (only if high-res is a different file)
+  if (previewUrl !== highResUrl) {
+    loadHighResBackground();
+  }
+  function loadHighResBackground() {
     const xhr = new XMLHttpRequest();
     xhr.open('GET', highResUrl, true);
     xhr.responseType = 'blob';
@@ -457,6 +469,7 @@ function initIntroVideoScroll() {
             video.pause();
             drawCurrentFrame();
             resizeCanvas();
+            isBlobLoaded = true;
           } catch (err) {}
         };
         
@@ -466,9 +479,9 @@ function initIntroVideoScroll() {
       }
     };
     xhr.send();
-  };
+  }
 
-  const startScrollTrigger = () => {
+  function startScrollTrigger() {
     // Map scroll timeline to the exact video length (28.93 seconds) immediately
     const duration = video.duration && !isNaN(video.duration) ? video.duration : 28.933333;
     
@@ -480,7 +493,7 @@ function initIntroVideoScroll() {
     let easedTime = 0;
     const ease = 0.08; // Physics easing factor for buttery smooth scrub feel
     let renderRequested = false;
-
+ 
     const updateFrame = () => {
       // Smoothly interpolate current time towards the target scroll time
       easedTime += (targetTime - easedTime) * ease;

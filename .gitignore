@@ -8,3 +8,9 @@ dist
 download/
 public/backup_originals/
 *.log
+
+# Large video assets hosted on Vercel Blob
+public/images/1784055699006231.mp4
+public/images/TensorPix*
+
+.env*
