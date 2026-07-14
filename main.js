@@ -304,8 +304,17 @@ function initIntroVideoScroll() {
   const isDesktop = !isMobile;
 
   // Video assets optimized with GOP=1 (all keyframes) for instant seeking
-  const previewUrl = '/images/1784055699006231.mp4';
-  const highResUrl = '/images/1784055699006231.mp4';
+  const previewUrl = '/images/1784051634176318_gop1.mp4';
+  const highResUrl = '/images/1784051634176318_gop1.mp4';
+
+  // Load the first frame as a placeholder image immediately to show a visual right away
+  const firstFrameImg = new Image();
+  firstFrameImg.src = '/images/scroll_first_frame.jpg';
+  firstFrameImg.onload = () => {
+    if (video.readyState < 1) {
+      drawCurrentFrame();
+    }
+  };
 
   // Safari / iOS compatibility and rendering setup
   video.muted = true;
@@ -318,7 +327,7 @@ function initIntroVideoScroll() {
     
     const dpr = window.devicePixelRatio || 1;
     // Cap rendering resolution to the source video's width if loaded, otherwise limit by device specs
-    const sourceVideoWidth = video.videoWidth || 1920;
+    const sourceVideoWidth = video.videoWidth || (firstFrameImg.naturalWidth ? firstFrameImg.naturalWidth : 1920);
     const targetWidth = Math.min(rect.width * dpr, sourceVideoWidth);
     
     canvas.width = targetWidth;
@@ -326,38 +335,55 @@ function initIntroVideoScroll() {
     drawCurrentFrame();
   };
 
-  const drawCurrentFrame = () => {
-    if (!video || video.readyState < 1) return;
-    
+  const drawMediaToCanvas = (source, sourceWidth, sourceHeight) => {
     const canvasWidth = canvas.width;
     const canvasHeight = canvas.height;
-    const videoWidth = video.videoWidth;
-    const videoHeight = video.videoHeight;
+    if (canvasWidth === 0 || canvasHeight === 0) return;
     
     // Calculate aspect ratio crop to emulate object-fit: cover
-    const videoRatio = videoWidth / videoHeight;
+    const sourceRatio = sourceWidth / sourceHeight;
     const canvasRatio = canvasWidth / canvasHeight;
     
     let sx, sy, sWidth, sHeight;
     
-    if (canvasRatio > videoRatio) {
-      sWidth = videoWidth;
-      sHeight = videoWidth / canvasRatio;
+    if (canvasRatio > sourceRatio) {
+      sWidth = sourceWidth;
+      sHeight = sourceWidth / canvasRatio;
       sx = 0;
-      sy = (videoHeight - sHeight) / 2;
+      sy = (sourceHeight - sHeight) / 2;
     } else {
-      sHeight = videoHeight;
-      sWidth = videoHeight * canvasRatio;
-      sx = (videoWidth - sWidth) / 2;
+      sHeight = sourceHeight;
+      sWidth = sourceHeight * canvasRatio;
+      sx = (sourceWidth - sWidth) / 2;
       sy = 0;
     }
     
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-    ctx.drawImage(video, sx, sy, sWidth, sHeight, 0, 0, canvasWidth, canvasHeight);
+    ctx.drawImage(source, sx, sy, sWidth, sHeight, 0, 0, canvasWidth, canvasHeight);
+  };
+
+  const drawCurrentFrame = () => {
+    if (video && video.readyState >= 1) {
+      drawMediaToCanvas(video, video.videoWidth, video.videoHeight);
+    } else if (firstFrameImg.complete && firstFrameImg.naturalWidth > 0) {
+      drawMediaToCanvas(firstFrameImg, firstFrameImg.naturalWidth, firstFrameImg.naturalHeight);
+    }
   };
 
   window.addEventListener('resize', resizeCanvas);
-  video.addEventListener('seeked', drawCurrentFrame);
+
+  // High-performance video frame drawing using requestVideoFrameCallback
+  let rfcId = null;
+  if ('requestVideoFrameCallback' in video) {
+    const updateCanvas = () => {
+      drawCurrentFrame();
+      rfcId = video.requestVideoFrameCallback(updateCanvas);
+    };
+    rfcId = video.requestVideoFrameCallback(updateCanvas);
+  } else {
+    video.addEventListener('seeked', drawCurrentFrame);
+    video.addEventListener('timeupdate', drawCurrentFrame);
+  }
 
   let isReady = false;
 
@@ -400,20 +426,15 @@ function initIntroVideoScroll() {
       video.currentTime = 0.01;
       video.pause();
     } catch (err) {}
-    hidePreloader();
-    
-    // On desktops, fetch upscaled 4K or 8K video asset in background for premium quality hot-swap
-    if (isDesktop && previewUrl !== highResUrl) {
-      loadHighResBackground();
-    }
+    drawCurrentFrame();
   };
 
   video.addEventListener('loadedmetadata', handleInitialized, { once: true });
   video.addEventListener('canplay', handleInitialized, { once: true });
   video.load();
 
-  // Safety fallback timeout to hide preloader even if streaming is slow to start
-  const fallbackTimeout = setTimeout(hidePreloader, 3500);
+  // Hide the preloader immediately so that the page loads instantly without screen freeze
+  hidePreloader();
 
   // Progressive background loading for 4K/8K upscaled video
   const loadHighResBackground = () => {
@@ -422,7 +443,6 @@ function initIntroVideoScroll() {
     xhr.responseType = 'blob';
 
     xhr.onload = () => {
-      clearTimeout(fallbackTimeout);
       if (xhr.status === 200) {
         const blob = xhr.response;
         const blobUrl = URL.createObjectURL(blob);
@@ -449,7 +469,8 @@ function initIntroVideoScroll() {
   };
 
   const startScrollTrigger = () => {
-    const duration = video.duration && !isNaN(video.duration) ? video.duration : 10;
+    // Map scroll timeline to the exact video length (28.93 seconds) immediately
+    const duration = video.duration && !isNaN(video.duration) ? video.duration : 28.933333;
     
     // Lerp state for physics-based smooth scrolling
     const scrollObj = { progress: 0 };
@@ -470,14 +491,14 @@ function initIntroVideoScroll() {
       }
 
       // Update video currentTime if catch-up difference is significant and decoder is not busy seeking
-      if (Math.abs(easedTime - video.currentTime) > 0.01) {
+      if (video && video.readyState >= 1 && Math.abs(easedTime - video.currentTime) > 0.01) {
         if (!video.seeking) {
           video.currentTime = Math.max(0.01, Math.min(duration - 0.01, easedTime));
         }
       }
 
       // Keep running the loop if easedTime is still catching up, or if video seek is not complete
-      if (Math.abs(targetTime - easedTime) > 0.005 || Math.abs(easedTime - video.currentTime) > 0.01) {
+      if (Math.abs(targetTime - easedTime) > 0.005 || (video && video.readyState >= 1 && Math.abs(easedTime - video.currentTime) > 0.01)) {
         requestAnimationFrame(updateFrame);
       } else {
         renderRequested = false;
