@@ -12,15 +12,12 @@
   
   <!-- CSS Stylesheet -->
   <link rel="stylesheet" href="/style.css">
-  <!-- Prevent layout flash of video loader when landing on a specific section hash or on mobile/touch devices -->
+  <!-- Prevent layout flash of video loader when landing on a specific section hash -->
   <script>
     (function() {
-      var isMobile = window.matchMedia("(max-width: 768px)").matches || ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
       var hash = window.location.hash;
       var sections = ['#hero', '#specialties', '#products', '#surgeon-journey', '#ethics', '#news', '#contact'];
-      if (isMobile) {
-        document.documentElement.classList.add('bypass-intro');
-      } else if (hash && sections.indexOf(hash) !== -1) {
+      if (hash && sections.indexOf(hash) !== -1) {
         document.documentElement.classList.add('has-hash');
       }
     })();

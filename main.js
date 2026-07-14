@@ -267,18 +267,6 @@ function initIntroVideoScroll() {
   
   if (!video || !canvas) return;
 
-  if (document.documentElement.classList.contains('bypass-intro')) {
-    if (preloader) {
-      preloader.style.display = 'none';
-    }
-    const nav = document.getElementById('main-nav');
-    if (nav) {
-      nav.style.opacity = '1';
-      nav.style.pointerEvents = 'auto';
-    }
-    return;
-  }
-
   const ctx = canvas.getContext('2d');
   const isMobile = window.matchMedia("(max-width: 768px)").matches || ('ontouchstart' in window);
 
@@ -286,13 +274,13 @@ function initIntroVideoScroll() {
   video.muted = true;
   video.playsInline = true;
 
-  // Upscale canvas resolution to 4K (3840px width) on desktop and 1080px on mobile for razor-sharp rendering
+  // Optimized canvas resolution for razor-sharp rendering without jank (1920px width on desktop, 640px on mobile)
   const resizeCanvas = () => {
     const rect = canvas.getBoundingClientRect();
     if (rect.width === 0 || rect.height === 0) return;
     
     const aspectRatio = rect.width / rect.height;
-    const targetWidth = isMobile ? 1080 : 3840;
+    const targetWidth = isMobile ? 640 : 1920;
     
     canvas.width = targetWidth;
     canvas.height = Math.round(targetWidth / aspectRatio);
@@ -391,6 +379,21 @@ function initIntroVideoScroll() {
     const scrollObj = { progress: 0 };
     const scrubVal = isMobile ? 1.8 : 1.0; 
 
+    let renderRequested = false;
+
+    const updateFrame = () => {
+      const targetTime = scrollObj.progress * (duration - 0.05);
+      
+      if (Math.abs(targetTime - video.currentTime) > 0.02) {
+        if (!video.seeking) {
+          video.currentTime = Math.max(0.01, Math.min(duration - 0.01, targetTime));
+        }
+        requestAnimationFrame(updateFrame);
+      } else {
+        renderRequested = false;
+      }
+    };
+
     gsap.to(scrollObj, {
       progress: 1,
       ease: "none",
@@ -406,23 +409,13 @@ function initIntroVideoScroll() {
           if (overlay) {
             overlay.style.opacity = Math.max(1 - self.progress * 2.5, 0);
           }
+          if (!renderRequested) {
+            renderRequested = true;
+            requestAnimationFrame(updateFrame);
+          }
         }
       }
     });
-
-    // Auto-throttled frame scrubbing:
-    // Only update currentTime if the browser's decoder has completed the previous seek (not video.seeking).
-    // This avoids piling up seek requests and eliminates stuttering on high-resolution video.
-    const updateFrame = () => {
-      const targetTime = scrollObj.progress * (duration - 0.05);
-      
-      if (!video.seeking && Math.abs(targetTime - video.currentTime) > 0.02) {
-        video.currentTime = Math.max(0.01, Math.min(duration - 0.01, targetTime));
-      }
-      
-      requestAnimationFrame(updateFrame);
-    };
-    requestAnimationFrame(updateFrame);
 
     // Fade in navbar when past intro scroll section
     gsap.to('#main-nav', {

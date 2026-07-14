@@ -3476,9 +3476,7 @@ body.about-open {
   background-color: var(--primary-white);
 }
 
-html.has-hash .intro-video-section,
-html.bypass-intro .intro-video-section {
-  display: none !important;
+html.has-hash .intro-video-section {
   height: 0 !important;
   min-height: 0 !important;
   overflow: hidden !important;
@@ -3486,8 +3484,7 @@ html.bypass-intro .intro-video-section {
   opacity: 0 !important;
 }
 
-html.has-hash .navbar,
-html.bypass-intro .navbar {
+html.has-hash .navbar {
   opacity: 1 !important;
   pointer-events: auto !important;
 }
