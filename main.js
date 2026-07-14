@@ -497,6 +497,9 @@ function initIntroVideoScroll() {
         }
       }
 
+      // Always draw the current frame on the canvas during scroll animation updates
+      drawCurrentFrame();
+
       // Keep running the loop if easedTime is still catching up, or if video seek is not complete
       if (Math.abs(targetTime - easedTime) > 0.005 || (video && video.readyState >= 1 && Math.abs(easedTime - video.currentTime) > 0.01)) {
         requestAnimationFrame(updateFrame);
