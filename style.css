@@ -316,16 +316,39 @@ a {
 }
 
 .logo-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-size: 1.4rem;
   font-weight: 800;
   letter-spacing: -0.03em;
   color: var(--dark-navy);
+  text-decoration: none;
 }
 
 .logo-text span {
   font-weight: 300;
   color: var(--medical-blue);
   margin-left: 2px;
+}
+
+/* Website Logo Image Styling */
+.logo-img {
+  height: 28px;
+  width: auto;
+  object-fit: contain;
+  filter: brightness(0) invert(1); /* Default to white logo for dark glassmorphic headers/footers */
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.logo-text:hover .logo-img {
+  transform: scale(1.08) rotate(-3deg);
+}
+
+/* For light backgrounds or cases where a dark logo is desired */
+.light-bg .logo-img,
+.logo-text.dark-logo .logo-img {
+  filter: none;
 }
 
 .nav-links {

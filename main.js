@@ -307,8 +307,8 @@ function initIntroVideoScroll() {
 
   // Select the appropriate optimized GOP=1 video asset based on device capability
   const videoUrl = isMobile 
-    ? 'https://77jnf2unkx8jqb5s.public.blob.vercel-storage.com/1784055699006231_preview_720p_gop1.mp4' 
-    : 'https://77jnf2unkx8jqb5s.public.blob.vercel-storage.com/1784055699006231_highres_1080p_gop1.mp4';
+    ? '/images/scroll_preview_optimized.mp4' 
+    : '/images/scroll_highres_optimized.mp4';
 
   // Load the first frame as a placeholder image immediately to show a visual right away
   const firstFrameImg = new Image();
@@ -425,9 +425,6 @@ function initIntroVideoScroll() {
     }
   }
 
-  // Load the correct video asset directly
-  video.src = videoUrl;
-  
   function handleInitialized() {
     try {
       video.currentTime = 0.01;
@@ -436,12 +433,62 @@ function initIntroVideoScroll() {
     drawCurrentFrame();
   }
 
-  video.addEventListener('loadedmetadata', handleInitialized, { once: true });
-  video.addEventListener('canplay', handleInitialized, { once: true });
-  video.load();
-
-  // Hide the preloader immediately so that the page loads instantly without screen freeze
-  hidePreloader();
+  // Preload the video using Fetch API and update percentage progress
+  if (preloaderPct) {
+    preloaderPct.textContent = '0%';
+  }
+  
+  // Use XMLHttpRequest because it handles download progress tracking easily and natively
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', videoUrl, true);
+  xhr.responseType = 'blob';
+  
+  xhr.onprogress = (e) => {
+    if (e.lengthComputable) {
+      const pct = Math.round((e.loaded / e.total) * 100);
+      if (preloaderPct) {
+        preloaderPct.textContent = `${pct}%`;
+      }
+    }
+  };
+  
+  xhr.onload = () => {
+    if (xhr.status === 200) {
+      if (preloaderPct) {
+        preloaderPct.textContent = '100%';
+      }
+      const videoBlob = xhr.response;
+      const blobUrl = URL.createObjectURL(videoBlob);
+      
+      // Assign the local Blob URL to the video src
+      video.src = blobUrl;
+      video.addEventListener('loadedmetadata', handleInitialized, { once: true });
+      video.addEventListener('canplay', handleInitialized, { once: true });
+      video.load();
+      
+      // Hide preloader smoothly after video initialization
+      setTimeout(hidePreloader, 350);
+    } else {
+      // Fallback if XHR fails
+      console.warn("Preload failed, falling back to direct stream");
+      fallbackLoad();
+    }
+  };
+  
+  xhr.onerror = () => {
+    console.warn("Preload encountered network error, falling back to direct stream");
+    fallbackLoad();
+  };
+  
+  function fallbackLoad() {
+    video.src = videoUrl;
+    video.addEventListener('loadedmetadata', handleInitialized, { once: true });
+    video.addEventListener('canplay', handleInitialized, { once: true });
+    video.load();
+    hidePreloader();
+  }
+  
+  xhr.send();
 
   function startScrollTrigger() {
     const duration = video.duration && !isNaN(video.duration) ? video.duration : 29.95;
