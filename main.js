@@ -304,19 +304,19 @@ function initIntroVideoScroll() {
   
   // Responsive layout & capability flags
   const isMobile = window.matchMedia("(max-width: 768px)").matches || ('ontouchstart' in window);
-  const isDesktop = !isMobile;
 
-  // Smooth scrubbing state flags
-  let isBlobLoaded = false;
-  let firstFrameDrawn = false;
-
-  // Video assets optimized with GOP=1 (all keyframes) for instant seeking
-  const previewUrl = 'https://77jnf2unkx8jqb5s.public.blob.vercel-storage.com/1784055699006231.mp4';
-  const highResUrl = 'https://77jnf2unkx8jqb5s.public.blob.vercel-storage.com/1784055699006231.mp4';
+  // Select the appropriate optimized GOP=1 video asset based on device capability
+  const videoUrl = isMobile 
+    ? 'https://77jnf2unkx8jqb5s.public.blob.vercel-storage.com/1784055699006231_preview_720p_gop1.mp4' 
+    : 'https://77jnf2unkx8jqb5s.public.blob.vercel-storage.com/1784055699006231_highres_1080p_gop1.mp4';
 
   // Load the first frame as a placeholder image immediately to show a visual right away
   const firstFrameImg = new Image();
   firstFrameImg.src = '/images/scroll_first_frame.jpg';
+  
+  // Smooth scrubbing state flags
+  let firstFrameDrawn = false;
+
   firstFrameImg.onload = () => {
     if (video.readyState < 1) {
       drawCurrentFrame();
@@ -333,7 +333,6 @@ function initIntroVideoScroll() {
     if (rect.width === 0 || rect.height === 0) return;
     
     const dpr = window.devicePixelRatio || 1;
-    // Cap rendering resolution to the source video's width if loaded, otherwise limit by device specs
     const sourceVideoWidth = video.videoWidth || (firstFrameImg.naturalWidth ? firstFrameImg.naturalWidth : 1920);
     const targetWidth = Math.min(rect.width * dpr, sourceVideoWidth);
     
@@ -426,14 +425,13 @@ function initIntroVideoScroll() {
     }
   }
 
-  // Immediate streaming initialization (no loading screen block)
-  video.src = previewUrl;
+  // Load the correct video asset directly
+  video.src = videoUrl;
   
   function handleInitialized() {
     try {
       video.currentTime = 0.01;
       video.pause();
-      isBlobLoaded = true; // Enable fast-seek optimizations once video is initialized
     } catch (err) {}
     drawCurrentFrame();
   }
@@ -445,47 +443,10 @@ function initIntroVideoScroll() {
   // Hide the preloader immediately so that the page loads instantly without screen freeze
   hidePreloader();
 
-  // Progressive background loading for 4K/8K upscaled video (only if high-res is a different file)
-  if (previewUrl !== highResUrl) {
-    loadHighResBackground();
-  }
-  function loadHighResBackground() {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', highResUrl, true);
-    xhr.responseType = 'blob';
-
-    xhr.onload = () => {
-      if (xhr.status === 200) {
-        const blob = xhr.response;
-        const blobUrl = URL.createObjectURL(blob);
-        
-        // Seamlessly hot-swap sources while preserving current user scroll position
-        const currentScrubTime = video.currentTime;
-        video.src = blobUrl;
-        
-        const onSwapReady = () => {
-          try {
-            video.currentTime = currentScrubTime;
-            video.pause();
-            drawCurrentFrame();
-            resizeCanvas();
-            isBlobLoaded = true;
-          } catch (err) {}
-        };
-        
-        video.addEventListener('loadedmetadata', onSwapReady, { once: true });
-        video.addEventListener('canplay', onSwapReady, { once: true });
-        video.load();
-      }
-    };
-    xhr.send();
-  }
-
   function startScrollTrigger() {
-    // Map scroll timeline to the exact video length (28.93 seconds) immediately
-    const duration = video.duration && !isNaN(video.duration) ? video.duration : 28.933333;
+    const duration = video.duration && !isNaN(video.duration) ? video.duration : 29.95;
     
-    // Lerp state for physics-based smooth scrolling
+    // Physics-based lerp state for smooth scrolling
     const scrollObj = { progress: 0 };
     const scrubVal = isMobile ? 0.6 : 0.4; 
 
@@ -493,6 +454,33 @@ function initIntroVideoScroll() {
     let easedTime = 0;
     const ease = 0.08; // Physics easing factor for buttery smooth scrub feel
     let renderRequested = false;
+
+    // Queue-based seek throttling to prevent decoder saturation
+    let isSeeking = false;
+    let queuedTime = null;
+
+    function seekTo(time) {
+      if (video.readyState < 1) return;
+      
+      if (isSeeking) {
+        queuedTime = time;
+        return;
+      }
+
+      isSeeking = true;
+      video.currentTime = time;
+    }
+
+    video.addEventListener('seeked', () => {
+      isSeeking = false;
+      drawCurrentFrame();
+      
+      if (queuedTime !== null) {
+        const nextTime = queuedTime;
+        queuedTime = null;
+        seekTo(nextTime);
+      }
+    });
  
     const updateFrame = () => {
       // Smoothly interpolate current time towards the target scroll time
@@ -503,18 +491,11 @@ function initIntroVideoScroll() {
         easedTime = targetTime;
       }
 
-      // Update video currentTime if catch-up difference is significant and decoder is not busy seeking
-      if (video && video.readyState >= 1 && Math.abs(easedTime - video.currentTime) > 0.01) {
-        if (!video.seeking) {
-          video.currentTime = Math.max(0.01, Math.min(duration - 0.01, easedTime));
-        }
-      }
+      // Perform throttled seek
+      seekTo(Math.max(0.01, Math.min(duration - 0.01, easedTime)));
 
-      // Always draw the current frame on the canvas during scroll animation updates
-      drawCurrentFrame();
-
-      // Keep running the loop if easedTime is still catching up, or if video seek is not complete
-      if (Math.abs(targetTime - easedTime) > 0.005 || (video && video.readyState >= 1 && Math.abs(easedTime - video.currentTime) > 0.01)) {
+      // Keep running the loop if easedTime is still catching up or video is seeking
+      if (Math.abs(targetTime - easedTime) > 0.005 || isSeeking) {
         requestAnimationFrame(updateFrame);
       } else {
         renderRequested = false;
@@ -559,7 +540,7 @@ function initIntroVideoScroll() {
         toggleActions: "play none none reverse"
       }
     });
-  };
+  }
 }
 
 /* Interactive About Fullscreen Overlay */
