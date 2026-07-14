@@ -38,7 +38,7 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
   font-family: var(--font-family);
   color: var(--text-primary);
   background-color: var(--primary-white);

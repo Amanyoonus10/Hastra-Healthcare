@@ -2,12 +2,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize Lenis Smooth Scroll
   if (typeof Lenis !== 'undefined') {
     const lenis = new Lenis({
-      duration: 1.5, // Slow, premium scroll rate (standard is 1.0 - 1.2)
+      duration: 1.2, // Balanced smooth scroll duration
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      smoothTouch: false,
+      smoothTouch: true, // Enable smooth scroll on mobile touch!
+      syncTouch: true,   // Sync touch inputs
     });
 
     if (typeof ScrollTrigger !== 'undefined') {
