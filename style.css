@@ -3425,6 +3425,41 @@ body.about-open {
     gap: 20px;
   }
 
+  .column-item {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 15px !important;
+    padding-bottom: 20px !important;
+  }
+
+  .column-img-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    aspect-ratio: 16 / 10 !important;
+    margin-bottom: 5px !important;
+  }
+
+  .column-info {
+    text-align: left !important;
+    width: 100% !important;
+  }
+
+  .column-info h4 {
+    font-size: 1.1rem !important;
+    margin-bottom: 6px !important;
+  }
+
+  .column-info p {
+    font-size: 0.9rem !important;
+    line-height: 1.45 !important;
+  }
+
+  .column-item .explore-cta {
+    align-self: flex-start !important;
+    width: 100% !important;
+    margin-top: 5px !important;
+  }
+
   .about-container {
     padding: 30px 20px;
   }
