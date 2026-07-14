@@ -298,22 +298,31 @@ function initIntroVideoScroll() {
   if (!video || !canvas) return;
 
   const ctx = canvas.getContext('2d');
+  
+  // Responsive layout & capability flags
   const isMobile = window.matchMedia("(max-width: 768px)").matches || ('ontouchstart' in window);
+  const isDesktop = !isMobile;
+
+  // Video assets optimized with GOP=1 (all keyframes) for instant seeking
+  const previewUrl = '/images/1784051634176318.mp4';
+  const highResUrl = '/images/1784051634176318.mp4';
 
   // Safari / iOS compatibility and rendering setup
   video.muted = true;
   video.playsInline = true;
 
-  // Optimized canvas resolution for razor-sharp rendering without jank (1920px width on desktop, 640px on mobile)
+  // Track rendering resolutions dynamically based on currently loaded asset
   const resizeCanvas = () => {
     const rect = canvas.getBoundingClientRect();
     if (rect.width === 0 || rect.height === 0) return;
     
-    const aspectRatio = rect.width / rect.height;
-    const targetWidth = isMobile ? 640 : 1920;
+    const dpr = window.devicePixelRatio || 1;
+    // Cap rendering resolution to the source video's width if loaded, otherwise limit by device specs
+    const sourceVideoWidth = video.videoWidth || 1920;
+    const targetWidth = Math.min(rect.width * dpr, sourceVideoWidth);
     
     canvas.width = targetWidth;
-    canvas.height = Math.round(targetWidth / aspectRatio);
+    canvas.height = Math.round(targetWidth / (rect.width / rect.height));
     drawCurrentFrame();
   };
 
@@ -350,7 +359,6 @@ function initIntroVideoScroll() {
   window.addEventListener('resize', resizeCanvas);
   video.addEventListener('seeked', drawCurrentFrame);
 
-  const videoUrl = '/images/1783591836637753_keyframe_opt.mp4';
   let isReady = false;
 
   const hidePreloader = () => {
@@ -376,7 +384,6 @@ function initIntroVideoScroll() {
         try {
           const target = document.querySelector(hash);
           if (target && window.scrollY < 20) {
-            // Temporarily disable scroll snapping to prevent scroll fight
             document.documentElement.classList.remove('snap-enabled');
             target.scrollIntoView({ behavior: 'smooth' });
           }
@@ -385,72 +392,92 @@ function initIntroVideoScroll() {
     }
   };
 
-  // Safety fallback timeout to hide preloader even if loading fails
+  // Immediate streaming initialization (no loading screen block)
+  video.src = previewUrl;
+  
+  const handleInitialized = () => {
+    try {
+      video.currentTime = 0.01;
+      video.pause();
+    } catch (err) {}
+    hidePreloader();
+    
+    // On desktops, fetch upscaled 4K or 8K video asset in background for premium quality hot-swap
+    if (isDesktop && previewUrl !== highResUrl) {
+      loadHighResBackground();
+    }
+  };
+
+  video.addEventListener('loadedmetadata', handleInitialized, { once: true });
+  video.addEventListener('canplay', handleInitialized, { once: true });
+  video.load();
+
+  // Safety fallback timeout to hide preloader even if streaming is slow to start
   const fallbackTimeout = setTimeout(hidePreloader, 3500);
 
-  // XHR Blob Preloader with real progress tracking
-  const xhr = new XMLHttpRequest();
-  xhr.open('GET', videoUrl, true);
-  xhr.responseType = 'blob';
+  // Progressive background loading for 4K/8K upscaled video
+  const loadHighResBackground = () => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', highResUrl, true);
+    xhr.responseType = 'blob';
 
-  xhr.onprogress = (e) => {
-    if (e.lengthComputable && preloaderPct) {
-      const percentage = Math.round((e.loaded / e.total) * 100);
-      preloaderPct.textContent = `${percentage}%`;
-    }
+    xhr.onload = () => {
+      clearTimeout(fallbackTimeout);
+      if (xhr.status === 200) {
+        const blob = xhr.response;
+        const blobUrl = URL.createObjectURL(blob);
+        
+        // Seamlessly hot-swap sources while preserving current user scroll position
+        const currentScrubTime = video.currentTime;
+        video.src = blobUrl;
+        
+        const onSwapReady = () => {
+          try {
+            video.currentTime = currentScrubTime;
+            video.pause();
+            drawCurrentFrame();
+            resizeCanvas();
+          } catch (err) {}
+        };
+        
+        video.addEventListener('loadedmetadata', onSwapReady, { once: true });
+        video.addEventListener('canplay', onSwapReady, { once: true });
+        video.load();
+      }
+    };
+    xhr.send();
   };
-
-  xhr.onload = () => {
-    clearTimeout(fallbackTimeout);
-    if (xhr.status === 200) {
-      const blob = xhr.response;
-      const blobUrl = URL.createObjectURL(blob);
-      video.src = blobUrl;
-      
-      const handleInitialized = () => {
-        try {
-          video.currentTime = 0.01;
-          video.pause();
-        } catch (err) {}
-        hidePreloader();
-      };
-      
-      video.addEventListener('loadedmetadata', handleInitialized, { once: true });
-      video.addEventListener('canplay', handleInitialized, { once: true });
-      video.load();
-    } else {
-      // Fallback to streaming directly
-      video.src = videoUrl;
-      video.addEventListener('loadedmetadata', hidePreloader, { once: true });
-      video.load();
-    }
-  };
-
-  xhr.onerror = () => {
-    clearTimeout(fallbackTimeout);
-    video.src = videoUrl;
-    video.addEventListener('loadedmetadata', hidePreloader, { once: true });
-    video.load();
-  };
-
-  xhr.send();
 
   const startScrollTrigger = () => {
     const duration = video.duration && !isNaN(video.duration) ? video.duration : 10;
     
-    // Use an interpolated dummy target via GSAP to handle scroll inertia cleanly
+    // Lerp state for physics-based smooth scrolling
     const scrollObj = { progress: 0 };
     const scrubVal = isMobile ? 0.6 : 0.4; 
 
+    let targetTime = 0;
+    let easedTime = 0;
+    const ease = 0.08; // Physics easing factor for buttery smooth scrub feel
     let renderRequested = false;
 
     const updateFrame = () => {
-      const targetTime = scrollObj.progress * (duration - 0.05);
+      // Smoothly interpolate current time towards the target scroll time
+      easedTime += (targetTime - easedTime) * ease;
       
-      if (Math.abs(targetTime - video.currentTime) > 0.02) {
+      // Snap to target if very close to end render loop
+      if (Math.abs(targetTime - easedTime) < 0.005) {
+        easedTime = targetTime;
+      }
+
+      // Update video currentTime if catch-up difference is significant and decoder is not busy seeking
+      if (Math.abs(easedTime - video.currentTime) > 0.01) {
         if (!video.seeking) {
-          video.currentTime = Math.max(0.01, Math.min(duration - 0.01, targetTime));
+          video.currentTime = Math.max(0.01, Math.min(duration - 0.01, easedTime));
         }
+      }
+
+      // Keep running the loop if easedTime is still catching up, or if video seek is not complete
+      if (Math.abs(targetTime - easedTime) > 0.005 || Math.abs(easedTime - video.currentTime) > 0.01) {
         requestAnimationFrame(updateFrame);
       } else {
         renderRequested = false;
@@ -472,6 +499,9 @@ function initIntroVideoScroll() {
           if (overlay) {
             overlay.style.opacity = Math.max(1 - self.progress * 2.5, 0);
           }
+          
+          targetTime = self.progress * (duration - 0.05);
+
           if (!renderRequested) {
             renderRequested = true;
             requestAnimationFrame(updateFrame);
