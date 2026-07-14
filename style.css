@@ -4841,6 +4841,7 @@ html.has-hash .navbar {
   display: flex;
   align-items: flex-end;
   padding: 40px;
+  background-color: #0c0d12; /* Dark background to prevent light contrast flash before video loads */
 }
 .conduct-left-video-bg {
   position: absolute;
