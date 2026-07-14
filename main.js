@@ -304,8 +304,8 @@ function initIntroVideoScroll() {
   const isDesktop = !isMobile;
 
   // Video assets optimized with GOP=1 (all keyframes) for instant seeking
-  const previewUrl = '/images/1784051634176318.mp4';
-  const highResUrl = '/images/1784051634176318.mp4';
+  const previewUrl = '/images/1784055699006231.mp4';
+  const highResUrl = '/images/1784055699006231.mp4';
 
   // Safari / iOS compatibility and rendering setup
   video.muted = true;
