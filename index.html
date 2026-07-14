@@ -12,6 +12,16 @@
   
   <!-- CSS Stylesheet -->
   <link rel="stylesheet" href="/style.css">
+  <!-- Prevent layout flash of video loader when landing on a specific section hash -->
+  <script>
+    (function() {
+      var hash = window.location.hash;
+      var sections = ['#hero', '#specialties', '#products', '#surgeon-journey', '#ethics', '#news', '#contact'];
+      if (hash && sections.indexOf(hash) !== -1) {
+        document.documentElement.classList.add('has-hash');
+      }
+    })();
+  </script>
 </head>
 <body>
 
@@ -55,7 +65,7 @@
   <nav class="navbar" id="main-nav">
     <div class="nav-container">
       <div class="logo-wrapper">
-        <a href="#" class="logo-text">HASTRA<span>HEALTHCARE</span></a>
+        <a href="/index.html" class="logo-text">HASTRA<span>HEALTHCARE</span></a>
       </div>
       <div class="nav-links">
         <a href="#about" class="nav-link">About Us</a>
@@ -1095,7 +1105,17 @@
         </div>
 
         <!-- Gallery Section -->
-        <h3 class="gallery-section-title">Gallery — From our events &amp; facilities</h3>
+        <div class="gallery-section-header">
+          <h3 class="gallery-section-title">Gallery — From our events &amp; facilities</h3>
+          <div class="gallery-header-actions">
+            <button class="btn btn-secondary btn-sm" id="admin-gallery-upload-trigger">
+              <i data-lucide="plus-circle"></i> Add Gallery Item
+            </button>
+            <button class="btn btn-outline-danger btn-sm" id="clear-custom-data-trigger" style="margin-left: 10px;">
+              <i data-lucide="trash-2"></i> Clear Added Data
+            </button>
+          </div>
+        </div>
         
         <div class="gallery-grid" id="gallery-grid-container">
           <!-- Gallery Item 1 -->
@@ -1196,6 +1216,11 @@
           <div class="form-group">
             <label for="item-image">Upload Image File</label>
             <input type="file" id="item-image" accept="image/*">
+          </div>
+
+          <div class="form-group">
+            <label for="item-pincode">Security Pincode</label>
+            <input type="password" id="item-pincode" placeholder="Enter PIN to publish" required>
           </div>
 
           <button type="submit" class="btn btn-primary form-submit-btn">Publish to Website</button>
@@ -1394,7 +1419,7 @@
       <div class="container footer-container">
         <div class="footer-upper">
           <div class="footer-brand">
-            <a href="#" class="logo-text footer-logo">HASTRA<span>HEALTHCARE</span></a>
+            <a href="/index.html" class="logo-text footer-logo">HASTRA<span>HEALTHCARE</span></a>
             <p class="brand-desc">
               An award-winning clinical partner, innovating premium women's healthcare and surgical systems. Dedicated to quality, transparency, and surgical precision.
             </p>

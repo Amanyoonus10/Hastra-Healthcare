@@ -8,6 +8,40 @@ document.addEventListener('DOMContentLoaded', () => {
     lucide.createIcons();
   }
 
+  // Handle instant jump for landing page hashed sections to bypass scroll video page loader
+  const hash = window.location.hash;
+  const hasHash = document.documentElement.classList.contains('has-hash');
+  
+  if (hasHash && hash) {
+    try {
+      const target = document.querySelector(hash);
+      if (target) {
+        // Jump instantly to target
+        target.scrollIntoView({ behavior: 'auto' });
+        
+        // Force navbar visible immediately
+        const nav = document.getElementById('main-nav');
+        if (nav) {
+          nav.style.opacity = '1';
+          nav.style.pointerEvents = 'auto';
+          nav.classList.add('scrolled');
+        }
+
+        // Restore video section in background after DOM fully settles
+        setTimeout(() => {
+          document.documentElement.classList.remove('has-hash');
+          if (typeof ScrollTrigger !== 'undefined') {
+            ScrollTrigger.refresh();
+          }
+          // Re-scroll instantly to keep exact anchor position
+          target.scrollIntoView({ behavior: 'auto' });
+        }, 500);
+      }
+    } catch (e) {
+      console.warn("Error processing hash redirection:", e);
+    }
+  }
+
   // Register GSAP ScrollTrigger
   if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
@@ -29,6 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initConductAccordion();
   initProductCardClicks();
   initLazyVideos();
+  initLocalScrollInterception();
+  initGlobalSearch();
 });
 
 /* Navbar Scroll & Mobile Menu Interaction */
@@ -284,76 +320,57 @@ function initIntroVideoScroll() {
   window.addEventListener('resize', resizeCanvas);
   video.addEventListener('seeked', drawCurrentFrame);
 
-  // Fetch video as a blob to cache it locally and prevent Range Request network latency during scrub
-  async function preloadVideo(url) {
-    try {
-      const response = await fetch(url);
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-      
-      const contentLength = response.headers.get('content-length');
-      if (!contentLength) {
-        const blob = await response.blob();
-        return blob;
-      }
-      
-      const total = parseInt(contentLength, 10);
-      let loaded = 0;
-      
-      const reader = response.body.getReader();
-      const chunks = [];
-      
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        
-        chunks.push(value);
-        loaded += value.length;
-        if (preloaderPct) {
-          preloaderPct.textContent = `${Math.round((loaded / total) * 100)}%`;
-        }
-      }
-      
-      return new Blob(chunks, { type: 'video/mp4' });
-    } catch (err) {
-      console.warn("Blob preloader failed, falling back to direct stream: ", err);
-      return null;
-    }
-  }
-
   const videoUrl = '/images/1783591836637753_smooth.mp4';
   
-  preloadVideo(videoUrl).then(blob => {
-    if (blob) {
-      const blobUrl = URL.createObjectURL(blob);
-      video.src = blobUrl;
-    } else {
-      video.src = videoUrl;
-    }
+  // Set the video source directly to stream immediately
+  video.src = videoUrl;
+  
+  let isReady = false;
+  
+  const hidePreloader = () => {
+    if (isReady) return;
+    isReady = true;
     
-    // Hide the loader once cached
     if (preloader) {
       preloader.classList.add('fade-out');
     }
     
-    // Pre-render setup
-    try {
-      video.load();
-      video.currentTime = 0.01;
-      video.pause();
-    } catch (e) {
-      console.warn("Initial video pre-render ignored: ", e);
+    resizeCanvas();
+    startScrollTrigger();
+
+    // Refresh ScrollTrigger to calculate offsets correctly after video dimensions load
+    if (typeof ScrollTrigger !== 'undefined') {
+      ScrollTrigger.refresh();
     }
-    
-    if (video.readyState >= 1) {
-      resizeCanvas();
-      startScrollTrigger();
-    } else {
-      video.addEventListener('loadedmetadata', () => {
-        resizeCanvas();
-        startScrollTrigger();
-      });
+
+    // Smooth scroll to target hash after DOM settles if hash exists
+    const hash = window.location.hash;
+    if (hash && hash !== '#about') {
+      setTimeout(() => {
+        try {
+          const target = document.querySelector(hash);
+          if (target) {
+            // Temporarily disable scroll snapping to prevent scroll fight
+            document.documentElement.classList.remove('snap-enabled');
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
+        } catch (e) {}
+      }, 400);
     }
-  });
+  };
+
+  // Hide the preloader as soon as the video metadata is loaded or safety timeout fires
+  video.addEventListener('loadedmetadata', hidePreloader);
+  video.addEventListener('canplay', hidePreloader);
+  setTimeout(hidePreloader, 1000);
+
+  try {
+    video.load();
+    video.currentTime = 0.01;
+    video.pause();
+  } catch (e) {
+    console.warn("Initial video pre-render ignored: ", e);
+  }
 
   const startScrollTrigger = () => {
     const duration = video.duration && !isNaN(video.duration) ? video.duration : 10;
@@ -483,28 +500,65 @@ function initAboutTabs() {
 /* Admin Media Upload Panel & Form Handler */
 function initAdminUploadPanel() {
   const trigger = document.getElementById('admin-upload-trigger');
+  const galleryTrigger = document.getElementById('admin-gallery-upload-trigger');
+  const clearTrigger = document.getElementById('clear-custom-data-trigger');
   const overlay = document.getElementById('admin-upload-overlay');
   const closeBtn = document.getElementById('admin-upload-close');
   const form = document.getElementById('admin-upload-form');
   const itemType = document.getElementById('item-type');
   const groupCategory = document.getElementById('group-category');
 
-  if (!trigger || !overlay || !closeBtn || !form) return;
+  if (!overlay || !closeBtn || !form) return;
 
-  // Toggle item-category visibility depending on select type
-  if (itemType && groupCategory) {
-    itemType.addEventListener('change', () => {
+  const updateCategoryVisibility = () => {
+    if (itemType && groupCategory) {
       if (itemType.value === 'gallery') {
         groupCategory.style.display = 'none';
       } else {
         groupCategory.style.display = 'block';
       }
+    }
+  };
+
+  // Toggle item-category visibility depending on select type
+  if (itemType && groupCategory) {
+    itemType.addEventListener('change', updateCategoryVisibility);
+  }
+
+  if (trigger) {
+    trigger.addEventListener('click', () => {
+      if (itemType) {
+        itemType.value = 'news';
+        updateCategoryVisibility();
+      }
+      overlay.classList.add('active');
     });
   }
 
-  trigger.addEventListener('click', () => {
-    overlay.classList.add('active');
-  });
+  if (galleryTrigger) {
+    galleryTrigger.addEventListener('click', () => {
+      if (itemType) {
+        itemType.value = 'gallery';
+        updateCategoryVisibility();
+      }
+      overlay.classList.add('active');
+    });
+  }
+
+  if (clearTrigger) {
+    clearTrigger.addEventListener('click', () => {
+      const pin = prompt('Enter security PIN to clear all custom items:');
+      if (pin !== '2772') {
+        alert('Error: Incorrect security pincode. Access denied.');
+        return;
+      }
+      if (confirm('Are you sure you want to clear all user-added news and gallery items?')) {
+        localStorage.removeItem('hastra_uploaded_items');
+        loadDynamicNewsAndGallery();
+        alert('All user-added items have been cleared.');
+      }
+    });
+  }
 
   closeBtn.addEventListener('click', () => {
     overlay.classList.remove('active');
@@ -519,6 +573,16 @@ function initAdminUploadPanel() {
   // Handle Form Submission
   form.addEventListener('submit', (e) => {
     e.preventDefault();
+
+    const pincodeInput = document.getElementById('item-pincode');
+    if (!pincodeInput || pincodeInput.value !== '2772') {
+      alert('Error: Incorrect security pincode. Access denied.');
+      if (pincodeInput) {
+        pincodeInput.focus();
+        pincodeInput.select();
+      }
+      return;
+    }
 
     const type = itemType.value;
     const title = document.getElementById('item-title').value;
@@ -666,6 +730,11 @@ function loadDynamicNewsAndGallery() {
   // Render News
   newsGrid.innerHTML = allNews.map(item => `
     <div class="news-card glass-card">
+      ${item.id ? `
+      <button class="news-remove-btn" onclick="removeUploadedItem(${item.id})" aria-label="Remove item">
+        <i data-lucide="trash-2"></i>
+      </button>
+      ` : ''}
       <div class="news-card-image-wrapper">
         <img src="${item.image}" alt="${item.title}">
       </div>
@@ -683,6 +752,11 @@ function loadDynamicNewsAndGallery() {
   // Render Gallery
   galleryGrid.innerHTML = allGallery.map(item => `
     <div class="gallery-card glass-card">
+      ${item.id ? `
+      <button class="gallery-remove-btn" onclick="removeUploadedItem(${item.id})" aria-label="Remove item">
+        <i data-lucide="trash-2"></i>
+      </button>
+      ` : ''}
       <div class="gallery-img-box">
         <img src="${item.image}" alt="${item.title}">
       </div>
@@ -698,6 +772,21 @@ function loadDynamicNewsAndGallery() {
     lucide.createIcons();
   }
 }
+
+// Global helper to delete custom uploaded news or gallery items
+window.removeUploadedItem = function(id) {
+  const pin = prompt('Enter security PIN to remove this item:');
+  if (pin !== '2772') {
+    alert('Error: Incorrect security pincode. Access denied.');
+    return;
+  }
+  if (confirm('Are you sure you want to remove this item?')) {
+    const items = JSON.parse(localStorage.getItem('hastra_uploaded_items') || '[]');
+    const updatedItems = items.filter(item => item.id !== id);
+    localStorage.setItem('hastra_uploaded_items', JSON.stringify(updatedItems));
+    loadDynamicNewsAndGallery();
+  }
+};
 
 /* Init Conduct Accordion Click Handler */
 function initConductAccordion() {
@@ -907,5 +996,217 @@ function initLazyVideos() {
       video.load();
     });
   }
+}
+
+/* Smooth Scroll to target section helper with temporary snap disabling to prevent jerkiness */
+function smoothScrollToTarget(targetElement) {
+  if (!targetElement) return;
+
+  // Temporarily disable scroll snapping to prevent scroll fight
+  const isSnapActive = document.documentElement.classList.contains('snap-enabled');
+  if (isSnapActive) {
+    document.documentElement.classList.remove('snap-enabled');
+  }
+
+  targetElement.scrollIntoView({ behavior: 'smooth' });
+
+  // Listen for scroll end to re-enable snapping
+  if (isSnapActive) {
+    let isScrolling;
+    const reEnableSnap = () => {
+      window.removeEventListener('scroll', handleScroll);
+      const introVideoSec = document.getElementById('intro-video-sec');
+      const scrollThreshold = introVideoSec ? introVideoSec.offsetHeight - 100 : 300;
+      if (window.scrollY >= scrollThreshold) {
+        document.documentElement.classList.add('snap-enabled');
+      }
+    };
+    
+    const handleScroll = () => {
+      window.clearTimeout(isScrolling);
+      isScrolling = setTimeout(reEnableSnap, 150);
+    };
+
+    // Delay adding the listener slightly to let the scroll begin
+    setTimeout(() => {
+      window.addEventListener('scroll', handleScroll);
+    }, 50);
+  }
+}
+
+/* Intercept local page section clicks to scroll smoothly instead of reloading */
+function initLocalScrollInterception() {
+  const localLinks = document.querySelectorAll('a[href^="/index.html#"], a[href^="#"]');
+  localLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      // Skip if it is a logo or footer logo (which should trigger a full page reload / scroll video refresh)
+      if (link.classList.contains('logo-text') || link.closest('.logo-wrapper') || link.classList.contains('footer-logo')) {
+        return;
+      }
+
+      const path = window.location.pathname;
+      if (path === '/' || path.endsWith('index.html') || path === '') {
+        const href = link.getAttribute('href');
+        const hashIndex = href.indexOf('#');
+        if (hashIndex !== -1) {
+          const hash = href.substring(hashIndex);
+          if (hash === '#about') return; // Handled separately by initAboutOverlay
+          
+          const target = document.querySelector(hash);
+          if (target) {
+            e.preventDefault();
+            history.pushState(null, null, hash);
+            
+            // Scroll smoothly using helper
+            smoothScrollToTarget(target);
+            
+            // Close mobile menu if open
+            const navLinks = document.querySelector('.nav-links');
+            const toggleBtn = document.querySelector('.mobile-menu-toggle');
+            if (navLinks && navLinks.classList.contains('active')) {
+              navLinks.classList.remove('active');
+              if (toggleBtn) toggleBtn.classList.remove('open');
+            }
+          }
+        }
+      }
+    });
+  });
+}
+
+/* Premium Global Search Feature with dynamically generated UI */
+function initGlobalSearch() {
+  const triggers = document.querySelectorAll('.search-trigger');
+  if (triggers.length === 0) return;
+
+  // 1. Inject Search Overlay into DOM dynamically if not exists
+  let overlay = document.getElementById('search-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'search-overlay';
+    overlay.className = 'search-overlay';
+    overlay.innerHTML = `
+      <button class="search-close-btn" id="search-close" aria-label="Close search">
+        <i data-lucide="x"></i>
+      </button>
+      <div class="search-container">
+        <div class="search-input-wrapper">
+          <i data-lucide="search" class="search-input-icon"></i>
+          <input type="text" id="search-input" placeholder="Search Hastra Healthcare..." autocomplete="off">
+        </div>
+        <div class="search-results" id="search-results"></div>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+  }
+
+  const closeBtn = document.getElementById('search-close');
+  const input = document.getElementById('search-input');
+  const resultsContainer = document.getElementById('search-results');
+
+  // Search Index Data
+  const searchIndex = [
+    // Products
+    { title: 'Vacuum-Assisted Delivery Device', desc: 'Premium obstetric delivery system (H-VADD-01).', url: '/product-portfolio.html#h-vadd-01', category: 'Product', icon: 'package' },
+    { title: 'Cervical Ripening Balloon', desc: 'Double-balloon catheter for mechanical ripener (H-CRB-03).', url: '/product-portfolio.html#h-crb-03', category: 'Product', icon: 'package' },
+    { title: 'Uterine Manipulator Device', desc: 'Adjustable angles for minimally invasive laparoscopic care (H-UMA-05).', url: '/product-portfolio.html#h-uma-05', category: 'Product', icon: 'package' },
+    { title: 'Obstetric & Gynaecology Consumables', desc: 'Disposable speculums, retractors, and loops.', url: '/product-portfolio.html#general-medical-card', category: 'Product', icon: 'package' },
+    // Landing Sections
+    { title: 'About Hastra Healthcare', desc: 'OEM brand purpose, corporate updates, and vision.', url: '/index.html#about', category: 'Section', icon: 'info' },
+    { title: 'Clinical Specialities & Facilities', desc: 'Sterile cleanrooms, CDSCO, and regulatory registrations.', url: '/index.html#specialties', category: 'Section', icon: 'shield' },
+    { title: 'Surgeon Journey & Clinical Feedback', desc: 'Milestones, surgeon trials, and commercial network rollouts.', url: '/index.html#surgeon-journey', category: 'Section', icon: 'git-commit' },
+    { title: 'Ethics & Compliance', desc: 'ISO 13485 audits, cleanroom classifications, and clinical standards.', url: '/index.html#ethics', category: 'Section', icon: 'heart' },
+    { title: 'News Room & Corporate Announcements', desc: 'Tender updates, global exports, and milestones.', url: '/index.html#news', category: 'Section', icon: 'file-text' },
+    { title: 'Contact & Support Team', desc: 'Reach out to partner, distribute, or request documentation.', url: '/contact.html', category: 'Contact', icon: 'mail' },
+    { title: 'R&D / CAD Blueprints', desc: 'Technical specifications, patents, and engineering schematics.', url: '/blueprints.html', category: 'Research', icon: 'layout' }
+  ];
+
+  const openSearch = () => {
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Lock background scroll
+    setTimeout(() => {
+      if (input) input.focus();
+    }, 100);
+  };
+
+  const closeSearch = () => {
+    overlay.classList.remove('active');
+    document.body.style.overflow = ''; // Unlock background scroll
+    if (input) input.value = '';
+    if (resultsContainer) resultsContainer.innerHTML = '';
+  };
+
+  // Event Listeners
+  triggers.forEach(btn => btn.addEventListener('click', openSearch));
+  if (closeBtn) closeBtn.addEventListener('click', closeSearch);
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) closeSearch();
+  });
+
+  // Handle Search Queries
+  if (input && resultsContainer) {
+    input.addEventListener('input', () => {
+      const query = input.value.trim().toLowerCase();
+      if (!query) {
+        resultsContainer.innerHTML = '';
+        return;
+      }
+
+      // Filter matches
+      const matches = searchIndex.filter(item => 
+        item.title.toLowerCase().includes(query) || 
+        item.desc.toLowerCase().includes(query) ||
+        item.category.toLowerCase().includes(query)
+      );
+
+      // Render results
+      if (matches.length > 0) {
+        resultsContainer.innerHTML = matches.map(item => `
+          <a href="${item.url}" class="search-result-item">
+            <div class="search-result-icon">
+              <i data-lucide="${item.icon}"></i>
+            </div>
+            <div class="search-result-content">
+              <h4>${item.title}</h4>
+              <p>${item.desc}</p>
+            </div>
+            <span class="search-result-category">${item.category}</span>
+          </a>
+        `).join('');
+        if (typeof lucide !== 'undefined') {
+          lucide.createIcons();
+        }
+        
+        // Setup click listener to close search overlay when link clicked
+        resultsContainer.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', closeSearch);
+        });
+      } else {
+        resultsContainer.innerHTML = `
+          <div class="search-no-results">
+            <i data-lucide="frown"></i>
+            <p>No results found for "${query}"</p>
+          </div>
+        `;
+        if (typeof lucide !== 'undefined') {
+          lucide.createIcons();
+        }
+      }
+    });
+  }
+
+  // Keyboard Shortcuts (Cmd+K / Ctrl+K to open, Esc to close)
+  window.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      openSearch();
+    }
+    if (e.key === 'Escape') {
+      closeSearch();
+    }
+  });
 }
 

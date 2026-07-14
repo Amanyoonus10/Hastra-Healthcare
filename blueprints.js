@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initNavbar();
   initVideoPlayer();
   initMagneticButtons();
+  initGlobalSearch();
 });
 
 /* Sticky Glass Navbar Toggle & Scroll Handle */
@@ -342,5 +343,141 @@ function initVideoPlayer() {
   video.addEventListener("pause", () => {
     playerContainer.classList.add("show-controls");
     clearTimeout(hideControlsTimeout);
+  });
+}
+
+/* Premium Global Search Feature with dynamically generated UI */
+function initGlobalSearch() {
+  const triggers = document.querySelectorAll('.search-trigger');
+  if (triggers.length === 0) return;
+
+  // 1. Inject Search Overlay into DOM dynamically if not exists
+  let overlay = document.getElementById('search-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'search-overlay';
+    overlay.className = 'search-overlay';
+    overlay.innerHTML = `
+      <button class="search-close-btn" id="search-close" aria-label="Close search">
+        <i data-lucide="x"></i>
+      </button>
+      <div class="search-container">
+        <div class="search-input-wrapper">
+          <i data-lucide="search" class="search-input-icon"></i>
+          <input type="text" id="search-input" placeholder="Search Hastra Healthcare..." autocomplete="off">
+        </div>
+        <div class="search-results" id="search-results"></div>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+  }
+
+  const closeBtn = document.getElementById('search-close');
+  const input = document.getElementById('search-input');
+  const resultsContainer = document.getElementById('search-results');
+
+  // Search Index Data
+  const searchIndex = [
+    // Products
+    { title: 'Vacuum-Assisted Delivery Device', desc: 'Premium obstetric delivery system (H-VADD-01).', url: '/product-portfolio.html#h-vadd-01', category: 'Product', icon: 'package' },
+    { title: 'Cervical Ripening Balloon', desc: 'Double-balloon catheter for mechanical ripener (H-CRB-03).', url: '/product-portfolio.html#h-crb-03', category: 'Product', icon: 'package' },
+    { title: 'Uterine Manipulator Device', desc: 'Adjustable angles for minimally invasive laparoscopic care (H-UMA-05).', url: '/product-portfolio.html#h-uma-05', category: 'Product', icon: 'package' },
+    { title: 'Obstetric & Gynaecology Consumables', desc: 'Disposable speculums, retractors, and loops.', url: '/product-portfolio.html#general-medical-card', category: 'Product', icon: 'package' },
+    // Landing Sections
+    { title: 'About Hastra Healthcare', desc: 'OEM brand purpose, corporate updates, and vision.', url: '/index.html#about', category: 'Section', icon: 'info' },
+    { title: 'Clinical Specialities & Facilities', desc: 'Sterile cleanrooms, CDSCO, and regulatory registrations.', url: '/index.html#specialties', category: 'Section', icon: 'shield' },
+    { title: 'Surgeon Journey & Clinical Feedback', desc: 'Milestones, surgeon trials, and commercial network rollouts.', url: '/index.html#surgeon-journey', category: 'Section', icon: 'git-commit' },
+    { title: 'Ethics & Compliance', desc: 'ISO 13485 audits, cleanroom classifications, and clinical standards.', url: '/index.html#ethics', category: 'Section', icon: 'heart' },
+    { title: 'News Room & Corporate Announcements', desc: 'Tender updates, global exports, and milestones.', url: '/index.html#news', category: 'Section', icon: 'file-text' },
+    { title: 'Contact & Support Team', desc: 'Reach out to partner, distribute, or request documentation.', url: '/contact.html', category: 'Contact', icon: 'mail' },
+    { title: 'R&D / CAD Blueprints', desc: 'Technical specifications, patents, and engineering schematics.', url: '/blueprints.html', category: 'Research', icon: 'layout' }
+  ];
+
+  const openSearch = () => {
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Lock background scroll
+    setTimeout(() => {
+      if (input) input.focus();
+    }, 100);
+  };
+
+  const closeSearch = () => {
+    overlay.classList.remove('active');
+    document.body.style.overflow = ''; // Unlock background scroll
+    if (input) input.value = '';
+    if (resultsContainer) resultsContainer.innerHTML = '';
+  };
+
+  // Event Listeners
+  triggers.forEach(btn => btn.addEventListener('click', openSearch));
+  if (closeBtn) closeBtn.addEventListener('click', closeSearch);
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) closeSearch();
+  });
+
+  // Handle Search Queries
+  if (input && resultsContainer) {
+    input.addEventListener('input', () => {
+      const query = input.value.trim().toLowerCase();
+      if (!query) {
+        resultsContainer.innerHTML = '';
+        return;
+      }
+
+      // Filter matches
+      const matches = searchIndex.filter(item => 
+        item.title.toLowerCase().includes(query) || 
+        item.desc.toLowerCase().includes(query) ||
+        item.category.toLowerCase().includes(query)
+      );
+
+      // Render results
+      if (matches.length > 0) {
+        resultsContainer.innerHTML = matches.map(item => `
+          <a href="${item.url}" class="search-result-item">
+            <div class="search-result-icon">
+              <i data-lucide="${item.icon}"></i>
+            </div>
+            <div class="search-result-content">
+              <h4>${item.title}</h4>
+              <p>${item.desc}</p>
+            </div>
+            <span class="search-result-category">${item.category}</span>
+          </a>
+        `).join('');
+        if (typeof lucide !== 'undefined') {
+          lucide.createIcons();
+        }
+        
+        // Setup click listener to close search overlay when link clicked
+        resultsContainer.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', closeSearch);
+        });
+      } else {
+        resultsContainer.innerHTML = `
+          <div class="search-no-results">
+            <i data-lucide="frown"></i>
+            <p>No results found for "${query}"</p>
+          </div>
+        `;
+        if (typeof lucide !== 'undefined') {
+          lucide.createIcons();
+        }
+      }
+    });
+  }
+
+  // Keyboard Shortcuts (Cmd+K / Ctrl+K to open, Esc to close)
+  window.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      openSearch();
+    }
+    if (e.key === 'Escape') {
+      closeSearch();
+    }
   });
 }
