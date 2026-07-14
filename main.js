@@ -320,13 +320,9 @@ function initIntroVideoScroll() {
   window.addEventListener('resize', resizeCanvas);
   video.addEventListener('seeked', drawCurrentFrame);
 
-  const videoUrl = '/images/1783591836637753_smooth.mp4';
-  
-  // Set the video source directly to stream immediately
-  video.src = videoUrl;
-  
+  const videoUrl = '/images/1783591836637753_keyframe_opt.mp4';
   let isReady = false;
-  
+
   const hidePreloader = () => {
     if (isReady) return;
     isReady = true;
@@ -359,25 +355,62 @@ function initIntroVideoScroll() {
     }
   };
 
-  // Hide the preloader as soon as the video metadata is loaded or safety timeout fires
-  video.addEventListener('loadedmetadata', hidePreloader);
-  video.addEventListener('canplay', hidePreloader);
-  setTimeout(hidePreloader, 1000);
+  // Safety fallback timeout to hide preloader even if loading fails
+  const fallbackTimeout = setTimeout(hidePreloader, 3500);
 
-  try {
+  // XHR Blob Preloader with real progress tracking
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', videoUrl, true);
+  xhr.responseType = 'blob';
+
+  xhr.onprogress = (e) => {
+    if (e.lengthComputable && preloaderPct) {
+      const percentage = Math.round((e.loaded / e.total) * 100);
+      preloaderPct.textContent = `${percentage}%`;
+    }
+  };
+
+  xhr.onload = () => {
+    clearTimeout(fallbackTimeout);
+    if (xhr.status === 200) {
+      const blob = xhr.response;
+      const blobUrl = URL.createObjectURL(blob);
+      video.src = blobUrl;
+      
+      const handleInitialized = () => {
+        try {
+          video.currentTime = 0.01;
+          video.pause();
+        } catch (err) {}
+        hidePreloader();
+      };
+      
+      video.addEventListener('loadedmetadata', handleInitialized, { once: true });
+      video.addEventListener('canplay', handleInitialized, { once: true });
+      video.load();
+    } else {
+      // Fallback to streaming directly
+      video.src = videoUrl;
+      video.addEventListener('loadedmetadata', hidePreloader, { once: true });
+      video.load();
+    }
+  };
+
+  xhr.onerror = () => {
+    clearTimeout(fallbackTimeout);
+    video.src = videoUrl;
+    video.addEventListener('loadedmetadata', hidePreloader, { once: true });
     video.load();
-    video.currentTime = 0.01;
-    video.pause();
-  } catch (e) {
-    console.warn("Initial video pre-render ignored: ", e);
-  }
+  };
+
+  xhr.send();
 
   const startScrollTrigger = () => {
     const duration = video.duration && !isNaN(video.duration) ? video.duration : 10;
     
     // Use an interpolated dummy target via GSAP to handle scroll inertia cleanly
     const scrollObj = { progress: 0 };
-    const scrubVal = isMobile ? 1.8 : 1.0; 
+    const scrubVal = isMobile ? 0.6 : 0.4; 
 
     let renderRequested = false;
 
