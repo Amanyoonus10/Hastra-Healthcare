@@ -267,6 +267,18 @@ function initIntroVideoScroll() {
   
   if (!video || !canvas) return;
 
+  if (document.documentElement.classList.contains('bypass-intro')) {
+    if (preloader) {
+      preloader.style.display = 'none';
+    }
+    const nav = document.getElementById('main-nav');
+    if (nav) {
+      nav.style.opacity = '1';
+      nav.style.pointerEvents = 'auto';
+    }
+    return;
+  }
+
   const ctx = canvas.getContext('2d');
   const isMobile = window.matchMedia("(max-width: 768px)").matches || ('ontouchstart' in window);
 

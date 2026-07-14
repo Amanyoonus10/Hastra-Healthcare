@@ -12,12 +12,15 @@
   
   <!-- CSS Stylesheet -->
   <link rel="stylesheet" href="/style.css">
-  <!-- Prevent layout flash of video loader when landing on a specific section hash -->
+  <!-- Prevent layout flash of video loader when landing on a specific section hash or on mobile/touch devices -->
   <script>
     (function() {
+      var isMobile = window.matchMedia("(max-width: 768px)").matches || ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
       var hash = window.location.hash;
       var sections = ['#hero', '#specialties', '#products', '#surgeon-journey', '#ethics', '#news', '#contact'];
-      if (hash && sections.indexOf(hash) !== -1) {
+      if (isMobile) {
+        document.documentElement.classList.add('bypass-intro');
+      } else if (hash && sections.indexOf(hash) !== -1) {
         document.documentElement.classList.add('has-hash');
       }
     })();
@@ -1628,12 +1631,12 @@
 
   <!-- JavaScript CDN dependencies -->
   <!-- GSAP Core & ScrollTrigger -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
   <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.407.0/dist/umd/lucide.min.js" defer></script>
   <!-- jsPDF -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
   <!-- Main Script -->
   <script type="module" src="/main.js"></script>
 </body>
