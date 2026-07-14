@@ -3364,11 +3364,18 @@ body.about-open {
   
   .products-bottom-grid {
     gap: 16px;
-    padding-bottom: 16px;
+    padding-bottom: 20px;
+    width: 100vw !important;
+    margin-left: calc(-50vw + 50%) !important;
+    margin-right: calc(-50vw + 50%) !important;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
   }
   
   .products-bottom-grid .product-card-premium {
-    flex: 0 0 310px;
+    flex: 0 0 82% !important;
+    max-width: 320px !important;
+    scroll-snap-align: center !important;
   }
   
   .card-split {
@@ -3459,9 +3466,6 @@ body.about-open {
     }
     .hero-ctas .btn {
       width: 100% !important;
-    }
-    .products-bottom-grid .product-card-premium {
-      flex: 0 0 280px !important;
     }
   }
 }
@@ -5927,8 +5931,10 @@ html.has-hash .navbar {
     justify-content: center !important;
   }
   .pathway-line,
-  .pathway-spine-node {
-    display: none;
+  .pathway-spine-node,
+  .pathway-diagram-wrapper::before,
+  .pathway-diagram-wrapper::after {
+    display: none !important;
   }
   .pathway-highlights-bar {
     grid-template-columns: repeat(2, 1fr);
