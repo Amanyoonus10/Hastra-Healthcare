@@ -1,8 +1,35 @@
-/* ==========================================
-   Hastra Healthcare Medical Devices - Premium Script
-   ========================================== */
-
 document.addEventListener('DOMContentLoaded', () => {
+  // Initialize Lenis Smooth Scroll
+  if (typeof Lenis !== 'undefined') {
+    const lenis = new Lenis({
+      duration: 1.5, // Slow, premium scroll rate (standard is 1.0 - 1.2)
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      smoothTouch: false,
+    });
+
+    if (typeof ScrollTrigger !== 'undefined') {
+      lenis.on('scroll', ScrollTrigger.update);
+    }
+
+    if (typeof gsap !== 'undefined') {
+      gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+      });
+      gsap.ticker.lagSmoothing(0);
+    } else {
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+    }
+    
+    window.lenis = lenis;
+  }
+
   // Initialize Lucide SVG Icons
   if (typeof lucide !== 'undefined') {
     lucide.createIcons();
@@ -33,8 +60,10 @@ document.addEventListener('DOMContentLoaded', () => {
           if (typeof ScrollTrigger !== 'undefined') {
             ScrollTrigger.refresh();
           }
-          // Re-scroll instantly to keep exact anchor position
-          target.scrollIntoView({ behavior: 'auto' });
+          // Re-scroll instantly to keep exact anchor position if user hasn't scrolled yet
+          if (window.scrollY < 20) {
+            target.scrollIntoView({ behavior: 'auto' });
+          }
         }, 500);
       }
     } catch (e) {
@@ -345,7 +374,7 @@ function initIntroVideoScroll() {
       setTimeout(() => {
         try {
           const target = document.querySelector(hash);
-          if (target) {
+          if (target && window.scrollY < 20) {
             // Temporarily disable scroll snapping to prevent scroll fight
             document.documentElement.classList.remove('snap-enabled');
             target.scrollIntoView({ behavior: 'smooth' });
