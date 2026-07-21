@@ -321,7 +321,6 @@ function initIntroVideoScroll() {
     if (video.readyState < 1) {
       drawCurrentFrame();
     }
-    hidePreloader();
   };
 
   // Safari / iOS compatibility and rendering setup
@@ -434,19 +433,62 @@ function initIntroVideoScroll() {
     drawCurrentFrame();
   }
 
-  // Direct video stream loading for instant playability without blocking page render
-  video.src = videoUrl;
-  video.addEventListener('loadedmetadata', handleInitialized, { once: true });
-  video.addEventListener('canplay', handleInitialized, { once: true });
-  video.load();
-
-  if (firstFrameImg.complete && firstFrameImg.naturalWidth > 0) {
-    drawCurrentFrame();
+  // Preload the video using Fetch API and update percentage progress
+  if (preloaderPct) {
+    preloaderPct.textContent = '0%';
   }
-
-  // Instantly hide preloader to avoid any blocking delay
-  hidePreloader();
-
+  
+  // Use XMLHttpRequest because it handles download progress tracking easily and natively
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', videoUrl, true);
+  xhr.responseType = 'blob';
+  
+  xhr.onprogress = (e) => {
+    if (e.lengthComputable) {
+      const pct = Math.round((e.loaded / e.total) * 100);
+      if (preloaderPct) {
+        preloaderPct.textContent = `${pct}%`;
+      }
+    }
+  };
+  
+  xhr.onload = () => {
+    if (xhr.status === 200) {
+      if (preloaderPct) {
+        preloaderPct.textContent = '100%';
+      }
+      const videoBlob = xhr.response;
+      const blobUrl = URL.createObjectURL(videoBlob);
+      
+      // Assign the local Blob URL to the video src
+      video.src = blobUrl;
+      video.addEventListener('loadedmetadata', handleInitialized, { once: true });
+      video.addEventListener('canplay', handleInitialized, { once: true });
+      video.load();
+      
+      // Hide preloader smoothly after video initialization
+      setTimeout(hidePreloader, 350);
+    } else {
+      // Fallback if XHR fails
+      console.warn("Preload failed, falling back to direct stream");
+      fallbackLoad();
+    }
+  };
+  
+  xhr.onerror = () => {
+    console.warn("Preload encountered network error, falling back to direct stream");
+    fallbackLoad();
+  };
+  
+  function fallbackLoad() {
+    video.src = videoUrl;
+    video.addEventListener('loadedmetadata', handleInitialized, { once: true });
+    video.addEventListener('canplay', handleInitialized, { once: true });
+    video.load();
+    hidePreloader();
+  }
+  
+  xhr.send();
 
   function startScrollTrigger() {
     const duration = video.duration && !isNaN(video.duration) ? video.duration : 29.95;
