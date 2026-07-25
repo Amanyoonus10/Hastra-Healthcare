@@ -2632,9 +2632,9 @@ a {
 }
 
 .directory-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
 }
 
 .directory-card {
@@ -2644,7 +2644,8 @@ a {
   gap: 20px;
   position: relative;
   overflow: hidden;
-  height: 100%;
+  flex: 1 1 calc(33.333% - 16px);
+  min-width: 290px;
   background: #000000;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 28px;
@@ -2744,7 +2745,7 @@ a {
 }
 
 .card-complaints {
-  grid-column: span 2;
+  flex: 1 1 100%;
   border: 1px dashed rgba(220, 38, 38, 0.3);
   background: #000000;
 }
@@ -3340,12 +3341,8 @@ body.about-open {
     padding: 80px 0;
   }
   
-  .directory-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  
-  .card-complaints {
-    grid-column: span 1;
+  .directory-card {
+    flex: 1 1 100%;
   }
   
   .info-card {
