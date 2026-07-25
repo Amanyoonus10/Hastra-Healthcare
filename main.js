@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      smoothTouch: true, // Enable smooth scroll on mobile touch!
-      syncTouch: true,   // Sync touch inputs
+      smoothTouch: false, // Turn off touch virtualization to preserve fast native touch scrolling on mobile
+      syncTouch: false,
     });
 
     if (typeof ScrollTrigger !== 'undefined') {
