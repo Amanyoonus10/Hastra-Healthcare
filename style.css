@@ -3129,27 +3129,18 @@ body.about-open {
   }
 }
 
-/* Mobile View */
-@media (max-width: 768px) {
-  .specialties-section,
-  .products-section,
-  .surgeon-journey-section,
-  .news-section,
-  .ethics-section,
-  .contact-section {
-    padding: 60px 0 !important;
+/* Medium desktop optimization to prevent navbar link wrapping */
+@media (min-width: 992px) and (max-width: 1200px) {
+  .nav-links {
+    gap: 16px;
   }
-
-  .divider-section {
-    padding: 50px 20px !important;
-    margin: 0 16px !important;
+  .nav-link {
+    font-size: 0.85rem;
   }
+}
 
-  .divider-quote {
-    font-size: 1.4rem !important;
-    margin-bottom: 16px !important;
-  }
-
+/* Tablet & Mobile Menu View overrides */
+@media (max-width: 991px) {
   .navbar {
     padding: 16px 0;
   }
@@ -3169,25 +3160,6 @@ body.about-open {
     margin-top: 10px;
     padding: 12px 24px;
     font-size: 0.95rem;
-  }
-
-  h1 {
-    font-size: 1.8rem;
-  }
-  
-  .hero-title {
-    font-size: 2.0rem;
-  }
-  
-  .section-title {
-    font-size: 1.8rem;
-  }
-
-  .hero-scene-container {
-    width: 100% !important;
-    max-width: 320px !important;
-    height: auto !important;
-    margin: 0 auto;
   }
 
   .nav-links {
@@ -3237,6 +3209,47 @@ body.about-open {
   
   .mobile-menu-toggle.open span:nth-child(3) {
     transform: rotate(-45deg) translate(5px, -6deg);
+  }
+}
+
+/* Mobile View */
+@media (max-width: 768px) {
+  .specialties-section,
+  .products-section,
+  .surgeon-journey-section,
+  .news-section,
+  .ethics-section,
+  .contact-section {
+    padding: 60px 0 !important;
+  }
+
+  .divider-section {
+    padding: 50px 20px !important;
+    margin: 0 16px !important;
+  }
+
+  .divider-quote {
+    font-size: 1.4rem !important;
+    margin-bottom: 16px !important;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+  
+  .hero-title {
+    font-size: 2.0rem;
+  }
+  
+  .section-title {
+    font-size: 1.8rem;
+  }
+
+  .hero-scene-container {
+    width: 100% !important;
+    max-width: 320px !important;
+    height: auto !important;
+    margin: 0 auto;
   }
   
   .hero-pillars {
