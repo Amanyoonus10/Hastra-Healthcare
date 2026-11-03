@@ -305,10 +305,8 @@ function initIntroVideoScroll() {
   // Responsive layout & capability flags
   const isMobile = window.matchMedia("(max-width: 768px)").matches || ('ontouchstart' in window);
 
-  // Select the appropriate optimized GOP=1 video asset based on device capability
-  const videoUrl = isMobile 
-    ? '/images/scroll_preview_optimized.mp4' 
-    : '/images/scroll_highres_optimized.mp4';
+  // Both desktop and mobile views use the full 1080p high-resolution GOP=1 asset (no downscaling to 720p)
+  const videoUrl = '/images/scroll_highres_optimized.mp4';
 
   // Load the first frame as a placeholder image immediately to show a visual right away
   const firstFrameImg = new Image();
@@ -332,7 +330,8 @@ function initIntroVideoScroll() {
     const rect = canvas.getBoundingClientRect();
     if (rect.width === 0 || rect.height === 0) return;
     
-    const dpr = window.devicePixelRatio || 1;
+    // Balanced DPR up to 2 for crisp Retina clarity without GPU memory bloat on mobile DPR 3 devices
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const sourceVideoWidth = video.videoWidth || (firstFrameImg.naturalWidth ? firstFrameImg.naturalWidth : 1920);
     const targetWidth = Math.min(rect.width * dpr, sourceVideoWidth);
     
@@ -346,26 +345,39 @@ function initIntroVideoScroll() {
     const canvasHeight = canvas.height;
     if (canvasWidth === 0 || canvasHeight === 0) return;
     
-    // Calculate aspect ratio crop to emulate object-fit: cover
     const sourceRatio = sourceWidth / sourceHeight;
     const canvasRatio = canvasWidth / canvasHeight;
     
-    let sx, sy, sWidth, sHeight;
-    
-    if (canvasRatio > sourceRatio) {
-      sWidth = sourceWidth;
-      sHeight = sourceWidth / canvasRatio;
-      sx = 0;
-      sy = (sourceHeight - sHeight) / 2;
-    } else {
-      sHeight = sourceHeight;
-      sWidth = sourceHeight * canvasRatio;
-      sx = (sourceWidth - sWidth) / 2;
-      sy = 0;
-    }
-    
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-    ctx.drawImage(source, sx, sy, sWidth, sHeight, 0, 0, canvasWidth, canvasHeight);
+
+    if (canvasRatio >= 1.0) {
+      // Desktop / Landscape View: Cinematic cover (fills the entire screen edge-to-edge)
+      let sx, sy, sWidth, sHeight;
+      if (canvasRatio > sourceRatio) {
+        sWidth = sourceWidth;
+        sHeight = sourceWidth / canvasRatio;
+        sx = 0;
+        sy = (sourceHeight - sHeight) / 2;
+      } else {
+        sHeight = sourceHeight;
+        sWidth = sourceHeight * canvasRatio;
+        sx = (sourceWidth - sWidth) / 2;
+        sy = 0;
+      }
+      ctx.drawImage(source, sx, sy, sWidth, sHeight, 0, 0, canvasWidth, canvasHeight);
+    } else {
+      // Mobile / Portrait View: Adaptive full-width framing
+      // Preserves 100% of the medical suite without 74% horizontal crop while keeping full 1080p resolution!
+      const renderHeight = Math.round(canvasWidth / sourceRatio);
+      const renderY = Math.round((canvasHeight - renderHeight) / 2);
+
+      // Deep dark seamless background fill matching video background
+      ctx.fillStyle = '#07090e';
+      ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+      // Draw pristine full-width frame centered vertically
+      ctx.drawImage(source, 0, 0, sourceWidth, sourceHeight, 0, renderY, canvasWidth, renderHeight);
+    }
   }
 
   function drawCurrentFrame() {
@@ -379,17 +391,15 @@ function initIntroVideoScroll() {
 
   window.addEventListener('resize', resizeCanvas);
 
-  // High-performance video frame drawing using requestVideoFrameCallback
-  let rfcId = null;
+  // Synchronized video frame rendering
   if ('requestVideoFrameCallback' in video) {
     const updateCanvas = () => {
       drawCurrentFrame();
-      rfcId = video.requestVideoFrameCallback(updateCanvas);
+      video.requestVideoFrameCallback(updateCanvas);
     };
-    rfcId = video.requestVideoFrameCallback(updateCanvas);
+    video.requestVideoFrameCallback(updateCanvas);
   } else {
     video.addEventListener('seeked', drawCurrentFrame);
-    video.addEventListener('timeupdate', drawCurrentFrame);
   }
 
   let isReady = false;
@@ -1106,7 +1116,7 @@ function initProductCardClicks() {
         
         // Enrich message text
         const newText = `${text}\n\nProduct Link: ${productPageUrl}\nProduct Image: ${imgUrl}`;
-        linkElement.href = `https://wa.me/919745621855?text=${encodeURIComponent(newText)}`;
+        linkElement.href = `https://wa.me/917012461442?text=${encodeURIComponent(newText)}`;
       } catch (err) {
         console.error("Error enriching WhatsApp link:", err);
       }
